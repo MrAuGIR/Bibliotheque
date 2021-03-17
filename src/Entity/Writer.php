@@ -39,6 +39,11 @@ class Writer
      */
     private $books;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $slug;
+
     public function __construct()
     {
         $this->books = new ArrayCollection();
@@ -105,6 +110,18 @@ class Writer
     public function removeBook(Book $book): self
     {
         $this->books->removeElement($book);
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
