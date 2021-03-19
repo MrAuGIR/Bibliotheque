@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PublishingHouse index{% endblock %}
+
+{% block body %}
+    <h1>PublishingHouse index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Country</th>
+                <th>Info</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for publishing_house in publishing_houses %}
+            <tr>
+                <td>{{ publishing_house.id }}</td>
+                <td>{{ publishing_house.name }}</td>
+                <td>{{ publishing_house.country }}</td>
+                <td>{{ publishing_house.info }}</td>
+                <td>
+                    <a href="{{ path('publishing_house_show', {'id': publishing_house.id}) }}">show</a>
+                    <a href="{{ path('publishing_house_edit', {'id': publishing_house.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('publishing_house_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New PublishingHouse{% endblock %}
+
+{% block body %}
+    <h1>Create new PublishingHouse</h1>
+
+    {{ include('publishing_house/_form.html.twig') }}
+
+    <a href="{{ path('publishing_house_index') }}">back to list</a>
+{% endblock %}
