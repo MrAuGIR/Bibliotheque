@@ -43,6 +43,11 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            $user->setEmail($form->get('email')->getData())
+                ->setIsValidate(false)
+                ->setRegisterAt(new \DateTime('now'))
+                ->setRoles(['ROLE_USER']);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
@@ -89,6 +94,6 @@ class RegistrationController extends AbstractController
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Votre adresse email à été vérifié');
 
-        return $this->redirectToRoute('app_register');
+        return $this->redirectToRoute('app_home');
     }
 }
