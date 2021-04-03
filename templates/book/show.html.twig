@@ -17,12 +17,18 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="picture">
+                            {% if book.volumeInfo.imageLinks.medium is defined %}
                             <img src="{{book.volumeInfo.imageLinks.medium}}" alt="{{book.volumeInfo.title}}">
+                            {% elseif book.volumeInfo.imageLinks.thumbnail is defined %}
+                            <img src="{{book.volumeInfo.imageLinks.thumbnail}}" alt="{{book.volumeInfo.title}}">
+                            {% else %}
+                            <img src="{{book.volumeInfo.imageLinks.smallThumbnail}}" alt="{{book.volumeInfo.title}}">
+                            {% endif %}
                         </div>
                     </div>
                     {% if book.volumeInfo.description is defined %}
                     <div class="col-12">
-                        <p>{{book.volumeInfo.description}}</p>
+                        <p>{{book.volumeInfo.description | raw}}</p>
                     </div>
                     {% endif %}
                     
@@ -35,9 +41,9 @@
                         <h6>Détaille</h6>
                     </div>
                 </div>
-                {% if book.volumeInfo.industryIdentifier is defined %}
+                {% if book.volumeInfo.industryIdentifiers is defined %}
                     <div class="row my-5">
-                        {% for item in book.volumeInfo.indutryIdentifier %}
+                        {% for item in book.volumeInfo.industryIdentifiers %}
                             <div class="col-12">
                                 <h5>{{item.type}} : {{item.identifier}}</h5>
                             </div>

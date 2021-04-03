@@ -73,7 +73,7 @@ class BookController extends AbstractController
         if($reponse->getStatusCode() == 200){
             $book = $reponse->toArray();
         }
-
+        dump($book);
         return $this->render("book/show.html.twig",[
             'book' => $book,
         ]);

@@ -1,6 +1,19 @@
 <form method="POST" action="">
-    <div class="input-group">
+    <div class="form-group">
         <label for="keywords">Mot-clés</label>
-        <input type="text" name="keywords" id="keywords">
+        <input class="form-control" type="text" name="keywords" id="keywords">
+    </div>
+    <div class="form-group">
+        <label for="selectParam">Recherche par</label>
+        <select class="custom-select" >
+            <option value="intitle" selected>Titre de l'ouvrage</option>
+            <option value="inauthor">Auteur</option>
+            <option value="isbn">ISBN</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <div class="input-group-text">
+            <input type="checkbox" name="free" id="free">
+        </div>
     </div>
 </form>
