@@ -1,0 +1,36 @@
+
+<div class="container">
+    <div class="row">
+        {% if books is defined %}
+            {% for book in books %}
+            <div class="col-4">
+                <div class="card bg-dark text-dark">
+                    {% if book.volumeInfo.imageLinks is defined %}
+                        <img src="{{book.volumeInfo.imageLinks.smallThumbnail}}" class="card-img" alt="image">
+                    {% endif %}
+                
+                    <div class="card-img-overlay">
+                        
+                        <h5 class="card-title">{{book.volumeInfo.title}}</h5>
+                        {% if book.volumeInfo.subtitle is defined %}
+                            <p class="card-text">{{book.volumeInfo.subtitle}}</p>
+                        {% endif %}
+                        
+                        <p class="card-text">Last updated 3 mins ago</p>
+                    </div>
+                </div>
+                <div>
+                    <a class="btn btn-secondary" data-link="{{book.selfLink}}" href="{{path('show_book',{id: book.id})}}">Détaille</a>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="row">
+                <div class="col-12">
+                    Aucun résulats
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+

@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/cover", name=""admin_cover_)
+ * @Route("/admin/cover", name="admin_cover_")
  * @package App\Controller\Admin
  */
 class CoverController extends AbstractController
