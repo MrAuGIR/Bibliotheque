@@ -1,0 +1,39 @@
+
+
+.form-search{
+    display: flex;
+    flex-direction: row;
+    width: 500px;
+    margin: 0 auto;
+
+    .input-search{
+        display: flex;
+        width: 70%;
+        min-height: 20px;
+        border-radius: 5px;
+        border: 1px solid grey;
+    }
+
+    .select-search{
+        display: flex;
+        width: 30%;
+        min-height: 20px;
+        border-radius: 5px;
+        border: 1px solid grey;
+    }
+
+    .check-search{
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-around;
+        align-items: center;
+
+        input[type=checkbox]{
+            border-radius: 8px;
+            border-color: grey;
+        }
+
+    }
+
+}

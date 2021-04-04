@@ -2,9 +2,11 @@
     {% set queryParams = app.request.query.all %} {# on recupère les paramètres en url #}
     {% set queryString = queryParams|filter((v, k) => k != "page" and k != "ajax")|url_encode %}
 <div class="container">
+    {% if queryParams.keywords is defined %}
     <div class="count">
-        {{ books.getTotalItemCount }} <span>résultats</span>
+        {{ books.getTotalItemCount }} <span>résultats pour votre recherche <em>{{queryParams.keywords}}</em></span>
     </div>
+    {% endif %}
     <div class="row">
         <div class="col-12">
             <nav aria-label="Page navigation example">
@@ -17,23 +19,30 @@
     <div class="row">
         {% if books is defined %}
             {% for book in books %}
-            <div class="col-4">
-                <div class="card">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="card my-2 mx-2">
                     <div class="card-header">
-                        {% if book.volumeInfo.imageLinks is defined %}
                         <div class="picture">
-                            <img src="{{book.volumeInfo.imageLinks.smallThumbnail}}" class="card-img" alt="image">
-                        </div>
+                        {% if book.volumeInfo.imageLinks is defined %}
+                        
+                            {% if book.volumeInfo.imageLinks.thumbnail is defined %}
+                                <img src="{{book.volumeInfo.imageLinks.thumbnail}}" class="card-img" alt="image">
+                            {% elseif book.volumeInfo.imageLinks.smallThumbnail is defined %}
+                                <img src="{{book.volumeInfo.imageLinks.smallThumbnail}}" class="card-img" alt="image">
+                            {% endif %}
+
+                        {% else %}
+                            <img src="{{asset('images/covers/default.jpg')}}" class="card-img" alt="image">
                         {% endif %}
+                        </div>
                     </div>
-                    <div class="card-header">
+                    <div class="card-body">
                         
                         <h5 class="card-title">{{book.volumeInfo.title}}</h5>
                         {% if book.volumeInfo.subtitle is defined %}
-                            <p class="card-text">{{book.volumeInfo.subtitle}}</p>
+                            <p class="card-text">{{book.volumeInfo.subtitle | slice(0, 50) }}</p>
                         {% endif %}
                         
-                        <p class="card-text">Last updated 3 mins ago</p>
                     </div>
                     <div class="card-bottom">
                         <a class="btn btn-secondary" data-link="{{book.selfLink}}" href="{{path('show_book',{id: book.id})}}">Détaille</a>

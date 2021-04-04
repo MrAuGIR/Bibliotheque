@@ -17,6 +17,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="picture">
+                        {% if book.volumeInfo.imageLinks is defined %}
                             {% if book.volumeInfo.imageLinks.medium is defined %}
                             <img src="{{book.volumeInfo.imageLinks.medium}}" alt="{{book.volumeInfo.title}}">
                             {% elseif book.volumeInfo.imageLinks.thumbnail is defined %}
@@ -24,6 +25,9 @@
                             {% else %}
                             <img src="{{book.volumeInfo.imageLinks.smallThumbnail}}" alt="{{book.volumeInfo.title}}">
                             {% endif %}
+                        {% else %}
+                            <img src="{{asset('images/covers/default.jpg')}}" alt="{{book.volumeInfo.title}}">
+                        {% endif %}
                         </div>
                     </div>
                     {% if book.volumeInfo.description is defined %}

@@ -3,7 +3,7 @@ window.onload = () =>{
     let keywords = document.getElementById('keywords');
     const FilterForm = document.querySelector('#filters');
 
-    document.getElementById('keywords').addEventListener('input', (e) =>{
+    document.getElementById('keywords').addEventListener('change', (e) =>{
 
         e.preventDefault();
 
@@ -95,6 +95,7 @@ function ajaxRequest(url, params){
 
         // On met à jour l'url
         history.pushState({}, null, url.pathname + "?" + params.toString());
+        console.log(params.toString());
     }).catch(e => alert(e));
 
 
