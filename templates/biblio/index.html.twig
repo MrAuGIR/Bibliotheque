@@ -1,7 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BiblioController!{% endblock %}
+{% block title %}{{biblio.title}}{% endblock %}
 
 {% block body %}
-
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-2 col-md-3 col-lg-4">
+            <nav class="sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Mes livres</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Ajouter</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div class="col-10 col-md-9 col-lg-8">
+            {% for book in books %}
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="card my-2 mx-2">
+                        <div class="card-header">
+                            <div class="picture">
+                            {% if book.cover is defined %}
+                                    <img src="{{book.cover.pathFile}}" class="card-img" alt="image">
+                            {% else %}
+                                <img src="{{asset('images/covers/default.jpg')}}" class="card-img" alt="image">
+                            {% endif %}
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            
+                            <h5 class="card-title">{{book.title}}</h5>
+                            {% if book.description is not empty %}
+                                <p class="card-text">{{book.description | slice(0, 50) }}</p>
+                            {% endif %}
+                            
+                        </div>
+                        <div class="card-bottom">
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 {% endblock %}

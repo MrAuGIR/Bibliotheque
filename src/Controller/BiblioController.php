@@ -2,10 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Entity\Book;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
+/**
+ * @IsGranted("ROLE_USER")
+ */
 class BiblioController extends AbstractController
 {
     /**
@@ -13,18 +20,17 @@ class BiblioController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('biblio/index.html.twig', [
-            'controller_name' => 'BiblioController',
-        ]);
+        //utilisateur connecté
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $biblio = $user->getBiblio();
+        $books = $biblio->getBooks();
+
+
+        return $this->render('biblio/index.html.twig', compact('books', 'biblio'));
     }
 
 
-    /**
-     * ajout dans la biblio de l'utilisateur d'un livre depuis l'api google book
-     * @Route("/biblio/add/apibook/{id}", name="add_apibook_biblio", methods={"GET"})
-     */
-    public function add():Response
-    {
-        return $this->json(['status'=> true],200);
-    }
+    
 }
