@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Biblio;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
@@ -14,6 +15,7 @@ use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
@@ -28,7 +30,7 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, AppUserAuthenticator $authenticator): Response
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, AppUserAuthenticator $authenticator, SluggerInterface $slugger): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -43,12 +45,26 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            $entityManager = $this->getDoctrine()->getManager();
+
+            $biblio = new Biblio();
+            $biblio->setCreatedAt(new \DateTime('now'))
+                ->setTitle('Ma Bibliothèque');
+
+            //creation d'un slugg unique
+            $slug = (new \DateTime())->format('Y').'Ma biblio '. $form->get('lastname')->getData();
+            $biblio->setSlug($slugger->slug($slug));
+            
+            $entityManager->persist($biblio);
+
             $user->setEmail($form->get('email')->getData())
+                ->setLastname($form->get('lastname')->getData())
                 ->setIsValidate(false)
                 ->setRegisterAt(new \DateTime('now'))
-                ->setRoles(['ROLE_USER']);
+                ->setRoles(['ROLE_USER'])
+                ->setBiblio($biblio);
 
-            $entityManager = $this->getDoctrine()->getManager();
+            
             $entityManager->persist($user);
             $entityManager->flush();
 

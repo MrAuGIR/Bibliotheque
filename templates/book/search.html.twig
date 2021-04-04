@@ -13,5 +13,6 @@
     </div>
 {% endblock %}
 {% block js %}
+    {{parent()}}
     <script src="{{asset('script/searchBook.js')}}"></script>
 {% endblock %}
