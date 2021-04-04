@@ -28,7 +28,7 @@ class Cover
     private $pathFile;
 
     /**
-     * @ORM\OneToOne(targetEntity=Book::class, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Book::class, mappedBy="cover", cascade={"persist", "remove"})
      */
     private $book;
 
