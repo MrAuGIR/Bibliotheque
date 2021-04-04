@@ -36,13 +36,16 @@ class BookController extends AbstractController
         // recupération du critère de recherche
         $keywords = $request->query->get('q');
 
-        
+        // on recupère l'info case a coche free
+        $isFree = $request->query->get('free');
+        $param = !empty($isFree)? '&filter=free-ebook':'';
+        dump($param);
 
         //clé api
         $apiKey = 'AIzaSyCYCOR-Vs-22O1A-kx1hr1k2eH4g0k--VI';
         
         //envoie de la requète vers l'api google book
-        $reponse =$this->client->request('GET', 'https://www.googleapis.com/books/v1/volumes?q='.$keywords.'&key='.$apiKey);
+        $reponse =$this->client->request('GET', 'https://www.googleapis.com/books/v1/volumes?q='.$keywords.$param.'&key='.$apiKey);
 
         if($reponse->getStatusCode() == 200)
         {

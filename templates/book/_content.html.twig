@@ -6,7 +6,9 @@
             <div class="col-4">
                 <div class="card bg-dark text-dark">
                     {% if book.volumeInfo.imageLinks is defined %}
-                        <img src="{{book.volumeInfo.imageLinks.smallThumbnail}}" class="card-img" alt="image">
+                        <div class="picture">
+                            <img src="{{book.volumeInfo.imageLinks.smallThumbnail}}" class="card-img" alt="image">
+                        </div>
                     {% endif %}
                 
                     <div class="card-img-overlay">
