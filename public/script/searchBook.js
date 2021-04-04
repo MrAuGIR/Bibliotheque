@@ -1,53 +1,73 @@
 window.onload = () =>{
 
-    var xmlhttp = new XMLHttpRequest();
     let keywords = document.getElementById('keywords');
+    const FilterForm = document.querySelector('#filters');
 
-    document.getElementById('keywords').addEventListener('change', (e) =>{
+    document.getElementById('keywords').addEventListener('input', (e) =>{
 
         e.preventDefault();
 
         if(keywords.value.length >= 3){
 
+            const Form = new FormData(FilterForm);
+
+            // On fabrique la "queryString"
+            const Params = new URLSearchParams();
+
+            //pour chacun des champs 'actif' du formulaire je rajoute un parametre dans l'url
+            Form.forEach((value,key) => {
+                Params.append(key, value);
+            });
+            
             // On récupère l'url active
             const Url = new URL(window.location.href);
 
-            //on recupère la valeur du select
-            let selectValue = document.querySelector('select').value;
+            ajaxRequest(Url,Params);
 
-            //on recupère la valeur du checkbox
-            let freeValue = document.getElementById('free').value;
+        }
 
-            let url = `${Url}?q=${keywords.value}`;
+    });
 
-            if(selectValue != 'intitle'){
-                url = `${Url}?q=+${selectValue}:${keywords.value}`;
-            }
+    document.getElementById('filterField').addEventListener('change', (e) => {
+        
+        const Form = new FormData(FilterForm);
 
-            if(freeValue == true){
-                url = url+'&filter=free-ebook';
-            }
+        // On fabrique la "queryString"
+        const Params = new URLSearchParams();
 
-            console.log(url);
+        //pour chacun des champs 'actif' du formulaire je rajoute un parametre dans l'url
+        Form.forEach((value,key) => {
+            Params.append(key, value);
+        });
+        
+        // On récupère l'url active
+        const Url = new URL(window.location.href);
 
-            fetch(url, {
-                method: "GET",
-                headers: {
-                    "X-Requested-With": "XMLHttpRequest"
-                }
-            }).then(response => 
-                response.json()
-            ).then(data => {
-                // On va chercher la zone de contenu
-                const content = document.querySelector("#content");
+        //on n'envoie une requète que si le champs texte contient une valeur
+        if(keywords.value.length >= 3){
+            ajaxRequest(Url,Params);
+        }
 
-                // On remplace le contenu
-                content.innerHTML = data.content;
+    });
 
-                // On met à jour l'url
-               //history.pushState({}, null, url);
-            }).catch(e => alert(e));
+    document.getElementById('free').addEventListener('change', (e) => {
 
+        const Form = new FormData(FilterForm);
+
+        // On fabrique la "queryString"
+        const Params = new URLSearchParams();
+
+        //pour chacun des champs 'actif' du formulaire je rajoute un parametre dans l'url
+        Form.forEach((value,key) => {
+            Params.append(key, value);
+        });
+        
+        // On récupère l'url active
+        const Url = new URL(window.location.href);
+
+        //on n'envoie une requète que si le champs texte contient une valeur
+        if(keywords.value.length >= 3){
+            ajaxRequest(Url,Params);
         }
 
     });
@@ -55,3 +75,27 @@ window.onload = () =>{
 
 }
 
+function ajaxRequest(url, params){
+
+
+    // On lance la requête ajax
+    fetch(url.pathname + "?" + params.toString() + "&ajax=1", {
+        method: "GET",
+        headers: {
+            "X-Requested-With": "XMLHttpRequest"
+        }
+    }).then(response => 
+        response.json()
+    ).then(data => {
+        // On va chercher la zone de contenu
+        const content = document.querySelector("#content");
+
+        // On remplace le contenu
+        content.innerHTML = data.content;
+
+        // On met à jour l'url
+        history.pushState({}, null, url.pathname + "?" + params.toString());
+    }).catch(e => alert(e));
+
+
+}
