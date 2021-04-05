@@ -22,11 +22,6 @@ class Writer
     /**
      * @ORM\Column(type="string", length=100)
      */
-    private $firstName;
-
-    /**
-     * @ORM\Column(type="string", length=100)
-     */
     private $lastName;
 
     /**
@@ -52,18 +47,6 @@ class Writer
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getFirstName(): ?string
-    {
-        return $this->firstName;
-    }
-
-    public function setFirstName(string $firstName): self
-    {
-        $this->firstName = $firstName;
-
-        return $this;
     }
 
     public function getLastName(): ?string

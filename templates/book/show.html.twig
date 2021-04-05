@@ -59,7 +59,11 @@
                         <h5>{{book.volumeInfo.publisher}}</h5>
                     </div>
                     <div class="col-12 col-md-6">
-                        <h5>{{book.volumeInfo.publishedDate}}</h5>
+                        {% if book.volumeInfo.publishedDate is defined %}
+                            <h5>{{book.volumeInfo.publishedDate}}</h5>
+                        {% else %}
+                            <h5>Date de publication inconnue</h5>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="row my-5">

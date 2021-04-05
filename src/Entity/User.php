@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\Biblio;
+use App\Entity\Book;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -284,5 +286,18 @@ class User implements UserInterface
         $this->lastname = $lastname;
 
         return $this;
+    }
+
+    public function alreadyAddbyUser(string $idApiBook):bool
+    {
+        $biblio =$this->biblio;
+        $books =$biblio->getBooks();
+        foreach($books as $book){
+            
+            if($book->getApiId() === $idApiBook){
+                return true;
+            } 
+        }
+        return false;
     }
 }

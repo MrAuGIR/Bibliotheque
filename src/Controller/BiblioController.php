@@ -31,6 +31,14 @@ class BiblioController extends AbstractController
         return $this->render('biblio/index.html.twig', compact('books', 'biblio'));
     }
 
+    /**
+     * @Route("/biblio/add", name="add_book_biblio")
+     */
+    public function add():Response
+    {
+        return $this->json(['message'=>'livre ajouté'],200);
+    }
+
 
     
 }

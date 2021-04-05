@@ -6,7 +6,7 @@ window.onload = () =>{
     document.getElementById('keywords').addEventListener('change', (e) =>{
 
         e.preventDefault();
-
+        console.log('je suis la ')
         if(keywords.value.length >= 3){
 
             const Form = new FormData(FilterForm);
@@ -31,7 +31,7 @@ window.onload = () =>{
     document.getElementById('filterField').addEventListener('change', (e) => {
         
         const Form = new FormData(FilterForm);
-
+        console.log('je suis la ')
         // On fabrique la "queryString"
         const Params = new URLSearchParams();
 
@@ -77,7 +77,6 @@ window.onload = () =>{
 
 function ajaxRequest(url, params){
 
-
     // On lance la requête ajax
     fetch(url.pathname + "?" + params.toString() + "&ajax=1", {
         method: "GET",
@@ -92,6 +91,8 @@ function ajaxRequest(url, params){
 
         // On remplace le contenu
         content.innerHTML = data.content;
+        //a chaque changement du contenu on recrée les listeners
+        addRemoveBook();
 
         // On met à jour l'url
         history.pushState({}, null, url.pathname + "?" + params.toString());

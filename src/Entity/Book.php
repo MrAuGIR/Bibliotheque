@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * @ORM\Entity(repositoryClass=BookRepository::class)
  */
@@ -84,6 +85,16 @@ class Book
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isApiBook;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $apiId;
 
     public function __construct()
     {
@@ -315,5 +326,53 @@ class Book
         $this->slug = $slug;
 
         return $this;
+    }
+
+    public function getIsApiBook(): ?bool
+    {
+        return $this->isApiBook;
+    }
+
+    public function setIsApiBook(bool $isApiBook): self
+    {
+        $this->isApiBook = $isApiBook;
+
+        return $this;
+    }
+
+    public function getApiId(): ?string
+    {
+        return $this->apiId;
+    }
+
+    public function setApiId(?string $apiId): self
+    {
+        $this->apiId = $apiId;
+
+        return $this;
+    }
+    
+    /**
+     * Permet de savoir si ce livre est déjà dans la biblio de l'utilisateur
+     *
+     */
+    public function isAddByUser(User $user, int $bookApiId = null):bool
+    {
+        //dans le cas d'un livre depuis l'api google
+        if($bookApiId != null){
+            $biblio = $user->getBiblio();
+            foreach($biblio->getBooks() as $book){
+               if($book->getApiId === $bookApiId) return true;
+            }
+
+            return false;
+        }
+
+        //dans le cas d'un livre depuis la biblio d'un utilisateur
+        foreach($this->getBiblios() as $biblio){
+            if($biblio->getUserOwner() === $user) return true;
+        }
+
+        return false;
     }
 }

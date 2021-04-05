@@ -5,7 +5,7 @@
 {% block body %}
 <div class="container-fluid">
     <div class="row">
-        <div class="col-2 col-md-3 col-lg-4">
+        <div class="col-2">
             <nav class="sidebar">
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
@@ -19,7 +19,11 @@
                 </div>
             </nav>
         </div>
-        <div class="col-10 col-md-9 col-lg-8">
+        <div class="col-10">
+            <div class="row">
+                <div id="query-result" class="col-12 alert">
+                    <p></p>
+                </div>
             {% for book in books %}
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                     <div class="card my-2 mx-2">
@@ -36,16 +40,48 @@
                             
                             <h5 class="card-title">{{book.title}}</h5>
                             {% if book.description is not empty %}
-                                <p class="card-text">{{book.description | slice(0, 50) }}</p>
+                                <p class="card-text">{{book.description | slice(0, 50) | raw}}</p>
                             {% endif %}
                             
                         </div>
                         <div class="card-bottom">
+                            
+                            {% if book.isApiBook %}
+                            <a id="showBook" class="btn btn-secondary" href="{{path('show_book',{id: book.apiId})}}">Détaille</a>
+                                {% if app.user.alreadyAddbyUser(book.apiId) %}
+                                    <a js-link class="btn btn-secondary remove-book" href="{{path('add_apibook_biblio',{id: book.apiId})}}">
+                                    <span class="js-status">Supprimer de ma Biblio</span>
+                                    </a>
+                                    {% else %}
+                                    <a js-link class="btn btn-secondary add-book" href="{{path('add_apibook_biblio',{id: book.apiId})}}">
+                                        <span class="js-status">Ajouter à ma biblio</span>
+                                    </a>
+                                {% endif %}
+                            {% else %}
+                            <a id="showBook" class="btn btn-secondary" href="{{path('show_book',{id: book.id})}}">Détaille</a>
+                                {% if app.user.alreadyAddbyUser(book.id) %}
+                                    <a js-link class="btn btn-secondary remove-book" href="{{path('add_book_biblio',{id: book.id})}}">
+                                    <span class="js-status">Supprimer de ma Biblio</span>
+                                    </a>
+                                    {% else %}
+                                    <a js-link class="btn btn-secondary add-book" href="{{path('add_book_biblio',{id: book.id})}}">
+                                        <span class="js-status">Ajouter à ma biblio</span>
+                                    </a>
+                                {% endif %}
+                            {% endif %}
                         </div>
                     </div>
                 </div>
             {% endfor %}
+            </div>
         </div>
     </div>
 </div>
+{% endblock %}
+{% block js %}
+    {{parent()}}
+    <script src="{{asset('script/addBook.js')}}"></script>
+    <script>
+        addRemoveBook();
+    </script>
 {% endblock %}

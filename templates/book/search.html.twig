@@ -14,5 +14,10 @@
 {% endblock %}
 {% block js %}
     {{parent()}}
+    <script src="{{asset('script/addBook.js')}}"></script>
+    <script>
+        addRemoveBook();
+    </script>
     <script src="{{asset('script/searchBook.js')}}"></script>
+    
 {% endblock %}

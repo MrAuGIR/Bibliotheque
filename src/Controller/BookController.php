@@ -7,6 +7,8 @@ use App\Entity\Cover;
 use App\Entity\PublishingHouse;
 use App\Entity\User;
 use App\Entity\Writer;
+use App\Entity\Biblio;
+use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -32,8 +34,13 @@ class BookController extends AbstractController
      */
     public function index(): Response
     {
+
+        $user = $this->getUser();
+
+        $books = $user->getBiblio()->getBooks();
+
         return $this->render('book/index.html.twig', [
-            'controller_name' => 'BookController',
+            'books' => $books,
         ]);
     }
 
@@ -135,10 +142,65 @@ class BookController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @Route("/book/add/apibook/{id}", name="add_apibook_biblio", methods={"GET","POST"})
      */
-    public function add($id, SluggerInterface $slugger, EntityManagerInterface $em): Response
+    public function add($id, SluggerInterface $slugger, EntityManagerInterface $em, BookRepository $bookRepository): Response
     {
         /** @var User $user */
         $user = $this->getUser();
+
+        //si pas utilisateur
+        if(!$user){
+            return $this->json([
+                'status' => 403,
+                'message'=> 'non autorisé'
+            ],403);
+        }
+
+        //le livre existe t-il déjà dans la bdd ?
+        $book = $bookRepository->findOneBy(['apiId' => $id]);
+
+        //si oui est-il dans la biblio de l'utilisateur ?
+        if($book){
+
+            //biblio de l'utilisateur
+            /** @var Biblio $biblio  */
+            $biblio = $user->getBiblio();
+
+            //dans le cas ou le livre est déjà dans la biblio de l'utilisateur
+            if ($user->alreadyAddbyUser($id)) {
+                
+                //on supprime le livre de la bibliothèque de l'utilisateur
+                $biblio->removeBook($book);
+                
+                $em->persist($biblio);
+                
+                //si le livre n'est pas présent dans d'autre biliothèque on le supprime de la base de donnée
+                if (empty($book->getBiblios())) {
+
+                    $em->remove($book);
+                }
+
+                $em->flush();
+
+                return $this->json([
+                    'status' => 200,
+                    'message' => 'livre supprimé de la bibliothèque'
+                ], 200);
+            }
+
+            //dans le cas ou le livre existe mais n'est pas dans la biblio de l'utilisateur
+            $biblio->addBook($book);
+
+            $em->persist($biblio);
+            $em->flush();
+
+            return $this->json([
+                'status' => 200,
+                'message' => 'livre ajouté à la bibliothèque'
+            ], 200);
+
+        }
+
+        //dernier cas -> creation du livre et ajout a la biblio de l'utilisateur
 
         //clé api
         $apiKey = 'AIzaSyCYCOR-Vs-22O1A-kx1hr1k2eH4g0k--VI';
@@ -146,9 +208,12 @@ class BookController extends AbstractController
 
         $bookInfo = $reponse->toArray();
 
+        
         //creation du livre
         $book = new Book();
         $book->setAddedAt(new \DateTime())
+            ->setIsApiBook(true)
+            ->setApiId($id)
             ->setTitle($bookInfo['volumeInfo']['title'])
             ->setDescription(isset($bookInfo['volumeInfo']['description'])? $bookInfo['volumeInfo']['description'] : "pas de description pour ce produit" )
             ->addBiblio($user->getBiblio());
@@ -157,16 +222,18 @@ class BookController extends AbstractController
         }else{
             $book->setISBN('pas de donnée');
         }
-            
-        $book->setPublishedAt(new \DateTime($bookInfo['volumeInfo']['publishedDate']))
-            ->setSlug($slugger->slug($bookInfo['volumeInfo']['title']));
+        
+        if(array_key_exists('publishedDate', $bookInfo['volumeInfo'])){
+            $book->setPublishedAt(new \DateTime($bookInfo['volumeInfo']['publishedDate']));
+        }
+        
+        $book->setSlug($slugger->slug($bookInfo['volumeInfo']['title']));
         
         //si les infos des auteurs du livres existe
         if(array_key_exists('authors',$bookInfo['volumeInfo'])){
             foreach ($bookInfo['volumeInfo']['authors'] as $infoAuthor) {
                 $author = new Writer();
                 $author->setLastName($infoAuthor)
-                    ->setFirstName($infoAuthor)
                     ->setSlug($slugger->slug($infoAuthor));
                 $book->addWriter($author);
 
@@ -212,6 +279,9 @@ class BookController extends AbstractController
         
         $em->flush();
 
-        return $this->json(['status' => true], 200);
+        return $this->json([
+            'status' => 200,
+            'message' => 'livre ajouté à la bibliotèque'
+        ], 200);
     }
 }
