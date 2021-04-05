@@ -1,0 +1,14 @@
+<div class="row">
+    <div class="col-12">
+        {{form_start(form)}}
+
+        <h3>Ecrivains</h3>
+        <ul class="tags" data-prototype="{{ form_widget(form.writers.vars.prototype)|e('html_attr') }}"></ul>
+        <button type="button" class="add_item_link" data-collection-holder-class="writers">Add a writer</button>
+        {% for writer in form.writers %}
+            <li>{{ form_row(writer.lastName) }}</li>
+        {% endfor %}
+    
+        {{form_end(form)}}
+    </div>
+</div>

@@ -6,6 +6,9 @@
 //style global
 @import "_global";
 
+//layout
+@import "layout/header";
+
 @import "_search";
 @import "_card";
 @import "_biblio"

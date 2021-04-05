@@ -4,6 +4,10 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Book;
+use App\Entity\Writer;
+use App\Form\BookType;
+use App\Repository\WriterRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,9 +38,23 @@ class BiblioController extends AbstractController
     /**
      * @Route("/biblio/add", name="add_book_biblio")
      */
-    public function add():Response
+    public function add(WriterRepository $writerRepository ,EntityManagerInterface $em):Response
     {
-        return $this->json(['message'=>'livre ajouté'],200);
+        $book = new Book();
+
+        $writers = $writerRepository->findAll();
+        
+        $writer = new Writer();
+        $book->addWriter($writer->setLastName('writer 1'));
+        $writer2 = new Writer();
+        $book->addWriter($writer2->setLastName('writer 2'));
+
+        $form = $this->createForm(BookType::class,$book);
+
+
+        return $this->render('biblio/add.html.twig',[
+            'form' => $form->createView()
+        ]);
     }
 
 

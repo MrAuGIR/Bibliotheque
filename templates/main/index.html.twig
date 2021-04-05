@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="container">
-    <div class="row">
+    <div class="row my-2 py-2">
         <div class="col-12">
             <h1>Bienvenue sur <em>Bibliothèque</em></h1>
         </div>
@@ -12,7 +12,15 @@
             {% include "main/_info.html.twig" %}
         </div>
     </div>
-    <div class="row">
+    <div class="row my-2 py-2">
+        <div class="col-12">
+            <h2>Les derniers ajouts populaires</h2>
+        </div>
+        <div class="col-12">
+            {% include "main/_popularityBook.html.twig" %}
+        </div>
+    </div>
+    <div class="row my-2 py-2">
         <div class="col-12">
             <h2>Les dernières actualités littéraire</h2>
         </div>
