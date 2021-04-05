@@ -72,11 +72,11 @@ class BookController extends AbstractController
         $startIndex = ($page * $limit) - $limit;
 
         //clé api
-        $apiKey = 'AIzaSyCYCOR-Vs-22O1A-kx1hr1k2eH4g0k--VI';
+        $apiKey = $this->getParameter('API_BOOK');
 
         //construction des paramètres
         //$params = '?q='.$keywords.$paramFree.'&maxResults='.$limit . '&startIndex=' . $startIndex . '&key='.$apiKey;
-        $params = '?q=' . $keywords . $paramFree . '&maxResults=40&key=' . $apiKey;
+        $params = '?q=' . $keywords . $paramFree . '&maxResults=40&key=' . $apiKey ;
        
         //envoie de la requète vers l'api google book
         $reponse = $this->client->request('GET', 'https://www.googleapis.com/books/v1/volumes' . $params);
@@ -124,9 +124,8 @@ class BookController extends AbstractController
      */
     public function show($id):Response
     {
-        //clé api
-        $apiKey = 'AIzaSyCYCOR-Vs-22O1A-kx1hr1k2eH4g0k--VI';
-        $reponse = $this->client->request('GET', 'https://www.googleapis.com/books/v1/volumes/'. $id . '?key=' . $apiKey);
+        $apikey = $this->getParameter('API_BOOK');
+        $reponse = $this->client->request('GET', 'https://www.googleapis.com/books/v1/volumes/'. $id . '?key='.$apikey);
 
         if($reponse->getStatusCode() == 200){
             $book = $reponse->toArray();
@@ -201,10 +200,8 @@ class BookController extends AbstractController
         }
 
         //dernier cas -> creation du livre et ajout a la biblio de l'utilisateur
-
-        //clé api
-        $apiKey = 'AIzaSyCYCOR-Vs-22O1A-kx1hr1k2eH4g0k--VI';
-        $reponse = $this->client->request('GET', 'https://www.googleapis.com/books/v1/volumes/' . $id . '?key=' . $apiKey);
+        $apiKey = $this->getParameter('API_BOOK');
+        $reponse = $this->client->request('GET', 'https://www.googleapis.com/books/v1/volumes/' . $id . '?key=' .$apiKey);
 
         $bookInfo = $reponse->toArray();
 

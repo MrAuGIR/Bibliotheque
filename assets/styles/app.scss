@@ -1,8 +1,11 @@
 @import "~bootstrap/scss/bootstrap";
 
 //variables
-@import "variables/colors";
+@import "_variables";
+
+//style global
+@import "_global";
 
 @import "_search";
 @import "_card";
-@import "_biblio.scss"
+@import "_biblio"
