@@ -6,6 +6,7 @@
 parameters:
     API_BOOK : AIzaSyCYCOR-Vs-22O1A-kx1hr1k2eH4g0k--VI
     API_ACTU : c18268286fbd4f5a93f1df3a790b895b
+    cover_directory : '%kernel.project_dir%/public/covers'
 
 services:
     # default configuration for services in *this* file
