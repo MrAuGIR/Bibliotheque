@@ -52,7 +52,7 @@
                                 {% endif %}
                             {% else %}
                             <a id="showBook" class="btn btn-secondary" href="{{path('show_book',{id: book.id})}}">Détaille</a>
-                                <a js-link class="btn btn-secondary remove-book" href="{{path('add_book_biblio',{id: book.id})}}">
+                                <a user-link class="btn btn-secondary remove-book" href="{{path('remove_book_biblio',{id: book.id})}}">
                                     <span class="js-status">Supprimer de ma Biblio</span>
                                 </a>
                             {% endif %}
@@ -69,6 +69,7 @@
     {{parent()}}
     <script src="{{asset('script/addBook.js')}}"></script>
     <script>
-        addRemoveBook();
+        addRemoveApiBook();// les livres créés à partir de l'api google
+        removeBookFromBiblio(); // les livres créés par l'utilisateur
     </script>
 {% endblock %}

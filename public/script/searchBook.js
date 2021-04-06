@@ -92,7 +92,7 @@ function ajaxRequest(url, params){
         // On remplace le contenu
         content.innerHTML = data.content;
         //a chaque changement du contenu on recrée les listeners
-        addRemoveBook();
+        addRemoveApiBook();
 
         // On met à jour l'url
         history.pushState({}, null, url.pathname + "?" + params.toString());
