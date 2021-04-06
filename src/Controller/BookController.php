@@ -229,11 +229,17 @@ class BookController extends AbstractController
         //si les infos des auteurs du livres existe
         if(array_key_exists('authors',$bookInfo['volumeInfo'])){
             foreach ($bookInfo['volumeInfo']['authors'] as $infoAuthor) {
-                $author = new Writer();
-                $author->setLastName($infoAuthor)
-                    ->setSlug($slugger->slug($infoAuthor));
-                $book->addWriter($author);
 
+                //on verifie dans la base de donnée que l'auteur n'existe pas déja
+                $writerRepository = $em->getRepository(Writer::class);
+
+                $author = $writerRepository->findOneBy(['lastName' => $infoAuthor]);
+                if(!$author){
+                    $author = new Writer();
+                    $author->setLastName($infoAuthor)
+                        ->setSlug($slugger->slug($infoAuthor));
+                }
+                $book->addWriter($author);
                 $em->persist($author);
             }
         }
@@ -263,10 +269,20 @@ class BookController extends AbstractController
 
 
         //la maison d'édition
-        $publishingHouse = new PublishingHouse();
         if (array_key_exists('publisher', $bookInfo['volumeInfo'])) {
-            $publishingHouse->setName($bookInfo['volumeInfo']['publisher']);
+
+            $publisherRepository = $em->getRepository(PublishingHouse::class);
+
+            $publishingHouse = $publisherRepository->findOneBy(['name' => $bookInfo['volumeInfo']['publisher']]);
+
+            if(!$publishingHouse){
+                $publishingHouse = new PublishingHouse();
+                $publishingHouse->setName($bookInfo['volumeInfo']['publisher']);
+            }
+
+            
         }else{
+            $publishingHouse = new PublishingHouse();
             $publishingHouse->setName('editeur inconnue');
         }
         $book->setPublishingHouse($publishingHouse);
