@@ -3,19 +3,19 @@
 namespace App\Security\Voter;
 
 use App\Entity\Book;
+use App\Entity\Comments;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
-class BookVoter extends Voter
+class CommentVoter extends Voter
 {
     const VIEW = "view";
     const EDIT = "edit";
     const CREATE = 'create';
     const DELETE = 'delete';
     const MANAGE = 'manage';
-    const COMMENT = 'comment';
 
     private $security;
 
@@ -28,8 +28,8 @@ class BookVoter extends Voter
     {
 
         //Si l'attribut fait partie de ceux supportés et 
-        //on vote seulement avec un objet de class Book
-        return \in_array($attributes, [self::VIEW, self::EDIT, self::CREATE, self::DELETE, self::MANAGE, self::COMMENT]) && ($subject instanceof Book);
+        //on vote seulement avec un objet de class Comments
+        return \in_array($attributes, [self::VIEW, self::EDIT, self::CREATE, self::DELETE, self::MANAGE]) && ($subject instanceof Comments);
     }
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
@@ -46,9 +46,9 @@ class BookVoter extends Voter
             return true;
         }
 
-        //si on est là, c'est que $subject est un objet Book
-        /** @var Book $book */
-        $book = $subject;
+        //si on est là, c'est que $subject est un objet Comments
+        /** @var Comments $comment */
+        $comment = $subject;
 
         switch ($attribute) {
             case self::VIEW:
@@ -56,35 +56,14 @@ class BookVoter extends Voter
             case self::CREATE:
                 return true;
             case self::EDIT:
-                return $book->getEditor() == $user;
+                return $comment->getAuthor() == $user;
             case self::DELETE:
-                return $book->getEditor() == $user;
+                return $comment->getAuthor() == $user;
             case self::MANAGE: //form biblio
-                return $this->manage($user, $book);
-            case self::COMMENT:
-                return $this->comment($user, $book);
+                return $comment->getAuthor() == $user;
         }
 
         return false;
     }
 
-    private function manage(User $user, Book $book){
-        //action de suppression du livre de la bibliothèque
-        $biblios = $book->getBiblios();
-        $biblioUser = $user->getBiblio();
-        foreach ($biblios as $biblio) {
-            if($biblio == $biblioUser) return true;
-        }
-        return false;
-        
-    }
-
-    private function comment(User $user, Book $book){
-        //action de commenter un livre
-        $books = $user->getBiblio()->getBooks();
-        foreach ($books as $bookUser) {
-            if ($book == $bookUser) return true;
-        }
-        return false;
-    }
 }

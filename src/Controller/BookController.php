@@ -8,17 +8,20 @@ use App\Entity\PublishingHouse;
 use App\Entity\User;
 use App\Entity\Writer;
 use App\Entity\Biblio;
+use App\Entity\Comments;
+use App\Form\CommentType;
 use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BookController extends AbstractController
 {
@@ -121,18 +124,45 @@ class BookController extends AbstractController
 
     /**
      * @Route("/book/show/{id}", name="show_book", methods={"GET","POST"})
+     * @ParamConverter("post", options={"mapping": {"id": "apiId"}})
      */
-    public function show($id):Response
+    public function show($id, Request $request, EntityManagerInterface $em):Response
     {
+        
         $apikey = $this->getParameter('API_BOOK');
         $reponse = $this->client->request('GET', 'https://www.googleapis.com/books/v1/volumes/'. $id . '?key='.$apikey);
 
         if($reponse->getStatusCode() == 200){
-            $book = $reponse->toArray();
+            $bookfromApi = $reponse->toArray();
         }
-        dump($book);
+        
+        $comment = new Comments();
+        /** @var Book $book */
+        $book = $em->getRepository(Book::class)->findOneBy(['apiId'=> $id]);
+
+        $commentForm = $this->createForm(CommentType::class,$comment);
+
+        $commentForm->handleRequest($request);
+
+        if($commentForm->isSubmitted()){
+            if($commentForm->isValid()){
+                $comment->setActive(true)
+                    ->setAuthor($this->getUser())
+                    ->setCreatedAt(new \DateTime())
+                    ->setBook($book);
+
+                $em->persist($comment);
+                $em->flush();
+
+                $this->addFlash('success','Commentaire Ajouté');
+                return $this->redirectToRoute('show_book',['id'=> $id]);
+            }
+        }
+
         return $this->render("book/show.html.twig",[
-            'book' => $book,
+            'book' => $bookfromApi,
+            'listCommentaires' => $book->getComments(),
+            'commentForm' => $commentForm->createView()
         ]);
     }
 
@@ -165,7 +195,7 @@ class BookController extends AbstractController
             $biblio = $user->getBiblio();
 
             //dans le cas ou le livre est déjà dans la biblio de l'utilisateur
-            if ($user->alreadyAddbyUser($id)) {
+            if ($user->isAddbyUser($id)) {
                 
                 //on supprime le livre de la bibliothèque de l'utilisateur
                 $biblio->removeBook($book);

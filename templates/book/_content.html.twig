@@ -51,7 +51,7 @@
                         <a id="showBook" class="btn btn-secondary" data-link="{{book.selfLink}}" href="{{path('show_book',{id: book.id})}}">Détaille</a>
                         
                         {% if app.user %}
-                            {% if app.user.alreadyAddbyUser(book.id) %}
+                            {% if app.user.isAddbyUser(book.id) %}
                                 <a js-link class="btn btn-secondary remove-book" href="{{path('add_apibook_biblio',{id: book.id})}}">
                                    <span class="js-status">Supprimer de ma Biblio</span>
                                 </a>

@@ -84,6 +84,37 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-12">
+                liste des commentaires <strong>{{(listCommentaires | length)}}</strong>
+            </div>
+            <div class="col-12">
+                {% if listCommentaires is defined %}
+                    {% for comment in listCommentaires %}
+                        <div class="card my-2">
+                            <div class="card-body">
+                                <h5 class="card-title">{{comment.author.lastname}}</h5>
+                                <p class="card-text">{{comment.content | raw }}</p>
+                                <em>{{comment.createdAt | date('Y-m-d H:i' )}}</em>   
+                            </div>
+                            {% if app.user == comment.author %}
+                                <div class="card-footer">
+                                    <a class="btn button-primary" href="{{path('delete_comment', {id: comment.id})}}" title="supprimer">supprimer</a>
+                                    <a class="btn button-primary" href="{{path('update_comment', {id: comment.id})}}" title="editer">Editer</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.isAddbyUser(book.id) %}
+            <div class="col-12">
+                {{form(commentForm)}}
+            </div>
+            {% else %}
+
+            {% endif %}
+        </div>
     </div>
 
 {% endblock %}

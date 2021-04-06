@@ -287,17 +287,33 @@ class User implements UserInterface
 
         return $this;
     }
-
-    public function alreadyAddbyUser(string $idApiBook):bool
+    
+    /**
+     * alreadyAddbyUser
+     * Pour reconnaitre si le livre à déjà été ajouté par l'utilisateur dans sa bibliothèque
+     * @param  mixed $idApiBook
+     * @param  mixed $type false->apiBook/ true user book
+     * @return bool
+     */
+    public function isAddbyUser(string $id, bool $type = false):bool
     {
-        $biblio =$this->biblio;
-        $books =$biblio->getBooks();
-        foreach($books as $book){
-            
-            if($book->getApiId() === $idApiBook){
-                return true;
-            } 
+        
+        $books = $this->biblio->getBooks();
+        if(!$type){
+            foreach ($books as $book) {
+
+                if ($book->getApiId() === $id) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        //on est dans le cas d'un livre créé par l'utilisateur
+        foreach ($books as $book) {
+            if($book->getId() == $id) return true;
         }
         return false;
+        
     }
 }
