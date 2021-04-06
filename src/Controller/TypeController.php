@@ -16,7 +16,7 @@ class TypeController extends AbstractController
     /**
      * @Route("/type/add/ajax/{label}", name="add_ajax_type", methods={"POST"})
      */
-    public function addTypeAjax(string $label, Request $request, TypeRepository $wr, EntityManagerInterface $em): Response
+    public function addTypeAjax(string $label, Request $request, EntityManagerInterface $em): Response
     {
         $type = new Type();
 
