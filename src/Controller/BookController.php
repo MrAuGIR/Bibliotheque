@@ -86,7 +86,7 @@ class BookController extends AbstractController
         $content = $reponse->toArray();
 
         $books = $paginator->paginate($content['items'], $page, $limit);
-
+        
        // $total = ($content['totalItems'] > 100) ? 100  : $content['totalItems'];
 
         if($reponse->getStatusCode() != 200){
@@ -107,7 +107,8 @@ class BookController extends AbstractController
                     'books' => $books,
                     'page' => $page,
                     'limit' => $limit,
-                ])
+                ]),
+                'books' => $content['items'] //pour la recherche dans la nav bar
             ]);
             
         }
@@ -161,7 +162,7 @@ class BookController extends AbstractController
 
         return $this->render("book/show.html.twig",[
             'book' => $bookfromApi,
-            'listCommentaires' => $book->getComments(),
+            'listCommentaires' => (!$book)? null : $book->getComments(),
             'commentForm' => $commentForm->createView()
         ]);
     }

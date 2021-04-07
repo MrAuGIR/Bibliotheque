@@ -9,7 +9,7 @@
             <h1>Bienvenue sur <em>Bibliothèque</em></h1>
         </div>
         <div class="col-12">
-            {% include "main/_info.html.twig" %}
+            
         </div>
     </div>
     <div class="row my-2 py-2">
@@ -33,4 +33,5 @@
 {% block js %}
     {{parent()}}
     <script src="{{asset('script/actu.js')}}"></script>
+    <script src="{{asset('script/navSearch.js')}}"></script>
 {% endblock %}

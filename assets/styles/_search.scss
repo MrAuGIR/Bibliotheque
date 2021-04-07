@@ -1,5 +1,5 @@
 
-
+// formulaire de recherche
 .form-search{
     display: flex;
     flex-direction: row;
@@ -35,5 +35,23 @@
         }
 
     }
+
+}
+
+//formulaire dans la nav
+.js-nav{
+    position: relative;
+}
+.js-result-none{
+    display: none;
+}
+.js-result-display{
+    display: flex;
+    position: absolute;
+    top: 90px;
+    left: 100px;
+    background-color: beige;
+    z-index: 10;
+
 
 }

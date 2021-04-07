@@ -1,7 +1,11 @@
+* {
+    box-sizing: border-box;
+}
 
 body{
     background-color: $b-body-bg;
     color: $b-body-color;
+    font-family: 'Ubuntu', sans-serif;
 }
 
 .picture{
