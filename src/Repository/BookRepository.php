@@ -19,6 +19,18 @@ class BookRepository extends ServiceEntityRepository
         parent::__construct($registry, Book::class);
     }
 
+
+    public function findLastBookPosted(){
+
+        return $this->createQueryBuilder('l')
+            ->innerJoin('l.writers','w')
+            ->where('l.addedAt <= :now')
+            ->orderBy('l.addedAt','DESC')
+            ->setParameter('now',new \DateTime())
+            ->getQuery()
+            ->getResult();
+
+    }
     // /**
     //  * @return Book[] Returns an array of Book objects
     //  */

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\BookRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,10 +14,12 @@ class MainController extends AbstractController
     /**
      * @Route("/", name="app_home")
      */
-    public function index(): Response
+    public function index(Request $request, BookRepository $bookRepository): Response
     {
+        $lastBooks = $bookRepository->findLastBookPosted();
+
         return $this->render('main/index.html.twig', [
-            'controller_name' => 'MainController',
+            'lastBooks' => $lastBooks,
             'articles'=> $articles =""
         ]);
     }

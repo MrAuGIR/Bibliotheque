@@ -67,36 +67,34 @@ class BiblioController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted()){
+        
+        if($form->isSubmitted() && $form->isValid()){
 
-            if($form->isValid()){
-
-                $cover = new Cover();
-                $image = $form->get('cover')->getData();
-                if ($image != null) {
-                    $fichier = md5(uniqid()) . '.' . $image->guessExtension();
-                    $image->move($this->getParameter('cover_directory'), $fichier);
-                    $cover->setFileName($fichier);
-                    $em->persist($cover);
-                }
-
-                $book->setEditor($user)
-                     ->setSlug($this->slugger->slug($book->getTitle()))
-                     ->setAddedAt(new \DateTime())
-                     ->addBiblio($user->getBiblio())
-                     ->setIsApiBook(false)
-                     ->setCover($cover);
-
-                $em->persist($book);
-                $em->flush();
-                
-                $this->addFlash('success','Livre ajouté à votre bibliothèque');
-                return $this->redirectToRoute('index_biblio');
+            $cover = new Cover();
+            $image = $form->get('cover')->getData();
+            if ($image != null) {
+                $fichier = md5(uniqid()) . '.' . $image->guessExtension();
+                $image->move($this->getParameter('cover_directory'), $fichier);
+                $cover->setFileName($fichier);
+                $em->persist($cover);
             }
 
-            $this->addFlash('warning', 'mauvaise saisie des valeurs');
-            return $this->redirectToRoute('add_book_biblio');
+            $book->setEditor($user)
+                    ->setSlug($this->slugger->slug($book->getTitle()))
+                    ->setAddedAt(new \DateTime())
+                    ->addBiblio($user->getBiblio())
+                    ->setIsApiBook(false)
+                    ->setCover($cover);
+
+            $em->persist($book);
+            $em->flush();
+            
+            $this->addFlash('success','Livre ajouté à votre bibliothèque');
+            return $this->redirectToRoute('index_biblio');
         }
+
+        
+        
        
 
         return $this->render('biblio/add.html.twig',[
