@@ -9,7 +9,7 @@ let navSearch = () => {
         if(input.value.length > 2){
             
             // On lance la requête ajax
-            fetch('/book/search?keywords='+input.value+'&ajax=1', {
+            fetch('/search?q='+input.value, {
                 method: "GET",
                 headers: {
                     "X-Requested-With": "XMLHttpRequest",
@@ -22,9 +22,6 @@ let navSearch = () => {
                 makeResult(data.books);
                 
             }).catch(e => alert(e));
-
-
-
         }
     })
 }
@@ -47,4 +44,17 @@ let makeResult = (books) =>{
 
 }
 
-navSearch()
+displayNone = () =>{
+
+    document.querySelector('body').addEventListener('click', (e)=>{
+        let div = document.getElementById('div-result');
+        if(div.classList.contains('js-result-display')){
+            div.innerHTML = "";
+            div.classList.remove('js-result-display');
+        }
+
+    })
+}
+
+navSearch();
+displayNone();

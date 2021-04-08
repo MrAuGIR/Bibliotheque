@@ -295,10 +295,12 @@ class User implements UserInterface
      * @param  mixed $type false->apiBook/ true user book
      * @return bool
      */
-    public function isAddbyUser(string $id, bool $type = false):bool
+    public function isAddbyUser($id, bool $type = false):bool
     {
         
         $books = $this->biblio->getBooks();
+
+        
         if(!$type){
             foreach ($books as $book) {
 
