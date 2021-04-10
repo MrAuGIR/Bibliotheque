@@ -113,3 +113,31 @@
         text-align: center;
     }
 }
+
+//card actu page accueil
+.card-actu{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .picture-actu{
+        display: flex;
+        height: 33.33%;
+        width: 100%;
+
+        img{
+            object-fit: cover;
+            height: 100%;
+            width: 100%;
+        }
+    }
+
+    .card-body-actu{
+        display: flex;
+        flex-direction: column;
+        height: 66.66%;
+        width: 100%;
+        min-height: 150px;
+
+    }
+}
