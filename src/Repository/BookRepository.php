@@ -35,7 +35,7 @@ class BookRepository extends ServiceEntityRepository
 
 
     public function findBySearchQuery(string $query, int $limit = 10){
-        $query = $this->createQueryBuilder('s');
+        $req = $this->createQueryBuilder('s');
 
         $searchTerms = $this->extractSearchTerms($query);
         //si la chaine est vide on retourne un tableau
@@ -44,11 +44,11 @@ class BookRepository extends ServiceEntityRepository
         }
 
         foreach ($searchTerms as $key => $term) {
-            $query->orWhere('s.title LIKE :t_'.$key)
-                ->setParameter('t'.$key,'%'.$term.'%');
+            $req->orWhere('s.title LIKE :t_'.$key)
+                ->setParameter('t_'.$key,'%'.$term.'%');
         }
 
-        return $query->getQuery()->getResult();
+        return $req->getQuery()->getResult();
 
     }
     // /**

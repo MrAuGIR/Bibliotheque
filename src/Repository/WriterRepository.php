@@ -22,20 +22,23 @@ class WriterRepository extends ServiceEntityRepository
 
     public function findBySearchQuery(string $query, int $limit = 10)
     {
-        $query = $this->createQueryBuilder('w');
+        $req = $this->createQueryBuilder('w')
+                    ->where('w.lastName LIKE :term')
+                    ->setParameter('term', '%'.$query.'%');
 
-        $searchTerms = $this->extractSearchTerms($query);
+        //$searchTerms = $this->extractSearchTerms($query);
         //si la chaine est vide on retourne un tableau
-        if (0 === \count($searchTerms)) {
-            return [];
-        }
+        // if (0 === \count($searchTerms)) {
+            
+        //     return [];
+        // }
 
-        foreach ($searchTerms as $key => $term) {
-            $query->orWhere('w.lastName LIKE :t_'. $key)
-            ->setParameter('t_' . $key, '%' . $term . '%');
-        }
+        // foreach ($searchTerms as $key => $term) {
+        //     $query->orWhere('w.lastName LIKE :t_'. $key)
+        //     ->setParameter('t_' . $key, '%' . $term . '%');
+        // }
 
-        return $query->getQuery()->getResult();
+        return $req->getQuery()->getResult();
     }
     // /**
     //  * @return Writer[] Returns an array of Writer objects

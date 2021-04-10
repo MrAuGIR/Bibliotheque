@@ -2,36 +2,40 @@ window.onload = () =>{
 
     let keywords = document.getElementById('keywords');
     const FilterForm = document.querySelector('#filters');
+    let timeout = null;
 
-    document.getElementById('keywords').addEventListener('change', (e) =>{
+    document.getElementById('keywords').addEventListener('input', (e) =>{
 
         e.preventDefault();
-        console.log('je suis la ')
-        if(keywords.value.length >= 3){
+        clearTimeout(timeout);
+    
+        timeout = setTimeout(function(){
+            if(keywords.value.length >= 3){
 
-            const Form = new FormData(FilterForm);
+                const Form = new FormData(FilterForm);
 
-            // On fabrique la "queryString"
-            const Params = new URLSearchParams();
+                // On fabrique la "queryString"
+                const Params = new URLSearchParams();
 
-            //pour chacun des champs 'actif' du formulaire je rajoute un parametre dans l'url
-            Form.forEach((value,key) => {
-                Params.append(key, value);
-            });
-            
-            // On récupère l'url active
-            const Url = new URL(window.location.href);
+                //pour chacun des champs 'actif' du formulaire je rajoute un parametre dans l'url
+                Form.forEach((value,key) => {
+                    Params.append(key, value);
+                });
+                
+                // On récupère l'url active
+                const Url = new URL(window.location.href);
 
-            ajaxRequest(Url,Params);
+                ajaxRequest(Url,Params);
 
-        }
+            }
+        },1000);
+        
 
     });
 
     document.getElementById('filterField').addEventListener('change', (e) => {
         
         const Form = new FormData(FilterForm);
-        console.log('je suis la ')
         // On fabrique la "queryString"
         const Params = new URLSearchParams();
 

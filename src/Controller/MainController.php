@@ -51,7 +51,7 @@ class MainController extends AbstractController
     /**
      * @Route("/search", name="search_home", methods={"GET","POST"})
      */
-    public function search(Request $request, HttpClientInterface $client, WriterRepository $writerRepository):Response
+    public function search(Request $request, HttpClientInterface $client, WriterRepository $writerRepository, BookRepository $bookRepository):Response
     {
         $query = $request->query->get('q');
         $limit = $request->query->get('l',10);
@@ -62,9 +62,10 @@ class MainController extends AbstractController
         //clé api
         $apiKey = $this->getParameter('API_BOOK');
 
-        //un recupère les écrivains
-        $writers = $writerRepository->findBySearchQuery($query,10);
+        //on recupère les écrivains
+        $writers = $writerRepository->findBySearchQuery($query);
 
+        
         //construction des paramètres
         $params = '?q=' . $query . $paramFree . '&maxResults=40&key=' . $apiKey;
 
@@ -73,8 +74,10 @@ class MainController extends AbstractController
         $content = $reponse->toArray();
 
         return $this->json([
-            'books' => array_slice($content['items'],0,8),
-            'writers' => $writers,
+            'result' => $this->renderView('main/_result.html.twig',[
+                'books' => array_slice($content['items'],0,8),
+                'writers' => $writers,
+            ]),
         ]);
 
 

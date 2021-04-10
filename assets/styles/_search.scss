@@ -48,8 +48,10 @@
 .js-result-display{
     display: flex;
     position: absolute;
+    width: 400px;
+    margin: 0 auto;
     top: 90px;
-    left: 100px;
+    right: 50px;
     background-color: beige;
     z-index: 10;
 
