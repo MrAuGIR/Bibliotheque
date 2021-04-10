@@ -7,10 +7,10 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="{{path('app_home')}}">Accueil <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{{path('app_home')}}">Accueil <i class="fas fa-home"></i></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{path('search_book')}}">Recherche</a>
+        <a class="nav-link" href="{{path('search_book')}}">Recherche <i class="fas fa-search"></i></a>
       </li>
       {% if app.user %}
       <li class="nav-item dropdown">
@@ -38,9 +38,9 @@
         </li>
       {% endif %}
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input name="search" class="form-control mr-sm-2 js-search" type="search" placeholder="Rechercher un livre" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    <form method="POST" action="{{path('search_book')}}" class="form-inline my-2 my-lg-0">
+      <input name="keywords" class="form-control mr-sm-2 js-search" type="search" placeholder="Rechercher un livre" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Recherche</button>
     </form>
   </div>
   <div id="div-result" class="js-result-none"></div>

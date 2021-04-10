@@ -61,7 +61,7 @@ class BookController extends AbstractController
         $filterField = $request->query->get('filterField');
 
         if($filterField != 'intitle'){
-            $keywords = '+'.$keywords.':'.$filterField;
+            $keywords = '+'.$filterField.':'.$keywords;
         }
 
         //on recupère la page en cours pour la pagination
@@ -125,7 +125,7 @@ class BookController extends AbstractController
 
     /**
      * @Route("/book/show/{id}", name="show_book", methods={"GET","POST"})
-     * @ParamConverter("post", options={"mapping": {"id": "apiId"}})
+     * 
      */
     public function show($id, Request $request, EntityManagerInterface $em):Response
     {
@@ -140,6 +140,9 @@ class BookController extends AbstractController
         $comment = new Comments();
         /** @var Book $book */
         $book = $em->getRepository(Book::class)->findOneBy(['apiId'=> $id]);
+
+        //les livres de l'auteur
+        $bookRelated = $this->relatedAuthorBook($bookfromApi['volumeInfo']['authors'][0]);
 
         $commentForm = $this->createForm(CommentType::class,$comment);
 
@@ -163,7 +166,8 @@ class BookController extends AbstractController
         return $this->render("book/show.html.twig",[
             'book' => $bookfromApi,
             'listCommentaires' => (!$book)? null : $book->getComments(),
-            'commentForm' => $commentForm->createView()
+            'commentForm' => $commentForm->createView(),
+            'booksRelated' => $bookRelated
         ]);
     }
 
@@ -327,5 +331,34 @@ class BookController extends AbstractController
             'status' => 200,
             'message' => 'livre ajouté à la bibliotèque'
         ], 200);
+    }
+
+        
+    /**
+     * relatedAuthorBook
+     * Cherche les livres de l'auteur passé en paramètre
+     * @param  mixed $author
+     * @param  mixed $request
+     * @param  mixed $client
+     * @return Response
+     */
+    public function relatedAuthorBook($author ):Array
+    {
+        
+        $keywords = '+inauthor:' . $author ;
+        
+        $paramFree = '';
+
+        //clé api
+        $apiKey = $this->getParameter('API_BOOK');
+
+        //construction des paramètres
+        $params = '?q=' . $keywords . $paramFree . '&maxResults=9&key=' . $apiKey;
+
+        //envoie de la requète vers l'api google book
+        $reponse = $this->client->request('GET', 'https://www.googleapis.com/books/v1/volumes' . $params);
+        $content = $reponse->toArray();
+
+        return  $content['items'];
     }
 }
