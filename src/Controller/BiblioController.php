@@ -48,7 +48,7 @@ class BiblioController extends AbstractController
     }
 
     /**
-     * @Route("/biblio/add", name="add_book_biblio")
+     * @Route("/biblio/new", name="create_book_biblio")
      */
     public function addBooktoBilio(Request $request, WriterRepository $writerRepository ,EntityManagerInterface $em):Response
     {
@@ -97,7 +97,7 @@ class BiblioController extends AbstractController
         
        
 
-        return $this->render('biblio/add.html.twig',[
+        return $this->render('biblio/create.html.twig',[
             'form' => $form->createView()
         ]);
     }

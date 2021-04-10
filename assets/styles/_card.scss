@@ -23,7 +23,7 @@
 
     .card-body{
 
-        height: 200px;
+        height: 100px;
         
 
         .card-title{
@@ -40,8 +40,9 @@
 
     .card-bottom{
         display: flex;
-        flex-direction: row;
-        justify-content: space-around;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 1vh 1vh;
         align-items: center;
 
         a{
@@ -58,7 +59,7 @@
 }
 
 
-/* card dans les resultate de la nav bar */@at-root
+/* card dans les resultate de la nav bar */
 .card-list{
     display: flex;
     flex-direction: row;
@@ -86,5 +87,29 @@
         display: flex;
         flex-direction: row;
         width: 66.66%;
+    }
+}
+
+//card action
+.card-action{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background-color: $b-card-bg ;
+    .card-action-icon{
+        display: flex;
+        flex-direction: column;
+        width: 33.33%;
+        justify-content: center;
+        align-items: center;
+    }
+    .card-action-text{
+        display: flex;
+        flex-direction: column;
+        width: 66.66%;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
     }
 }

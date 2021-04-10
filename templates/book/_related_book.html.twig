@@ -22,7 +22,7 @@
             <div class="carousel-item active">
                 <div class="row">
                 {% for book in booksRelated | slice(0,3) %}
-                    <div class="col-12 col-lg-4">
+                    <div class="col-12 col-lg-4 px-0 py-0">
                         <div class="card my-2 mx-2">
                             <div class="card-header">
                                 <div class="picture">
@@ -40,24 +40,24 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    
                                     <h5 class="card-title">{{book.volumeInfo.title}}</h5>
-                                    {% if book.volumeInfo.subtitle is defined %}
-                                        <p class="card-text">{{book.volumeInfo.subtitle | slice(0, 50) }}</p>
-                                    {% endif %}
-                                    
                                 </div>
                                 <div class="card-bottom">
-                                    <a id="showBook" class="btn btn-secondary" data-link="{{book.selfLink}}" href="{{path('show_book',{id: book.id})}}">Détaille</a>
+                                    <a id="showBook" class="btn button-primary show-book" data-link="{{book.selfLink}}" href="{{path('show_book',{id: book.id})}}">
+                                        <i class="icon-button fas fa-info fa-2x"></i>
+                                        <span class="text-button">Détaille</span>
+                                    </a>
                                     
                                     {% if app.user %}
                                         {% if app.user.isAddbyUser(book.id) %}
-                                            <a js-link class="btn btn-secondary remove-book" href="{{path('add_apibook_biblio',{id: book.id})}}">
-                                            <span class="js-status">Supprimer de ma Biblio</span>
+                                            <a js-link class="btn button-primary remove-book" href="{{path('add_apibook_biblio',{id: book.id})}}">
+                                                <i class="icon-button fas fa-minus-square fa-2x"></i>
+                                                <span class="js-status text-button">Retirer de ma Biblio</span>
                                             </a>
                                             {% else %}
-                                            <a js-link class="btn btn-secondary add-book" href="{{path('add_apibook_biblio',{id: book.id})}}">
-                                                <span class="js-status">Ajouter à ma biblio</span>
+                                            <a js-link class="btn button-primary add-book" href="{{path('add_apibook_biblio',{id: book.id})}}">
+                                                <i class="icon-button fas fa-plus-square fa-2x"></i>
+                                                <span class="js-status text-button">Ajouter à ma biblio</span>
                                             </a>
                                         {% endif %}
                                         
@@ -74,7 +74,7 @@
             <div class="carousel-item">
                 <div class="row">
                 {% for book in booksRelated | slice(3,3) %}
-                    <div class="col-12 col-lg-4">
+                    <div class="col-12 col-lg-4 px-0 py-0">
                         <div class="card my-2 mx-2">
                             <div class="card-header">
                                 <div class="picture">
@@ -100,16 +100,22 @@
                                     
                                 </div>
                                 <div class="card-bottom">
-                                    <a id="showBook" class="btn btn-secondary" data-link="{{book.selfLink}}" href="{{path('show_book',{id: book.id})}}">Détaille</a>
+                                    <a id="showBook" class="btn button-primary show-book" data-link="{{book.selfLink}}" href="{{path('show_book',{id: book.id})}}">
+                                        <i class="icon-button fas fa-info fa-2x"></i>
+                                        <span class="text-button">Détaille</span>
+                                    </a>
                                     
                                     {% if app.user %}
                                         {% if app.user.isAddbyUser(book.id) %}
-                                            <a js-link class="btn btn-secondary remove-book" href="{{path('add_apibook_biblio',{id: book.id})}}">
-                                            <span class="js-status">Supprimer de ma Biblio</span>
+                                            <a js-link class="btn button-primary remove-book" href="{{path('add_apibook_biblio',{id: book.id})}}">
+
+                                                <i class="icon-button fas fa-minus-square fa-2x"></i>
+                                            <span class="js-status text-button">Supprimer de ma Biblio</span>
                                             </a>
                                             {% else %}
-                                            <a js-link class="btn btn-secondary add-book" href="{{path('add_apibook_biblio',{id: book.id})}}">
-                                                <span class="js-status">Ajouter à ma biblio</span>
+                                            <a js-link class="btn button-primary add-book" href="{{path('add_apibook_biblio',{id: book.id})}}">
+                                                <i class="icon-button fas fa-plus-square fa-2x"></i>
+                                                <span class="js-status text-button">Ajouter à ma biblio</span>
                                             </a>
                                         {% endif %}
                                         
@@ -125,7 +131,7 @@
             <div class="carousel-item">
                 <div class="row">
                 {% for book in booksRelated | slice(6,3) %}
-                    <div class="col-12 col-lg-4">
+                    <div class="col-12 col-lg-4 px-0 py-0">
                         <div class="card my-2 mx-2">
                             <div class="card-header">
                                 <div class="picture">
@@ -151,16 +157,22 @@
                                     
                                 </div>
                                 <div class="card-bottom">
-                                    <a id="showBook" class="btn btn-secondary" data-link="{{book.selfLink}}" href="{{path('show_book',{id: book.id})}}">Détaille</a>
+                                    <a id="showBook" class="btn button-primary show-book" data-link="{{book.selfLink}}" href="{{path('show_book',{id: book.id})}}">
+                                        <i class="icon-button fas fa-info fa-2x"></i>
+                                        <span class="text-button">Détaille</span>
+                                    </a>
                                     
                                     {% if app.user %}
                                         {% if app.user.isAddbyUser(book.id) %}
-                                            <a js-link class="btn btn-secondary remove-book" href="{{path('add_apibook_biblio',{id: book.id})}}">
-                                            <span class="js-status">Supprimer de ma Biblio</span>
+                                            <a js-link class="btn button-primary remove-book" href="{{path('add_apibook_biblio',{id: book.id})}}">
+
+                                                <i class="icon-button fas fa-minus-square fa-2x"></i>
+                                            <span class="js-status text-button">Supprimer de ma Biblio</span>
                                             </a>
                                             {% else %}
-                                            <a js-link class="btn btn-secondary add-book" href="{{path('add_apibook_biblio',{id: book.id})}}">
-                                                <span class="js-status">Ajouter à ma biblio</span>
+                                            <a js-link class="btn button-primary add-book" href="{{path('add_apibook_biblio',{id: book.id})}}">
+                                                <i class="icon-button fas fa-plus-square fa-2x"></i>
+                                                <span class="js-status text-button">Ajouter à ma biblio</span>
                                             </a>
                                         {% endif %}
                                         

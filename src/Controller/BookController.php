@@ -142,6 +142,7 @@ class BookController extends AbstractController
         $book = $em->getRepository(Book::class)->findOneBy(['apiId'=> $id]);
 
         //les livres de l'auteur
+
         $bookRelated = $this->relatedAuthorBook($bookfromApi['volumeInfo']['authors'][0]);
 
         $commentForm = $this->createForm(CommentType::class,$comment);
