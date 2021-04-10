@@ -2,7 +2,7 @@
 .card{
 
     background-color: $b-card-bg;
-
+    
     margin-top: 0;
     padding-top: 0 ;
 
@@ -118,7 +118,8 @@
 .card-actu{
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 400px;
+    background-color: $b-card-bg;
 
     .picture-actu{
         display: flex;
@@ -135,6 +136,8 @@
     .card-body-actu{
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
+        padding: 2vh;
         height: 66.66%;
         width: 100%;
         min-height: 150px;

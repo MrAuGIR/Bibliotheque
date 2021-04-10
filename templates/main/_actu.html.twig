@@ -46,7 +46,7 @@
                             <div class="card-body-actu">
                                 {% set var = (article.title|length > 50)? 50 : 100 %}
                                 <h5 class="card-title">{{article.title}}</h5>
-                                {<p class="card-text-actu">{{article.description | slice(0,var) | raw}}</p>
+                                <p class="card-text-actu">{{article.description | slice(0,var) | raw}}</p>
                                 <a href="{{article.url}}" class="btn button-primary">Lire la suite</a>
                             </div>
                         </div>

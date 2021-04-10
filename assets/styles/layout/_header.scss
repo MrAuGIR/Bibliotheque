@@ -8,3 +8,41 @@ header{
         }
     }
 }
+
+.block-nav{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+
+    .list-link{
+        display: flex;
+        flex-direction: row;
+        width: 40%;
+    }
+
+
+
+
+    .navbar-block-form{
+        display: flex;
+        height: 100%;
+        width: 60%;
+        flex-direction: row;
+
+        form{
+            display: flex;
+            flex-direction: row;
+            width: 500px;
+
+            input{
+                display: flex;
+                width: 60.00%;
+            }
+            button{
+                display: flex;
+            }
+        }
+    }
+
+
+}
