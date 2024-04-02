@@ -26,10 +26,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     /**
-     * @var string The hashed password
+     * @var string|null The hashed password
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Biblio $biblio = null;
 
     public function getId(): ?int
     {
@@ -104,5 +107,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getBiblio(): ?Biblio
+    {
+        return $this->biblio;
+    }
+
+    public function setBiblio(Biblio $biblio): static
+    {
+        // set the owning side of the relation if necessary
+        if ($biblio->getUser() !== $this) {
+            $biblio->setUser($this);
+        }
+
+        $this->biblio = $biblio;
+
+        return $this;
     }
 }
