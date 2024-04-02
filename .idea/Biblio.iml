@@ -60,6 +60,15 @@
       <excludeFolder url="file://$MODULE_DIR$/sources/vendor/symfony/var-exporter" />
       <excludeFolder url="file://$MODULE_DIR$/sources/vendor/symfony/yaml" />
       <excludeFolder url="file://$MODULE_DIR$/old" />
+      <excludeFolder url="file://$MODULE_DIR$/sources/vendor/psr/clock" />
+      <excludeFolder url="file://$MODULE_DIR$/sources/vendor/symfony/clock" />
+      <excludeFolder url="file://$MODULE_DIR$/sources/vendor/symfony/password-hasher" />
+      <excludeFolder url="file://$MODULE_DIR$/sources/vendor/symfony/property-access" />
+      <excludeFolder url="file://$MODULE_DIR$/sources/vendor/symfony/property-info" />
+      <excludeFolder url="file://$MODULE_DIR$/sources/vendor/symfony/security-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/sources/vendor/symfony/security-core" />
+      <excludeFolder url="file://$MODULE_DIR$/sources/vendor/symfony/security-csrf" />
+      <excludeFolder url="file://$MODULE_DIR$/sources/vendor/symfony/security-http" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
