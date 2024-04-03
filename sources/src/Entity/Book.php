@@ -34,9 +34,13 @@ class Book
     #[ORM\ManyToMany(targetEntity: Writer::class, mappedBy: 'books')]
     private Collection $writers;
 
+    #[ORM\ManyToMany(targetEntity: Biblio::class, mappedBy: 'books')]
+    private Collection $biblios;
+
     public function __construct()
     {
         $this->writers = new ArrayCollection();
+        $this->biblios = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -126,6 +130,33 @@ class Book
     {
         if ($this->writers->removeElement($writer)) {
             $writer->removeBook($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Biblio>
+     */
+    public function getBiblios(): Collection
+    {
+        return $this->biblios;
+    }
+
+    public function addBiblio(Biblio $biblio): static
+    {
+        if (!$this->biblios->contains($biblio)) {
+            $this->biblios->add($biblio);
+            $biblio->addBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBiblio(Biblio $biblio): static
+    {
+        if ($this->biblios->removeElement($biblio)) {
+            $biblio->removeBook($this);
         }
 
         return $this;
