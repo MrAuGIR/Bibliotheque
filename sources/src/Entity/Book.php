@@ -37,10 +37,17 @@ class Book
     #[ORM\ManyToMany(targetEntity: Biblio::class, mappedBy: 'books')]
     private Collection $biblios;
 
+    #[ORM\ManyToOne(inversedBy: 'books')]
+    private ?PublishingHouse $publishingHouse = null;
+
+    #[ORM\OneToMany(targetEntity: Notice::class, mappedBy: 'book', orphanRemoval: true)]
+    private Collection $notices;
+
     public function __construct()
     {
         $this->writers = new ArrayCollection();
         $this->biblios = new ArrayCollection();
+        $this->notices = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -157,6 +164,48 @@ class Book
     {
         if ($this->biblios->removeElement($biblio)) {
             $biblio->removeBook($this);
+        }
+
+        return $this;
+    }
+
+    public function getPublishingHouse(): ?PublishingHouse
+    {
+        return $this->publishingHouse;
+    }
+
+    public function setPublishingHouse(?PublishingHouse $publishingHouse): static
+    {
+        $this->publishingHouse = $publishingHouse;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Notice>
+     */
+    public function getNotices(): Collection
+    {
+        return $this->notices;
+    }
+
+    public function addNotice(Notice $notice): static
+    {
+        if (!$this->notices->contains($notice)) {
+            $this->notices->add($notice);
+            $notice->setBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotice(Notice $notice): static
+    {
+        if ($this->notices->removeElement($notice)) {
+            // set the owning side to null (unless already changed)
+            if ($notice->getBook() === $this) {
+                $notice->setBook(null);
+            }
         }
 
         return $this;
