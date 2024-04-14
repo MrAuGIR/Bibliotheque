@@ -72,6 +72,8 @@
       <path value="$PROJECT_DIR$/sources/vendor/symfony/security-http" />
       <path value="$PROJECT_DIR$/sources/vendor/symfony/clock" />
       <path value="$PROJECT_DIR$/sources/vendor/symfony/security-csrf" />
+      <path value="$PROJECT_DIR$/sources/vendor/symfony/webpack-encore-bundle" />
+      <path value="$PROJECT_DIR$/sources/vendor/symfony/asset" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />
