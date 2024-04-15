@@ -12,6 +12,9 @@
         <Configuration>
           <option name="path" value="$PROJECT_DIR$/sources/tests" />
         </Configuration>
+        <Configuration>
+          <option name="path" value="$PROJECT_DIR$/sources/tests" />
+        </Configuration>
       </list>
     </option>
   </component>

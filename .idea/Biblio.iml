@@ -75,6 +75,12 @@
       <excludeFolder url="file://$MODULE_DIR$/sources/vendor/symfony/twig-bridge" />
       <excludeFolder url="file://$MODULE_DIR$/sources/vendor/symfony/twig-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/sources/vendor/twig/twig" />
+      <excludeFolder url="file://$MODULE_DIR$/sources/vendor/phpdocumentor/reflection-common" />
+      <excludeFolder url="file://$MODULE_DIR$/sources/vendor/phpdocumentor/reflection-docblock" />
+      <excludeFolder url="file://$MODULE_DIR$/sources/vendor/phpdocumentor/type-resolver" />
+      <excludeFolder url="file://$MODULE_DIR$/sources/vendor/phpstan/phpdoc-parser" />
+      <excludeFolder url="file://$MODULE_DIR$/sources/vendor/symfony/serializer" />
+      <excludeFolder url="file://$MODULE_DIR$/sources/vendor/webmozart/assert" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

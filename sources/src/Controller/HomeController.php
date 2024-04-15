@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Service\Api\Input\SearchInputDto;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
+use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
 
 class HomeController extends AbstractController
@@ -23,9 +26,12 @@ class HomeController extends AbstractController
         return $this->json([]);
     }
 
-    #[Route("/seach", name: "app_home_seach", methods: ['GET'])]
-    public function search(Request $request) : JsonResponse
+    #[Route("/search", name: "app_home_seach", methods: ['GET'])]
+    public function search(
+        #[MapRequestPayload] SearchInputDto $searchInputDto,
+    ) : JsonResponse
     {
+        dd($searchInputDto);
         return $this->json([]);
     }
 }
