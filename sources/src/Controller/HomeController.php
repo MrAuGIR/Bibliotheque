@@ -26,7 +26,7 @@ class HomeController extends AbstractController
         return $this->json([]);
     }
 
-    #[Route("/search", name: "app_home_seach", methods: ['GET'])]
+    #[Route("/search", name: "app_home_seach", methods: ['GET','POST'])]
     public function search(
         #[MapRequestPayload] SearchInputDto $searchInputDto,
     ) : JsonResponse
