@@ -2,17 +2,23 @@
 
 namespace App\Controller;
 
+use App\Service\Api\GoogleBook;
 use App\Service\Api\Input\SearchInputDto;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
 
 class HomeController extends AbstractController
 {
+    public function __construct(
+        private GoogleBook $googleBook
+    )
+    {
+    }
+
     #[Route('/', name: 'app_home_index', methods: ['GET'])]
     public function index(): Response
     {
@@ -31,7 +37,8 @@ class HomeController extends AbstractController
         #[MapRequestPayload] SearchInputDto $searchInputDto,
     ) : JsonResponse
     {
-        dd($searchInputDto);
-        return $this->json([]);
+        $data = $this->googleBook->call($searchInputDto);
+
+        return $this->json($data);
     }
 }

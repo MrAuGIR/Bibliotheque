@@ -6,6 +6,7 @@
 parameters:
     API_BOOK: '%env(API_BOOK_KEY)%'
     API_ACTU: '%env(API_ACTU_KEY)%'
+    API_BOOK_URL: 'https://www.googleapis.com/books/v1/volumes'
 
 services:
     # default configuration for services in *this* file

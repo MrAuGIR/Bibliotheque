@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 readonly class SearchInputDto
 {
-    private const QUERY_PATTERN = "?q=%s&filter=%s&maxResults=%s";
+    private const QUERY_PATTERN = "?q=%s&maxResults=%s&key=%s";
 
     public function __construct(
         #[Assert\NotBlank]
@@ -21,13 +21,13 @@ readonly class SearchInputDto
     {
     }
 
-    public function buildQuery(Request $request): string
+    public function buildQuery(string $apiKey): string
     {
         return sprintf(
             self::QUERY_PATTERN,
             $this->q,
-            $this->free? 'free-ebook' : '',
-            $this->l
+            $this->l,
+            $apiKey
         );
     }
 }
