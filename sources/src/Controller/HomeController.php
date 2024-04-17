@@ -51,7 +51,7 @@ class HomeController extends AbstractController
     ) : JsonResponse
     {
         $writers = [];
-        $data = $this->googleBook->call($searchInputDto);
+        $data = $this->googleBook->list($searchInputDto);
 
         return (new SearchJsonOutput($this->renderView('home/_results.html.twig', [
             'books' => array_slice($data['items'],0,8),
