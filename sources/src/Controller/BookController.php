@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Book;
 use App\Service\Api\GoogleBook;
+use App\Service\Api\Input\SearchInputDto;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,8 +38,14 @@ class BookController extends AbstractController
 
         $book = $em->getRepository(Book::class)->findOneBy(['apiId' => $id]);
 
+        $author = "jojo"; // test
+        /** @todo related book author */
+        $dto = new SearchInputDto('+inauthor:'.$author,9);
+        $relatedBooks = $this->googleBook->list($dto);
+
         return $this->render('book/show.html.twig', [
-            'controller_name' => 'BookController',
+            'book' => $data,
+            'booksRelated' => $relatedBooks
         ]);
     }
 }
