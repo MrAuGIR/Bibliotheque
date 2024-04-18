@@ -1,0 +1,32 @@
+<div class="row">
+    <div class="col-8">
+        <div class="row">
+            {% for book in books %}
+                <div class="col-12">
+                    <div class="card-list">
+                        <div class="card-img">
+                            <div class="picture">
+                                {% if book.volumeInfo.imageLinks is defined %}
+
+                                    {% if book.volumeInfo.imageLinks.thumbnail is defined %}
+                                        <img src="{{book.volumeInfo.imageLinks.thumbnail}}" class="card-img" alt="image">
+                                    {% elseif book.volumeInfo.imageLinks.smallThumbnail is defined %}
+                                        <img src="{{book.volumeInfo.imageLinks.smallThumbnail}}" class="card-img" alt="image">
+                                    {% else %}
+                                        <img src="{{asset('images/covers/default.jpg')}}" class="card-img" alt="image">
+                                    {% endif %}
+
+                                {% else %}
+                                    <img src="{{asset('images/covers/default.jpg')}}" class="card-img" alt="image">
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <a href="{{path('show_book',{id: book.id})}}">{{book.volumeInfo.title | slice(0,30)}}</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

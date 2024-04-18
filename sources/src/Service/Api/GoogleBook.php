@@ -27,11 +27,28 @@ readonly class GoogleBook
      * @throws DecodingExceptionInterface
      * @throws ClientExceptionInterface
      */
-    public function call(SearchInputDto $dto): array
+    public function list(SearchInputDto $dto): array
     {
         $response = $this->httpClient->request(
             Request::METHOD_GET,
             $this->apiUrl. $dto->buildQuery($this->apiKey)
+        );
+
+        return $response->toArray();
+    }
+
+    /**
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     */
+    public function get(int $id): array
+    {
+        $response = $this->httpClient->request(
+            Request::METHOD_GET,
+            $this->apiUrl.'/'.$id.'apiKey='.$this->apiKey
         );
 
         return $response->toArray();

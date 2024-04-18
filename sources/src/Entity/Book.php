@@ -43,6 +43,9 @@ class Book
     #[ORM\OneToMany(targetEntity: Notice::class, mappedBy: 'book', orphanRemoval: true)]
     private Collection $notices;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $apiId = null;
+
     public function __construct()
     {
         $this->writers = new ArrayCollection();
@@ -207,6 +210,18 @@ class Book
                 $notice->setBook(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getApiId(): ?string
+    {
+        return $this->apiId;
+    }
+
+    public function setApiId(?string $apiId): static
+    {
+        $this->apiId = $apiId;
 
         return $this;
     }
