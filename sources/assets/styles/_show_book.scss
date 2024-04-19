@@ -1,0 +1,58 @@
+.book-title{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    h1{
+        margin: 0;
+        padding: 0;
+    }
+
+}
+
+.book-author{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    h2{
+        margin: 0;
+        padding: 0;
+    } 
+}
+
+.couverture{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: 2vh;
+
+    img{
+        object-fit: contain;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+
+
+.list-rs{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+
+    .rs{
+        display: flex;
+        flex-direction: column;
+        margin: 0 20px;
+
+        a{
+            color:white;
+        }
+        
+    }
+}

@@ -35,6 +35,8 @@ class HomeController extends AbstractController
     #[Route("/actu", name: "app_home_actu", methods: ['GET','POST'])]
     public function getActu(Request $request) : JsonResponse
     {
+
+
         return $this->json([]);
     }
 

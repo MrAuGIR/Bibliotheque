@@ -1,0 +1,61 @@
+
+// formulaire de recherche
+.form-search{
+    display: flex;
+    flex-direction: row;
+    width: 500px;
+    margin: 0 auto;
+
+    .input-search{
+        display: flex;
+        width: 66.66%;
+        height: 40px;
+        border-radius: 0px;
+        padding-left: 5px;
+        border: 1px solid grey;
+    }
+
+    .select-search{
+        display: flex;
+        width: 33.33%;
+        height: 40px;
+        border-radius: 0px;
+        border: 1px solid grey;
+    }
+
+    .check-search{
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-around;
+        align-items: center;
+
+        input[type=checkbox]{
+            border-radius: 8px;
+            border-color: grey;
+        }
+
+    }
+
+}
+
+//formulaire dans la nav
+.js-nav{
+    position: relative;
+}
+.js-result-none{
+    display: none;
+}
+.js-result-display{
+    display: flex;
+    position: absolute;
+    width: 400px;
+    margin: 0 auto;
+    top: 80px;
+    left: 0;
+    background-color: beige;
+    z-index: 10;
+    color: $b-card-bg;
+
+
+}
