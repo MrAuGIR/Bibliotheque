@@ -9,9 +9,12 @@ window.onload = () =>{
 
 const fetchActu = async () => {
     const res = await fetch('/actu', {
-        method: "GET",
+        method: "POST",
         headers: {
             "Content-Type": "application/json"
+        },
+        body: {
+            "query": "literary"
         }
     })
     if (res.ok) {
