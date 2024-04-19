@@ -1,20 +1,21 @@
 window.onload = () =>{
-    // On lance la requête ajax
-    fetch('/actu', {
+    (async () => {
+
+        let data = await fetchActu();
+        const element = document.querySelector("#content");
+        element.innerHTML = data.content;
+    })()
+}
+
+const fetchActu = async () => {
+    const res = await fetch('/actu', {
         method: "GET",
         headers: {
-            "X-Requested-With": "XMLHttpRequest",
             "Content-Type": "application/json"
         }
-    }).then(response =>
-        response.json()
-    ).then(data => {
-        // On va chercher la zone de contenu
-        const content = document.querySelector("#content");
-
-        // On remplace le contenu
-        content.innerHTML = data.content;
-
-    }).catch();
-
+    })
+    if (res.ok) {
+        return await res.json();
+    }
+    return {content: ''};
 }
