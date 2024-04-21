@@ -16,6 +16,7 @@ use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
+#[Route("/book", name: "book_")]
 class BookController extends AbstractController
 {
     public function __construct(
@@ -31,7 +32,7 @@ class BookController extends AbstractController
      * @throws DecodingExceptionInterface
      * @throws ClientExceptionInterface
      */
-    #[Route('/book/{id}/show', name: 'show_book', methods: [Request::METHOD_GET])]
+    #[Route('/{id}/show', name: 'show', methods: [Request::METHOD_GET])]
     public function show(int $id,Request $request, EntityManagerInterface $em): Response
     {
         $data = $this->googleBook->get($id);
@@ -46,6 +47,15 @@ class BookController extends AbstractController
         return $this->render('book/show.html.twig', [
             'book' => $data,
             'booksRelated' => $relatedBooks
+        ]);
+    }
+
+    #[Route('/search', name: "search", methods: [Request::METHOD_GET, Request::METHOD_POST])]
+    public function search(): Response
+    {
+
+        return $this->render('book/search.html.twig',[
+
         ]);
     }
 }

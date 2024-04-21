@@ -12,12 +12,15 @@ let navSearch = () => {
             if(input.value.length > 2){
 
                 // On lance la requête ajax
-                fetch('/search?q='+input.value, {
-                    method: "GET",
+                fetch('/search', {
+                    method: "POST",
                     headers: {
                         "X-Requested-With": "XMLHttpRequest",
                         "Content-Type": "application/json"
-                    }
+                    },
+                    body: JSON.stringify({
+                        q: input.value
+                    })
                 }).then(response =>
                     response.json()
                 ).then(data => {
