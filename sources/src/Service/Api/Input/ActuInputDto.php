@@ -6,7 +6,7 @@ class ActuInputDto {
     const PATTERN_QUERY = "?q=%s&from=%s&sortBy=%s&apiKey=%s";
     public function __construct(
         public string $query,
-        public string $from,
+        public ?string $from,
         public string $sortBy = 'literature',
     )
     {
@@ -21,9 +21,14 @@ class ActuInputDto {
         return sprintf(
             self::PATTERN_QUERY,
             $this->query,
-            $this->from,
+            $this->from ?? $this->getDateFormat(),
             $this->sortBy,
             $apiKey
         );
+    }
+
+    private function getDateFormat(): string
+    {
+        return (new \DateTime())->modify('-1 day')->format('Y-m-d');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\Api\Actu;
 use App\Service\Api\GoogleBook;
 use App\Service\Api\Input\ActuInputDto;
 use App\Service\Api\Input\SearchInputDto;
@@ -21,7 +22,8 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 class HomeController extends AbstractController
 {
     public function __construct(
-        private readonly GoogleBook $googleBook
+        private readonly GoogleBook $googleBook,
+        private readonly Actu $actu
     )
     {
     }
@@ -35,14 +37,23 @@ class HomeController extends AbstractController
         ]);
     }
 
+    /**
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     */
     #[Route("/actu", name: "app_home_actu", methods: ['POST'])]
     public function getActu(
         #[MapRequestPayload] ActuInputDto $actuInputDto
-    ) : JsonResponse
+    ) : Response
     {
+        $articles = $this->actu->list($actuInputDto);
 
-
-        return $this->json([]);
+        return $this->render("home/_actu.html.twig",[
+            'articles' => $articles["articles"]
+        ]);
     }
 
     /**

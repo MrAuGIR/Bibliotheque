@@ -2,8 +2,9 @@ window.onload = () =>{
     (async () => {
 
         let data = await fetchActu();
+
         const element = document.querySelector("#content");
-        element.innerHTML = data.content;
+        element.innerHTML = data;
     })()
 }
 
@@ -13,12 +14,12 @@ const fetchActu = async () => {
         headers: {
             "Content-Type": "application/json"
         },
-        body: {
-            "query": "literary"
-        }
+        body: JSON.stringify({
+            query: "literary"
+        })
     })
     if (res.ok) {
-        return await res.json();
+        return await res.text();
     }
-    return {content: ''};
+    return "";
 }
