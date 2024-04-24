@@ -44,11 +44,11 @@ readonly class GoogleBook
      * @throws DecodingExceptionInterface
      * @throws ClientExceptionInterface
      */
-    public function get(int $id): array
+    public function get(string $id): array
     {
         $response = $this->httpClient->request(
             Request::METHOD_GET,
-            $this->apiUrl.'/'.$id.'apiKey='.$this->apiKey
+            $this->apiUrl.'/'.$id.'?apiKey='.$this->apiKey
         );
 
         return $response->toArray();
