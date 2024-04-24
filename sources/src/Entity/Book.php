@@ -46,11 +46,15 @@ class Book
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $apiId = null;
 
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'book')]
+    private Collection $comments;
+
     public function __construct()
     {
         $this->writers = new ArrayCollection();
         $this->biblios = new ArrayCollection();
         $this->notices = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -222,6 +226,36 @@ class Book
     public function setApiId(?string $apiId): static
     {
         $this->apiId = $apiId;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getBook() === $this) {
+                $comment->setBook(null);
+            }
+        }
 
         return $this;
     }
