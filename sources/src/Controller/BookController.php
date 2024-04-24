@@ -33,7 +33,7 @@ class BookController extends AbstractController
      * @throws ClientExceptionInterface
      */
     #[Route('/{id}/show', name: 'show', methods: [Request::METHOD_GET])]
-    public function show(int $id,Request $request, EntityManagerInterface $em): Response
+    public function show(string $id,Request $request, EntityManagerInterface $em): Response
     {
         $data = $this->googleBook->get($id);
 
