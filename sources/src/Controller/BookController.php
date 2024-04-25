@@ -35,18 +35,17 @@ class BookController extends AbstractController
     #[Route('/{id}/show', name: 'show', methods: [Request::METHOD_GET])]
     public function show(string $id,Request $request, EntityManagerInterface $em): Response
     {
-        $data = $this->googleBook->get($id);
+        $apiBook = $this->googleBook->get($id);
 
         $book = $em->getRepository(Book::class)->findOneBy(['apiId' => $id]);
 
-        $author = "jojo"; // test
-        /** @todo related book author */
-        $dto = new SearchInputDto('+inauthor:'.$author,9);
+        $dto = new SearchInputDto('+inauthor:'.$apiBook->getVolumeInfo()->getAuthors()[0],9);
         $relatedBooks = $this->googleBook->list($dto);
 
         return $this->render('book/show.html.twig', [
-            'book' => $data,
-            'booksRelated' => $relatedBooks
+            'book' => $apiBook,
+            'booksRelated' => $relatedBooks,
+            'comments' => $book?->getComments() ?? []
         ]);
     }
 
