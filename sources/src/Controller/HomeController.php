@@ -60,7 +60,6 @@ class HomeController extends AbstractController
      * @throws TransportExceptionInterface
      * @throws ServerExceptionInterface
      * @throws RedirectionExceptionInterface
-     * @throws DecodingExceptionInterface
      * @throws ClientExceptionInterface
      */
     #[Route("/search", name: "app_home_seach", methods: ['GET','POST'])]
@@ -69,10 +68,10 @@ class HomeController extends AbstractController
     ) : JsonResponse
     {
         $writers = [];
-        $data = $this->googleBook->list($searchInputDto);
+        $collection = $this->googleBook->list($searchInputDto);
 
         return (new SearchJsonOutput($this->renderView('home/_results.html.twig', [
-            'books' => array_slice($data['items'],0,8),
+            'books' => array_slice($collection->getItems(),0,8),
             'writers' => $writers
         ])))->getOutput();
     }
