@@ -3,8 +3,10 @@
 namespace App\Service\Api;
 
 use App\Service\Api\Input\SearchInputDto;
+use App\Service\Api\Model\ApiBook;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -18,6 +20,7 @@ readonly class GoogleBook
         #[Autowire(param: 'API_BOOK')]  private string     $apiKey,
         #[Autowire(param: 'API_BOOK_URL')]  private string $apiUrl,
         private HttpClientInterface                        $httpClient,
+        private SerializerInterface $serializer,
     ){}
 
     /**
@@ -41,16 +44,14 @@ readonly class GoogleBook
      * @throws TransportExceptionInterface
      * @throws ServerExceptionInterface
      * @throws RedirectionExceptionInterface
-     * @throws DecodingExceptionInterface
      * @throws ClientExceptionInterface
      */
-    public function get(string $id): array
+    public function get(string $id): ApiBook
     {
         $response = $this->httpClient->request(
             Request::METHOD_GET,
             $this->apiUrl.'/'.$id.'?apiKey='.$this->apiKey
         );
-
-        return $response->toArray();
+        return $this->serializer->deserialize($response->getContent(), ApiBook::class, 'json');
     }
 }
