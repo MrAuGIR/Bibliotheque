@@ -6,7 +6,7 @@ class VolumeInfo
 {
     protected string $title;
 
-    protected string $subTitle;
+    protected string $subtitle = '';
 
     protected array $authors;
 
@@ -38,14 +38,14 @@ class VolumeInfo
         $this->title = $title;
     }
 
-    public function getSubTitle(): string
+    public function getSubtitle(): string
     {
-        return $this->subTitle;
+        return $this->subtitle;
     }
 
-    public function setSubTitle(string $subTitle): void
+    public function setSubtitle(string $subtitle): void
     {
-        $this->subTitle = $subTitle;
+        $this->subtitle = $subtitle;
     }
 
     public function getAuthors(): array
