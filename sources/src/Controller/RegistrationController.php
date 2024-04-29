@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Biblio;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
@@ -27,6 +28,11 @@ class RegistrationController extends AbstractController
             $hashedPassword = $passwordHasher->hashPassword($user,$form->get('password')->getData());
             $user->setPassword($hashedPassword);
             $user->setRoles(['ROLE_USER']);
+            $user->setBiblio(
+                (new Biblio())
+                    ->setTitle("My Biblio")
+                    ->setUser($user)
+            );
 
             $entityManager->persist($user);
             $entityManager->flush();

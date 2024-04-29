@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BiblioRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Biblio
 {
     #[ORM\Id]
@@ -55,10 +56,10 @@ class Biblio
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    #[ORM\PrePersist]
+    public function setCreatedAt(): static
     {
-        $this->createdAt = $createdAt;
-
+        $this->createdAt = new \DateTimeImmutable();
         return $this;
     }
 
