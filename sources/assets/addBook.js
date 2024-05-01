@@ -52,37 +52,25 @@ function addRemoveApiBook(){
     }
 }
 
-function removeBookFromBiblio(){
+function addBookToBiblio (){
     //on selection les liens des livres créé par l'utilisateur
     let links = document.querySelectorAll("[user-link]");
 
     for( link of links){
-        link.addEventListener('click', function(e){
+        link.addEventListener('click', async function(e){
 
             e.preventDefault()
             const divResult = document.getElementById('query-result');
             const p = divResult.querySelector('p');
 
-
+            let idBook = this.getAttribute('book-id');
+            let result = await fetchAddBook(idBook);
             // On lance la requête ajax
-            fetch(this.getAttribute("href"), {
-                method: "GET",
-                headers: {
-                    "X-Requested-With": "XMLHttpRequest",
-                    "Content-Type": "application/json"
-                }
-            }).then(response =>
-                response.json()
-            ).then(data => {
 
-                if(data.status == 200){
+            this.parentElement.parentElement.parentElement.remove();
 
-                    this.parentElement.parentElement.parentElement.remove();
-
-                    divResult.classList.add('alert-success');
-                    p.textContent = data.message;
-                }
-            }).catch(e => alert(e));
+            divResult.classList.add('alert-success');
+            p.textContent = result.message;
         });
     }
 }
@@ -91,8 +79,17 @@ function removeBookFromBiblio(){
 const fetchAddBook = async (idBook) => {
 
     const res = await fetch("/book/add",{
-        method: "POST"
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({id:idBook})
     })
+
+    if (res.ok) {
+        return await res.json();
+    }
+    return undefined;
 }
 
 
