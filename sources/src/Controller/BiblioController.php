@@ -5,14 +5,13 @@ namespace App\Controller;
 use App\Entity\Book;
 use App\Form\BookType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 class BiblioController extends AbstractController
 {
-    #[Route('/biblio', name: 'index_biblio')]
+    #[Route('/biblio', name: 'index_biblio', methods: [Request::METHOD_GET])]
     public function index(): Response
     {
         $user = $this->getUser();
@@ -23,7 +22,7 @@ class BiblioController extends AbstractController
         return $this->render('biblio/index.html.twig', compact('biblio', 'books'));
     }
 
-    #[Route("/biblio/add", name: 'add_book_biblio', methods: ['POST'])]
+    #[Route("/biblio/create", name: 'create_book_biblio', methods: [Request::METHOD_GET, Request::METHOD_POST])]
     public function add(Request $request): Response
     {
         $book = new Book();

@@ -7,6 +7,7 @@ use App\Service\Api\GoogleBook;
 use App\Service\Api\Input\SearchInputDto;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -29,7 +30,6 @@ class BookController extends AbstractController
      * @throws TransportExceptionInterface
      * @throws ServerExceptionInterface
      * @throws RedirectionExceptionInterface
-     * @throws DecodingExceptionInterface
      * @throws ClientExceptionInterface
      */
     #[Route('/{id}/show', name: 'show', methods: [Request::METHOD_GET])]
@@ -56,5 +56,19 @@ class BookController extends AbstractController
         return $this->render('book/search.html.twig',[
 
         ]);
+    }
+
+    #[Route("/add", name: "add_to_biblio", methods: [Request::METHOD_POST])]
+    public function addBook(Request $request): JsonResponse
+    {
+
+        return $this->json([]);
+    }
+
+    #[Route("/{id}", name: "remove_to_biblio", methods: [Request::METHOD_DELETE])]
+    public function removeBook(Request $request): JsonResponse
+    {
+
+        return $this->json([]);
     }
 }

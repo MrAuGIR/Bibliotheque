@@ -31,19 +31,11 @@
             </a>
 
             {% if app.user %}
-                {% if app.user.isAddbyUser(book.id) %}
-                    <a js-link class="btn button-primary remove-book" href="{{path('add_apibook_biblio',{id: book.id})}}">
-
-                        <i class="icon-button fas fa-minus-square fa-2x"></i>
-                        <span class="js-status text-button">Supprimer de ma Biblio</span>
-                    </a>
+                {% if app.user.biblio|isInUserBiblio(book.id) %}
+                    {% include "book/action/_remove_book.html.twig" with {id: book.id} %}
                 {% else %}
-                    <a js-link class="btn button-primary add-book" href="{{path('add_apibook_biblio',{id: book.id})}}">
-                        <i class="icon-button fas fa-plus-square fa-2x"></i>
-                        <span class="js-status text-button">Ajouter à ma biblio</span>
-                    </a>
+                    {% include "book/action/_add_book.html.twig" with {id: book.id} %}
                 {% endif %}
-
             {% else %}
                 <span class="small-text">Connecter vous<br>pour ajouter un livre</span>
             {% endif %}

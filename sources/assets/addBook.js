@@ -88,7 +88,12 @@ function removeBookFromBiblio(){
 }
 
 
+const fetchAddBook = async (idBook) => {
 
+    const res = await fetch("/book/add",{
+        method: "POST"
+    })
+}
 
 
 

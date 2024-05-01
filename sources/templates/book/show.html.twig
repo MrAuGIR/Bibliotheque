@@ -34,12 +34,12 @@
                     <div class="col-12 mt-1 mb-3">
                         {% if app.user %}
                             {% set isUserBook = (book.volumeInfo is defined)? false : true %}
-                            {% if app.user.isAddbyUser(book.id, isUserBook) %}
-                                <a js-link class="btn button-primary remove-book" href="{{path('add_apibook_biblio',{id: book.id})}}">
+                            {% if app.user.biblio|isInUserBiblio(book.id) %}
+                                <a js-link class="btn button-primary remove-book" href="{{path('book_remove_to_biblio',{id: book.id})}}">
                                     <span class="js-status">Supprimer de ma Biblio</span>
                                 </a>
                             {% else %}
-                                <a js-link class="btn button-primary add-book" href="{{path('add_apibook_biblio',{id: book.id})}}">
+                                <a js-link class="btn button-primary add-book" href="{{path('book_add_to_biblio',{id: book.id})}}">
                                     <span class="js-status">Ajouter à ma biblio</span>
                                 </a>
                             {% endif %}
@@ -121,7 +121,7 @@
             </div>
         </div>
         <div class="row my-4">
-            {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.isAddbyUser(book.id) %}
+            {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.biblio|isInUserBiblio(book.id) %}
             <div class="col-12 py-2">
                 Commentez <i class="far fa-comment"></i>
             </div>
