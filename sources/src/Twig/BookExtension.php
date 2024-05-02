@@ -3,6 +3,7 @@
 namespace App\Twig;
 
 use App\Entity\Biblio;
+use App\Entity\Book;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
@@ -11,7 +12,8 @@ class BookExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('isInUserBiblio',[$this, 'isInUserBiblio'])
+            new TwigFilter('isInUserBiblio',[$this, 'isInUserBiblio']),
+            new TwigFilter('isApiBook',[$this, 'isApiBook']),
         ];
     }
 
@@ -23,5 +25,10 @@ class BookExtension extends AbstractExtension
             }
         }
         return false;
+    }
+
+    public function isApiBook(Book $book): bool
+    {
+        return $book->getApiId() !== null;
     }
 }

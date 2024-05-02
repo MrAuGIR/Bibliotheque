@@ -45,24 +45,18 @@
                                 </div>
                                 <div class="card-bottom">
 
-                                    {% if book.isApiBook %}
-                                        <a id="showBook" class="btn button-primary show-book" href="{{path('show_book',{id: book.apiId})}}">
+                                    {% if book|isApiBook %}
+                                        <a id="showBook" class="btn button-primary show-book" href="{{path('book_show',{id: book.apiId})}}">
                                             <i class="icon-button fas fa-info fa-2x"></i>
                                             <span class="text-button">Détaille</span>
                                         </a>
-                                        {% if app.user.isAddbyUser(book.apiId) %}
-                                            <a js-link class="btn button-primary remove-book" href="{{path('add_apibook_biblio',{id: book.id})}}">
-                                                <i class="icon-button fas fa-minus-square fa-2x"></i>
-                                                <span class="js-status text-button">Retirer de ma Biblio</span>
-                                            </a>
+                                        {% if app.user.biblio|isInUserBiblio(book.id) %}
+                                            {% include "book/action/_remove_book.html.twig" with {id: book.id} %}
                                         {% else %}
-                                            <a js-link class="btn button-primary add-book" href="{{path('add_apibook_biblio',{id: book.id})}}">
-                                                <i class="icon-button fas fa-plus-square fa-2x"></i>
-                                                <span class="js-status text-button">Ajouter à ma biblio</span>
-                                            </a>
+                                            {% include "book/action/_add_book.html.twig" with {id: book.id} %}
                                         {% endif %}
                                     {% else %}
-                                        <a id="showBook" class="btn button-primary show-book" href="{{path('show_book',{id: book.id})}}">
+                                        <a id="showBook" class="btn button-primary show-book" href="{{path('book_show',{id: book.id})}}">
                                             <i class="icon-button fas fa-info fa-2x"></i>
                                             <span class="text-button">Détaille</span>
                                         </a>

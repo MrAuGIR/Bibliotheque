@@ -26,7 +26,7 @@ class Biblio
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\ManyToMany(targetEntity: Book::class, inversedBy: 'biblios')]
+    #[ORM\ManyToMany(targetEntity: Book::class, inversedBy: 'biblios',cascade: ['persist'])]
     private Collection $books;
 
     public function __construct()

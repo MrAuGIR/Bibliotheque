@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Biblio;
 use App\Entity\Book;
+use App\Entity\User;
 use App\Service\Api\GoogleBook;
 use App\Service\Api\Input\FecthInputDto;
 use App\Service\Api\Input\SearchInputDto;
@@ -71,7 +73,11 @@ class BookController extends AbstractController
 
         $book = $loader->load($apiBook);
 
-        $entityManager->persist($book);
+        $biblio = $this->loadUserBiblio();
+
+        $biblio->addBook($book);
+
+        $entityManager->persist($biblio);
         $entityManager->flush();
 
         return $this->json($book);
@@ -82,5 +88,12 @@ class BookController extends AbstractController
     {
 
         return $this->json([]);
+    }
+
+    private function loadUserBiblio(): Biblio
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        return $user->getBiblio();
     }
 }
