@@ -6,6 +6,7 @@ use App\Entity\Book;
 use App\Service\Api\GoogleBook;
 use App\Service\Api\Input\FecthInputDto;
 use App\Service\Api\Input\SearchInputDto;
+use App\Service\Book\Loader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -61,12 +62,19 @@ class BookController extends AbstractController
 
     #[Route("/add", name: "add_to_biblio", methods: [Request::METHOD_POST])]
     public function addBook(
-        #[MapRequestPayload] FecthInputDto $fecthInputDto
+        #[MapRequestPayload] FecthInputDto $fecthInputDto,
+        Loader $loader,
+        EntityManagerInterface $entityManager
     ): JsonResponse
     {
         $apiBook = $this->googleBook->get($fecthInputDto->getId());
 
-        return $this->json([]);
+        $book = $loader->load($apiBook);
+
+        $entityManager->persist($book);
+        $entityManager->flush();
+
+        return $this->json($book);
     }
 
     #[Route("/{id}", name: "remove_to_biblio", methods: [Request::METHOD_DELETE])]

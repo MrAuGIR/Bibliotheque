@@ -37,7 +37,7 @@ class Book
     #[ORM\ManyToMany(targetEntity: Biblio::class, mappedBy: 'books')]
     private Collection $biblios;
 
-    #[ORM\ManyToOne(inversedBy: 'books')]
+    #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'books')]
     private ?PublishingHouse $publishingHouse = null;
 
     #[ORM\OneToMany(targetEntity: Notice::class, mappedBy: 'book', orphanRemoval: true)]
