@@ -35,15 +35,10 @@
                         {% if app.user %}
                             {% set isUserBook = (book.volumeInfo is defined)? false : true %}
                             {% if app.user.biblio|isInUserBiblio(book.id) %}
-                                <a js-link class="btn button-primary remove-book" href="{{path('book_remove_to_biblio',{id: book.id})}}">
-                                    <span class="js-status">Supprimer de ma Biblio</span>
-                                </a>
+                                {% include "book/action/_remove_book.html.twig" with {id: book.id} %}
                             {% else %}
-                                <a js-link class="btn button-primary add-book" href="{{path('book_add_to_biblio',{id: book.id})}}">
-                                    <span class="js-status">Ajouter à ma biblio</span>
-                                </a>
+                                {% include "book/action/_add_book.html.twig" with {id: book.id} %}
                             {% endif %}
-
                         {% else %}
                             <span class="small-text">Connecter vous<br>pour ajouter un livre</span>
                         {% endif %}
@@ -167,8 +162,4 @@
 {% block js %}
     {{parent()}}
     {{encore_entry_script_tags('addBook')}}
-    <script>
-        addRemoveApiBook();
-
-    </script>
 {% endblock %}

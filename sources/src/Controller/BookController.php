@@ -4,15 +4,16 @@ namespace App\Controller;
 
 use App\Entity\Book;
 use App\Service\Api\GoogleBook;
+use App\Service\Api\Input\FecthInputDto;
 use App\Service\Api\Input\SearchInputDto;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
@@ -59,8 +60,11 @@ class BookController extends AbstractController
     }
 
     #[Route("/add", name: "add_to_biblio", methods: [Request::METHOD_POST])]
-    public function addBook(Request $request): JsonResponse
+    public function addBook(
+        #[MapRequestPayload] FecthInputDto $fecthInputDto
+    ): JsonResponse
     {
+        $apiBook = $this->googleBook->get($fecthInputDto->getId());
 
         return $this->json([]);
     }
