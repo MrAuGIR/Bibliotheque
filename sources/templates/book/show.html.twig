@@ -34,16 +34,11 @@
                     <div class="col-12 mt-1 mb-3">
                         {% if app.user %}
                             {% set isUserBook = (book.volumeInfo is defined)? false : true %}
-                            {% if app.user.isAddbyUser(book.id, isUserBook) %}
-                                <a js-link class="btn button-primary remove-book" href="{{path('add_apibook_biblio',{id: book.id})}}">
-                                    <span class="js-status">Supprimer de ma Biblio</span>
-                                </a>
+                            {% if app.user.biblio|isInUserBiblio(book.id) %}
+                                {% include "book/action/_remove_book.html.twig" with {id: book.id} %}
                             {% else %}
-                                <a js-link class="btn button-primary add-book" href="{{path('add_apibook_biblio',{id: book.id})}}">
-                                    <span class="js-status">Ajouter à ma biblio</span>
-                                </a>
+                                {% include "book/action/_add_book.html.twig" with {id: book.id} %}
                             {% endif %}
-
                         {% else %}
                             <span class="small-text">Connecter vous<br>pour ajouter un livre</span>
                         {% endif %}
@@ -121,7 +116,7 @@
             </div>
         </div>
         <div class="row my-4">
-            {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.isAddbyUser(book.id) %}
+            {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.biblio|isInUserBiblio(book.id) %}
             <div class="col-12 py-2">
                 Commentez <i class="far fa-comment"></i>
             </div>
@@ -143,18 +138,18 @@
             {% endif %}
         </div>
         <div class="col-12">
-            {% if listCommentaires is defined %}
-                {% for comment in listCommentaires %}
+            {% if comments is defined %}
+                {% for comment in comments %}
                     <div class="card my-2">
                         <div class="card-body">
-                            <h5 class="card-title">{{comment.author.lastname}}</h5>
+                            <h5 class="card-title">{{comment.author.email}}</h5>
                             <p class="card-text">{{comment.content | raw }}</p>
                             <em>{{comment.createdAt | date('Y-m-d H:i' )}}</em>
                         </div>
                         {% if app.user == comment.author %}
                             <div class="card-footer">
-                                <a class="btn button-primary" href="{{path('delete_comment', {id: comment.id})}}" title="supprimer">supprimer</a>
-                                <a class="btn button-primary" href="{{path('update_comment', {id: comment.id})}}" title="editer">Editer</a>
+                                <a class="btn button-primary" href="{{path('comment_delete', {id: comment.id})}}" title="supprimer">supprimer</a>
+                                <a class="btn button-primary" href="{{path('comment_update', {id: comment.id})}}" title="editer">Editer</a>
                             </div>
                         {% endif %}
                     </div>
@@ -167,8 +162,4 @@
 {% block js %}
     {{parent()}}
     {{encore_entry_script_tags('addBook')}}
-    <script>
-        addRemoveApiBook();
-
-    </script>
 {% endblock %}

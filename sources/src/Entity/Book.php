@@ -37,7 +37,7 @@ class Book
     #[ORM\ManyToMany(targetEntity: Biblio::class, mappedBy: 'books')]
     private Collection $biblios;
 
-    #[ORM\ManyToOne(inversedBy: 'books')]
+    #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'books')]
     private ?PublishingHouse $publishingHouse = null;
 
     #[ORM\OneToMany(targetEntity: Notice::class, mappedBy: 'book', orphanRemoval: true)]
@@ -48,6 +48,9 @@ class Book
 
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'book')]
     private Collection $comments;
+
+    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    private ?array $thumbnails = null;
 
     public function __construct()
     {
@@ -256,6 +259,18 @@ class Book
                 $comment->setBook(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getThumbnails(): ?array
+    {
+        return $this->thumbnails;
+    }
+
+    public function setThumbnails(?array $thumbnails): static
+    {
+        $this->thumbnails = $thumbnails;
 
         return $this;
     }

@@ -1,0 +1,32 @@
+<div id="card-{{ book.id }}" class="card my-2 mx-2">
+    <div class="card-header">
+        <div class="picture">
+            {% if book.thumbnails is not empty %}
+                {% if book.thumbnails.small is defined %}
+                    <img src="{{book.thumbnails.small}}" class="card-img" alt="image">
+                {% else %}
+                    <img src="{{asset('images/covers/default.jpg')}}" class="card-img" alt="image">
+                {% endif %}
+            {% else %}
+                <img src="{{asset('images/covers/default.jpg')}}" class="card-img" alt="image">
+            {% endif %}
+        </div>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">{{book.title}}</h5>
+    </div>
+    <div class="card-bottom">
+
+        {% if book|isApiBook %}
+            <a id="showBook" class="btn button-primary show-book" href="{{path('book_show',{id: book.apiId})}}">
+                <i class="icon-button fas fa-info fa-2x"></i>
+                <span class="text-button">Détaille</span>
+            </a>
+            {% if isInBiblio is same as(true) %}
+                {% include "book/action/_remove_book.html.twig" with {id: book.id} %}
+            {% else %}
+                {% include "book/action/_add_book.html.twig" with {id: book.id} %}
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
