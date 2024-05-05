@@ -26,59 +26,16 @@
                     </div>
                     {% for book in books %}
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3 px-0 py-0">
-                            <div class="card my-2 mx-2">
-                                <div class="card-header">
-                                    <div class="picture">
-                                        {% if book.cover is defined %}
-                                            {% if book.isApiBook %}
-                                                <img src="{{book.cover.pathFile}}" class="card-img" alt="image">
-                                            {% else %}
-                                                <img src="{{asset('covers/'~ book.cover.fileName)}}" class="card-img" alt="image">
-                                            {% endif %}
-                                        {% else %}
-                                            <img src="{{asset('images/covers/default.jpg')}}" class="card-img" alt="image">
-                                        {% endif %}
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">{{book.title}}</h5>
-                                </div>
-                                <div class="card-bottom">
-
-                                    {% if book.isApiBook %}
-                                        <a id="showBook" class="btn button-primary show-book" href="{{path('show_book',{id: book.apiId})}}">
-                                            <i class="icon-button fas fa-info fa-2x"></i>
-                                            <span class="text-button">Détaille</span>
-                                        </a>
-                                        {% if app.user.isAddbyUser(book.apiId) %}
-                                            <a js-link class="btn button-primary remove-book" href="{{path('add_apibook_biblio',{id: book.id})}}">
-                                                <i class="icon-button fas fa-minus-square fa-2x"></i>
-                                                <span class="js-status text-button">Retirer de ma Biblio</span>
-                                            </a>
-                                        {% else %}
-                                            <a js-link class="btn button-primary add-book" href="{{path('add_apibook_biblio',{id: book.id})}}">
-                                                <i class="icon-button fas fa-plus-square fa-2x"></i>
-                                                <span class="js-status text-button">Ajouter à ma biblio</span>
-                                            </a>
-                                        {% endif %}
-                                    {% else %}
-                                        <a id="showBook" class="btn button-primary show-book" href="{{path('show_book',{id: book.id})}}">
-                                            <i class="icon-button fas fa-info fa-2x"></i>
-                                            <span class="text-button">Détaille</span>
-                                        </a>
-                                        <a user-link class="btn button-primary remove-book" href="{{path('remove_book_biblio',{id: book.id})}}">
-
-                                            <i class="icon-button fas fa-minus-square fa-2x"></i>
-                                            <span class="js-status text-button">Retirer de ma Biblio</span>
-                                        </a>
-
-                                    {% endif %}
-                                </div>
-                            </div>
+                            {% include 'book/card/entity.html.twig' with {book: book, isInBiblio: true} %}
                         </div>
                     {% endfor %}
                 </div>
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block js %}
+    {{parent()}}
+    {{encore_entry_script_tags('addBook')}}
 {% endblock %}

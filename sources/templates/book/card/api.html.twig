@@ -1,0 +1,42 @@
+<div class="card my-2 mx-2">
+    <div class="card-header">
+        <div class="picture">
+            {% if book.volumeInfo.imageLinks is defined %}
+
+                {% if book.volumeInfo.imageLinks.thumbnail is defined %}
+                    <img src="{{book.volumeInfo.imageLinks.thumbnail}}" class="card-img" alt="image">
+                {% elseif book.volumeInfo.imageLinks.smallThumbnail is defined %}
+                    <img src="{{book.volumeInfo.imageLinks.smallThumbnail}}" class="card-img" alt="image">
+                {% endif %}
+
+            {% else %}
+                <img src="{{asset('images/covers/default.jpg')}}" class="card-img" alt="image">
+            {% endif %}
+        </div>
+    </div>
+    <div class="card-body">
+
+        <h5 class="card-title">{{book.volumeInfo.title}}</h5>
+        {% if book.volumeInfo.subtitle is defined %}
+            {% set subtitle = book.volumeInfo.subtitle is not empty ? book.volumeInfo.subtitle : ' ' %}
+            <p class="card-text">{{subtitle | slice(0, 50) }}</p>
+        {% endif %}
+
+    </div>
+    <div class="card-bottom">
+        <a id="showBook" class="btn button-primary show-book" data-link="{{book.selfLink}}" href="{{path('book_show',{id: book.id})}}">
+            <i class="icon-button fas fa-info fa-2x"></i>
+            <span class="text-button">Détaille</span>
+        </a>
+
+        {% if app.user %}
+            {% if app.user.biblio|isInUserBiblio(book.id) %}
+                {% include "book/action/_remove_book.html.twig" with {id: book.id} %}
+            {% else %}
+                {% include "book/action/_add_book.html.twig" with {id: book.id} %}
+            {% endif %}
+        {% else %}
+            <span class="small-text">Connecter vous<br>pour ajouter un livre</span>
+        {% endif %}
+    </div>
+</div>

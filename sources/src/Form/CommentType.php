@@ -7,6 +7,7 @@ use App\Entity\Comment;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,21 +17,8 @@ class CommentType extends AbstractType
     {
         $builder
             ->add('content')
-            ->add('createdAt', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('isActive')
-            ->add('parents', EntityType::class, [
-                'class' => Comment::class,
-                'choice_label' => 'id',
-            ])
-            ->add('book', EntityType::class, [
-                'class' => Book::class,
-                'choice_label' => 'id',
-            ])
-            ->add('author', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
+            ->add('Poster',SubmitType::class,[
+                'attr' => ['class' => 'btn button-primary']
             ])
         ;
     }
