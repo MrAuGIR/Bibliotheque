@@ -49,6 +49,9 @@ class Book
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'book')]
     private Collection $comments;
 
+    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    private ?array $thumbnails = null;
+
     public function __construct()
     {
         $this->writers = new ArrayCollection();
@@ -256,6 +259,18 @@ class Book
                 $comment->setBook(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getThumbnails(): ?array
+    {
+        return $this->thumbnails;
+    }
+
+    public function setThumbnails(?array $thumbnails): static
+    {
+        $this->thumbnails = $thumbnails;
 
         return $this;
     }

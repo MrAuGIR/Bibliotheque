@@ -25,11 +25,15 @@ readonly class BookFactory
                     $apiBook->getVolumeInfo()->getPublisher()
                 )
             )
+            ->setThumbnails([
+                'small' => $apiBook->getVolumeInfo()->getImageLinks()['smallThumbnail'] ?? '',
+                'medium' => $apiBook->getVolumeInfo()->getImageLinks()['thumbnail'] ?? '',
+            ])
             ->setPublishedAt($this->createDate($apiBook->getVolumeInfo()->getPublishedDate()));
     }
 
     private function createDate(string $date): \DateTimeImmutable
     {
-        return \DateTimeImmutable::createFromFormat('Y-m-d', $date);
+        return \DateTimeImmutable::createFromFormat(\DateTimeInterface::ATOM, $date);
     }
 }
