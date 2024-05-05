@@ -138,18 +138,18 @@
             {% endif %}
         </div>
         <div class="col-12">
-            {% if listCommentaires is defined %}
-                {% for comment in listCommentaires %}
+            {% if comments is defined %}
+                {% for comment in comments %}
                     <div class="card my-2">
                         <div class="card-body">
-                            <h5 class="card-title">{{comment.author.lastname}}</h5>
+                            <h5 class="card-title">{{comment.author.email}}</h5>
                             <p class="card-text">{{comment.content | raw }}</p>
                             <em>{{comment.createdAt | date('Y-m-d H:i' )}}</em>
                         </div>
                         {% if app.user == comment.author %}
                             <div class="card-footer">
-                                <a class="btn button-primary" href="{{path('delete_comment', {id: comment.id})}}" title="supprimer">supprimer</a>
-                                <a class="btn button-primary" href="{{path('update_comment', {id: comment.id})}}" title="editer">Editer</a>
+                                <a class="btn button-primary" href="{{path('comment_delete', {id: comment.id})}}" title="supprimer">supprimer</a>
+                                <a class="btn button-primary" href="{{path('comment_update', {id: comment.id})}}" title="editer">Editer</a>
                             </div>
                         {% endif %}
                     </div>

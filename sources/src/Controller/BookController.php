@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Biblio;
 use App\Entity\Book;
+use App\Entity\Comment;
 use App\Entity\User;
+use App\Form\CommentType;
 use App\Service\Api\GoogleBook;
 use App\Service\Api\Input\FecthInputDto;
 use App\Service\Api\Input\SearchInputDto;
@@ -37,7 +39,7 @@ class BookController extends AbstractController
      * @throws RedirectionExceptionInterface
      * @throws ClientExceptionInterface
      */
-    #[Route('/{id}/show', name: 'show', methods: [Request::METHOD_GET])]
+    #[Route('/{id}/show', name: 'show', methods: [Request::METHOD_GET,Request::METHOD_POST])]
     public function show(string $id,Request $request): Response
     {
         $apiBook = $this->googleBook->get($id);
@@ -47,10 +49,27 @@ class BookController extends AbstractController
         $dto = new SearchInputDto('+inauthor:'.$apiBook->getVolumeInfo()->getAuthors()[0],9);
         $relatedBooks = $this->googleBook->list($dto);
 
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class,$comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setBook($book);
+            $comment->setIsActive(true);
+            $comment->setCreatedAt((new \DateTimeImmutable('now')));
+            $comment->setAuthor($this->getUser());
+
+            $this->entityManager->persist($comment);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('book_show',['id' => $book->getApiId()]);
+        }
+
         return $this->render('book/show.html.twig', [
             'book' => $apiBook,
             'booksRelated' => $relatedBooks,
-            'comments' => $book?->getComments() ?? []
+            'comments' => $book?->getComments() ?? [],
+            'commentForm' => $form->createView(),
         ]);
     }
 
