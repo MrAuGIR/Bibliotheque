@@ -25,7 +25,8 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 class BookController extends AbstractController
 {
     public function __construct(
-        private readonly GoogleBook $googleBook
+        private readonly GoogleBook $googleBook,
+        private readonly EntityManagerInterface $entityManager
     )
     {
     }
@@ -37,11 +38,11 @@ class BookController extends AbstractController
      * @throws ClientExceptionInterface
      */
     #[Route('/{id}/show', name: 'show', methods: [Request::METHOD_GET])]
-    public function show(string $id,Request $request, EntityManagerInterface $em): Response
+    public function show(string $id,Request $request): Response
     {
         $apiBook = $this->googleBook->get($id);
 
-        $book = $em->getRepository(Book::class)->findOneBy(['apiId' => $id]);
+        $book = $this->entityManager->getRepository(Book::class)->findOneBy(['apiId' => $id]);
 
         $dto = new SearchInputDto('+inauthor:'.$apiBook->getVolumeInfo()->getAuthors()[0],9);
         $relatedBooks = $this->googleBook->list($dto);
@@ -65,8 +66,7 @@ class BookController extends AbstractController
     #[Route("/add", name: "add_to_biblio", methods: [Request::METHOD_POST])]
     public function addBook(
         #[MapRequestPayload] FecthInputDto $fecthInputDto,
-        Loader $loader,
-        EntityManagerInterface $entityManager
+        Loader $loader
     ): JsonResponse
     {
         $apiBook = $this->googleBook->get($fecthInputDto->getId());
@@ -77,16 +77,21 @@ class BookController extends AbstractController
 
         $biblio->addBook($book);
 
-        $entityManager->persist($biblio);
-        $entityManager->flush();
+        $this->entityManager->persist($biblio);
+        $this->entityManager->flush();
 
         return $this->json($book);
     }
 
     #[Route("/{id}", name: "remove_to_biblio", methods: [Request::METHOD_DELETE])]
-    public function removeBook(Request $request): JsonResponse
+    public function removeBook(string $id,Request $request): JsonResponse
     {
-
+        if (!empty($book = $this->entityManager->getRepository(Book::class)->findOneBy(['id' => $id]))) {
+            $biblio = $this->loadUserBiblio();
+            $biblio->removeBook($book);
+            $this->entityManager->persist($biblio);
+            $this->entityManager->flush();
+        }
         return $this->json([]);
     }
 

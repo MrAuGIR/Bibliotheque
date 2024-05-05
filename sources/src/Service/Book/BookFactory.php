@@ -4,6 +4,7 @@ namespace App\Service\Book;
 
 use App\Entity\Book;
 use App\Service\Api\Model\ApiBook;
+use DateTimeImmutable;
 
 readonly class BookFactory
 {
@@ -34,6 +35,10 @@ readonly class BookFactory
 
     private function createDate(string $date): \DateTimeImmutable
     {
-        return \DateTimeImmutable::createFromFormat(\DateTimeInterface::ATOM, $date);
+        $dateTime = DateTimeImmutable::createFromFormat(\DateTimeInterface::ATOM, $date);
+        if ($dateTime === false) {
+            $dateTime = DateTimeImmutable::createFromFormat('Y-m-d', $date);
+        }
+        return $dateTime;
     }
 }

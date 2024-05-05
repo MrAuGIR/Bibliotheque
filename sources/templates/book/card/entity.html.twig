@@ -1,4 +1,4 @@
-<div class="card my-2 mx-2">
+<div id="card-{{ book.id }}" class="card my-2 mx-2">
     <div class="card-header">
         <div class="picture">
             {% if book.thumbnails is not empty %}
@@ -22,7 +22,7 @@
                 <i class="icon-button fas fa-info fa-2x"></i>
                 <span class="text-button">Détaille</span>
             </a>
-            {% if app.user.biblio|isInUserBiblio(book.id) %}
+            {% if isInBiblio is same as(true) %}
                 {% include "book/action/_remove_book.html.twig" with {id: book.id} %}
             {% else %}
                 {% include "book/action/_add_book.html.twig" with {id: book.id} %}

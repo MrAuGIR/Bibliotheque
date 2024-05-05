@@ -7,25 +7,22 @@ function removeApiBookFromBiblio(){
         link.addEventListener('click',async function(e){
             e.preventDefault();
 
-            const spanStatus = this.querySelector('span.js-status');
-            const divResult = document.getElementById('query-result');
-            const p = divResult.querySelector('p');
-
             let idBook = this.getAttribute('book-id');
 
             const data = await removeBook(idBook);
+
+            removeHtmlElement('card-'+idBook);
         });
     }
 }
 
 function addApiBookToBiblio (){
-
     let links = document.querySelectorAll("[js-link-add]");
-    console.log(links);
+
     for( let link of links){
         link.addEventListener('click', async function(e){
-
             e.preventDefault()
+
             const divResult = document.getElementById('query-result');
             const p = divResult.querySelector('p');
 
@@ -54,7 +51,7 @@ const addBook = async (apiId) => {
 
 const removeBook = async (id) => {
 
-    const res = await fetch("/"+id,{
+    const res = await fetch("/book/"+id,{
         method: "DELETE",
         headers: {
             "Content-Type": "application/json"
@@ -66,6 +63,13 @@ const removeBook = async (id) => {
         return await res.json();
     }
     return undefined;
+}
+
+const removeHtmlElement = (id) => {
+    const el = document.getElementById(id);
+    if (el !== undefined) {
+        el.innerHTML = ''
+    }
 }
 
 window.onload = () => {
