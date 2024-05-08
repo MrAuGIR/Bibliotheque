@@ -49,27 +49,12 @@ class BookController extends AbstractController
         $dto = new SearchInputDto('+inauthor:'.$apiBook->getVolumeInfo()->getAuthors()[0],9);
         $relatedBooks = $this->googleBook->list($dto);
 
-        $comment = new Comment();
-        $form = $this->createForm(CommentType::class,$comment);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $comment->setBook($book);
-            $comment->setIsActive(true);
-            $comment->setCreatedAt((new \DateTimeImmutable('now')));
-            $comment->setAuthor($this->getUser());
-
-            $this->entityManager->persist($comment);
-            $this->entityManager->flush();
-
-            return $this->redirectToRoute('book_show',['id' => $book->getApiId()]);
-        }
 
         return $this->render('book/show.html.twig', [
             'book' => $apiBook,
             'booksRelated' => $relatedBooks,
-            'comments' => $book?->getComments() ?? [],
-            'commentForm' => $form->createView(),
+            'entityId' => $book?->getId() ?? null
+
         ]);
     }
 
