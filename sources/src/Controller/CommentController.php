@@ -21,11 +21,13 @@ class CommentController extends AbstractController
     {
     }
 
-    #[Route('/book/{id}', name: 'book', methods: ['GET'])]
+    #[Route('/book/{id}', name: 'book', methods: ['GET','POST'])]
     public function list(Book $book, Request $request): Response
     {
         $comment = new Comment();
-        $form = $this->createForm(CommentType::class,$comment);
+        $form = $this->createForm(CommentType::class,$comment,[
+            'action' => $this->generateUrl('comment_book', ['id' => $book->getId()]),
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -39,7 +41,6 @@ class CommentController extends AbstractController
 
             return $this->redirectToRoute('book_show',['id' => $book->getApiId()]);
         }
-
 
         return $this->render('comment/index.html.twig', [
             'comments' => $book->getComments() ?? [],
