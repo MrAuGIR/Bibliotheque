@@ -77,19 +77,22 @@ class BookController extends AbstractController
     $this->entityManager->persist($biblio);
     $this->entityManager->flush();
 
-    return $this->json(['status' => 'book added']);
+    return $this->json(['id' => $book->getId()]);
   }
 
   #[Route("/{id}", name: "remove_to_biblio", methods: [Request::METHOD_DELETE])]
-  public function removeBook(string $id): JsonResponse
+  public function removeBook(string $id, Request $request): JsonResponse
   {
     if (!empty($book = $this->entityManager->getRepository(Book::class)->findOneBy(['id' => $id]))) {
       $biblio = $this->loadUserBiblio();
       $biblio->removeBook($book);
       $this->entityManager->persist($biblio);
       $this->entityManager->flush();
+
+      $this->addFlash('success', 'Book retirer de votre biblio');
+      return $this->json(['status' => 'success', 'api_id' => $book->getApiId()]);
     }
-    return $this->json([]);
+    return $this->json(['status' => 'failed : not book found with this id'], 500);
   }
 
   private function loadUserBiblio(): Biblio

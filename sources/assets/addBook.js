@@ -12,6 +12,30 @@ function removeApiBookFromBiblio() {
       const data = await removeBook(idBook);
 
       removeHtmlElement('card-' + idBook);
+      if (data !== undefined) {
+
+        link.removeAttribute('js-link-remove');
+        link.setAttribute('js-link-add', '');
+        link.classList.remove('remove-book');
+        link.classList.add('add-book');
+
+        if (data.api_id) {
+          link.setAttribute('book-id', data.api_id);
+        }
+
+        const iconElement = link.querySelector('i');
+        if (iconElement) {
+          iconElement.className = 'icon-button fas fa-plus fa-2x';
+        }
+
+        const textSpan = link.querySelector('span');
+        if (textSpan) {
+          textSpan.innerText = 'Ajouter a la bilbio';
+        }
+        link.replaceWith(link.cloneNode(true));
+        addApiBookToBiblio();
+        document.dispatchEvent(new Event('DOMContentLoaded'));
+      }
     });
   }
 }
@@ -24,10 +48,33 @@ function addApiBookToBiblio() {
       e.preventDefault()
 
       const divResult = document.getElementById('query-result');
-      const p = divResult.querySelector('p');
 
       let idBook = this.getAttribute('book-id');
-      await addBook(idBook);
+      let res = await addBook(idBook);
+
+      if (res !== undefined) {
+        link.removeAttribute('js-link-add');
+        link.setAttribute('js-link-remove', '');
+        link.classList.remove('add-book');
+        link.classList.add('remove-book');
+
+        if (res.id) {
+          link.setAttribute('book-id', res.id);
+        }
+
+        const iconElement = link.querySelector('i');
+        if (iconElement) {
+          iconElement.className = 'icon-button fas fa-minus-square fa-2x';
+        }
+
+        const textSpan = link.querySelector('span');
+        if (textSpan) {
+          textSpan.innerText = 'Supprimer de ma biblio';
+        }
+        link.replaceWith(link.cloneNode(true));
+        removeApiBookFromBiblio();
+        document.dispatchEvent(new Event('DOMContentLoaded'))
+      }
     });
   }
 }
@@ -66,7 +113,8 @@ const removeBook = async (id) => {
 
 const removeHtmlElement = (id) => {
   const el = document.getElementById(id);
-  if (el !== undefined) {
+  console.log(el);
+  if (el) {
     el.innerHTML = ''
   }
 }
