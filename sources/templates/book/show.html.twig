@@ -115,47 +115,9 @@
                 {% include "book/_related_book.html.twig" with {book: book} %}
             </div>
         </div>
-        <div class="row my-4">
-            {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.biblio|isInUserBiblio(book.id) %}
-            <div class="col-12 py-2">
-                Commentez <i class="far fa-comment"></i>
-            </div>
-        </div>
-        <div class="col-12">
-           {{ form(commentForm) }}
-        </div>
-        {% else %}
-            <div class="col-12">
-                <span class="info-user">Connectez-vous ou ajouter ce livre à votre biblio pour le commenter</span>
-            </div>
+        {% if entityId is defined and entityId is not null %}
+            {{ render(url('comment_book', {id: entityId})) }}
         {% endif %}
-        <div class="col-12">
-            {% set noComment = ((comments | length) == 0)? true : false %}
-            {% if noComment %}
-                <h3>Soyer le premier à donner votre avis</h3>
-            {% else %}
-                <h3>{{(comments | length)}} Commentaires</h3>
-            {% endif %}
-        </div>
-        <div class="col-12">
-            {% if comments is defined %}
-                {% for comment in comments %}
-                    <div class="card my-2">
-                        <div class="card-body">
-                            <h5 class="card-title">{{comment.author.email}}</h5>
-                            <p class="card-text">{{comment.content | raw }}</p>
-                            <em>{{comment.createdAt | date('Y-m-d H:i' )}}</em>
-                        </div>
-                        {% if app.user == comment.author %}
-                            <div class="card-footer">
-                                <a class="btn button-primary" href="{{path('comment_delete', {id: comment.id})}}" title="supprimer">supprimer</a>
-                                <a class="btn button-primary" href="{{path('comment_update', {id: comment.id})}}" title="editer">Editer</a>
-                            </div>
-                        {% endif %}
-                    </div>
-                {% endfor %}
-            {% endif %}
-        </div>
     </div>
 {% endblock %}
 

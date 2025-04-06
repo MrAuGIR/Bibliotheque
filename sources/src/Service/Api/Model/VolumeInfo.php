@@ -24,7 +24,7 @@ class VolumeInfo
 
     protected array $categories;
 
-    protected array $imageLinks;
+    protected array $imageLinks = [];
 
     protected string $language;
 
