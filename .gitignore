@@ -22,3 +22,4 @@ confApi.php
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+sources/config/secrets/dev/dev.API_BOOK_KEY.334c55.php
