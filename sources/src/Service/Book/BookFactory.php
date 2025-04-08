@@ -34,7 +34,7 @@ readonly class BookFactory
             ])
             ->setPublishedAt($this->createDate($apiBook->getVolumeInfo()->getPublishedDate()));
 
-        $this->associatedTagToBook($apiBook->getVolumeInfo()->getCategories(), $book);
+        $this->associatedTagToBook($apiBook->getBookCategories(), $book);
         return $book;
     }
 
@@ -67,4 +67,3 @@ readonly class BookFactory
         }
     }
 }
-

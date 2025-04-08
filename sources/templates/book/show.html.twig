@@ -1,123 +1,125 @@
 {% extends "base.html.twig" %} {% block title %}Livre - {{book.volumeInfo.title
 | slice(0,20)}}{% endblock %} {% block body %}
 <div class="container">
-    <div id="query-result" class="col-12 alert">
-        <p></p>
+  <div id="query-result" class="col-12 alert">
+    <p></p>
+  </div>
+  <div class="row mt-3">
+    <div class="col-12 col-md-6 py-2 book-title">
+      <h1>{{book.volumeInfo.title}}</h1>
+      {% include "book/_tags.html.twig" with {"tags": book.bookCategories} %}
+
     </div>
-    <div class="row mt-3">
-        <div class="col-12 col-md-6 py-2 book-title">
-            <h1>{{book.volumeInfo.title}}</h1>
-        </div>
-        <div class="col-12 col-md-6 py-2 book-author">
-            {% for author in book.volumeInfo.authors %}
-            <h2 class="js-author">{{author}}</h2>
-            {% endfor %}
-        </div>
+    <div class="col-12 col-md-6 py-2 book-author">
+      {% for author in book.volumeInfo.authors %}
+      <h2 class="js-author">{{author}}</h2>
+      {% endfor %}
     </div>
-    <div class="row">
-        <div class="col-12 col-md-6 col-lg-4">
-            <div class="row">
-                <div class="col-12 couverture">
-                    {% if book.volumeInfo.imageLinks is defined %} {% if
-                    book.volumeInfo.imageLinks.medium is defined %}
-                    <img src="{{book.volumeInfo.imageLinks.medium}}" alt="{{book.volumeInfo.title}}" />
-                    {% elseif book.volumeInfo.imageLinks.thumbnail is defined %}
-                    <img src="{{book.volumeInfo.imageLinks.thumbnail}}" alt="{{book.volumeInfo.title}}" />
-                    {% else %}
-                    <img src="{{book.volumeInfo.imageLinks.smallThumbnail}}" alt="{{book.volumeInfo.title}}" />
-                    {% endif %} {% else %}
-                    <img src="{{asset('images/covers/default.jpg')}}" alt="{{book.volumeInfo.title}}" />
-                    {% endif %}
-                </div>
-                <div class="col-12 mt-1 mb-3">
-                    {% if app.user %} {% set isUserBook = (book.volumeInfo is
-                    defined)? false : true %} {% if
-                    app.user.biblio|isInUserBiblio(book.id) %} {% include
-                    "book/action/_remove_book.html.twig" with {id: book.id} %}
-                    {% else %} {% include "book/action/_add_book.html.twig" with
-                    {id: book.id} %} {% endif %} {% else %}
-                    <span class="small-text">Connecter vous<br />pour ajouter un livre</span>
-                    {% endif %}
-                </div>
-            </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="row">
+        <div class="col-12 couverture">
+          {% if book.volumeInfo.imageLinks is defined %} {% if
+          book.volumeInfo.imageLinks.medium is defined %}
+          <img src="{{book.volumeInfo.imageLinks.medium}}" alt="{{book.volumeInfo.title}}" />
+          {% elseif book.volumeInfo.imageLinks.thumbnail is defined %}
+          <img src="{{book.volumeInfo.imageLinks.thumbnail}}" alt="{{book.volumeInfo.title}}" />
+          {% else %}
+          <img src="{{book.volumeInfo.imageLinks.smallThumbnail}}" alt="{{book.volumeInfo.title}}" />
+          {% endif %} {% else %}
+          <img src="{{asset('images/covers/default.jpg')}}" alt="{{book.volumeInfo.title}}" />
+          {% endif %}
         </div>
-        <div class="col-12 col-md-6 col-lg-8">
-            <div class="row">
-                <div class="col-12">
-                    <h5>Résumé</h5>
-                </div>
-                <div class="col-12 py-2 px-2">
-                    {% if book.volumeInfo.description is defined %}
-                    <div class="col-12">
-                        <p>{{book.volumeInfo.description|default('')| raw}}</p>
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="row my-2">
-                <div class="col-12 col-sm-6">
-                    <h5>Edition : {{book.volumeInfo.publisher}}</h5>
-                </div>
-                <div class="col-12">
-                    {% if book.volumeInfo.publishedDate is defined %}
-                    <h5>
-                        Date de publication : {{book.volumeInfo.publishedDate |
-                        date('d/m/Y')}}
-                    </h5>
-                    {% else %}
-                    <h5>Date de publication inconnue</h5>
-                    {% endif %}
-                </div>
-                {% if book.volumeInfo.pageCount is defined %}
-                <div class="col-12">
-                    <h5>Pages : {{book.volumeInfo.pageCount}}</h5>
-                </div>
-                {% endif %}
-            </div>
-            {% if book.volumeInfo.industryIdentifiers[1] is defined %}
-            <div class="row">
-                <div class="col-12 col-md-6">
-                    <h5>
-                        ISBN :
-                        {{book.volumeInfo.industryIdentifiers[1].identifier}}
-                    </h5>
-                </div>
-            </div>
-            {% else %}
-            <div class="row">
-                <div class="col-12 col-md-6">
-                    <h5>ISBN : Inconnu ou manquant</h5>
-                </div>
-            </div>
-            {% endif %} {% if book.volumeInfo.mainCategory is defined %}
-            <div class="row">
-                <div class="col-12 col-md-6">
-                    <h5>Catégorie : {{book.volumeInfo.mainCategory}}</h5>
-                </div>
-            </div>
-            {% endif %}
+        <div class="col-12 mt-1 mb-3">
+          {% if app.user %} {% set isUserBook = (book.volumeInfo is
+          defined)? false : true %} {% if
+          app.user.biblio|isInUserBiblio(book.id) %} {% include
+          "book/action/_remove_book.html.twig" with {id: book.id} %}
+          {% else %} {% include "book/action/_add_book.html.twig" with
+          {id: book.id} %} {% endif %} {% else %}
+          <span class="small-text">Connecter vous<br />pour ajouter un livre</span>
+          {% endif %}
         </div>
+      </div>
     </div>
-    <div class="row my-3">
-        <div class="list-rs">
-            <div class="rs">
-                <a href="#" title="facebook"><i class="fab fa-facebook-f fa-2x"></i></a>
-            </div>
-            <div class="rs">
-                <a href="#" title="twitter"><i class="fab fa-twitter fa-2x"></i></a>
-            </div>
-            <div class="rs">
-                <a href="#" title="Instagram"><i class="fab fa-instagram fa-2x"></i></a>
-            </div>
-        </div>
-    </div>
-    <div class="row my-2">
+    <div class="col-12 col-md-6 col-lg-8">
+      <div class="row">
         <div class="col-12">
-            {% include "book/_related_book.html.twig" with {book: book} %}
+          <h5>Résumé</h5>
         </div>
+        <div class="col-12 py-2 px-2">
+          {% if book.volumeInfo.description is defined %}
+          <div class="col-12">
+            <p>{{book.volumeInfo.description|default('')| raw}}</p>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      <div class="row my-2">
+        <div class="col-12 col-sm-6">
+          <h5>Edition : {{book.volumeInfo.publisher}}</h5>
+        </div>
+        <div class="col-12">
+          {% if book.volumeInfo.publishedDate is defined %}
+          <h5>
+            Date de publication : {{book.volumeInfo.publishedDate |
+            date('d/m/Y')}}
+          </h5>
+          {% else %}
+          <h5>Date de publication inconnue</h5>
+          {% endif %}
+        </div>
+        {% if book.volumeInfo.pageCount is defined %}
+        <div class="col-12">
+          <h5>Pages : {{book.volumeInfo.pageCount}}</h5>
+        </div>
+        {% endif %}
+      </div>
+      {% if book.volumeInfo.industryIdentifiers[1] is defined %}
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <h5>
+            ISBN :
+            {{book.volumeInfo.industryIdentifiers[1].identifier}}
+          </h5>
+        </div>
+      </div>
+      {% else %}
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <h5>ISBN : Inconnu ou manquant</h5>
+        </div>
+      </div>
+      {% endif %} {% if book.volumeInfo.mainCategory is defined %}
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <h5>Catégorie : {{book.volumeInfo.mainCategory}}</h5>
+        </div>
+      </div>
+      {% endif %}
     </div>
-    {% if entityId is defined and entityId is not null %} {{
-    render(url('comment_book', {id: entityId})) }} {% endif %}
+  </div>
+  <div class="row my-3">
+    <div class="list-rs">
+      <div class="rs">
+        <a href="#" title="facebook"><i class="fab fa-facebook-f fa-2x"></i></a>
+      </div>
+      <div class="rs">
+        <a href="#" title="twitter"><i class="fab fa-twitter fa-2x"></i></a>
+      </div>
+      <div class="rs">
+        <a href="#" title="Instagram"><i class="fab fa-instagram fa-2x"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="row my-2">
+    <div class="col-12">
+      {% include "book/_related_book.html.twig" with {book: book} %}
+    </div>
+  </div>
+  {% if entityId is defined and entityId is not null %} {{
+  render(url('comment_book', {id: entityId})) }} {% endif %}
 </div>
 {% endblock %} {% block js %} {{parent()}}
 {{encore_entry_script_tags('addBook')}} {{encore_entry_script_tags('comment')}}
