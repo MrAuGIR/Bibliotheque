@@ -6,14 +6,12 @@ use App\Entity\Book;
 use App\Repository\BookRepository;
 use App\Service\Api\Model\ApiBook;
 
-readonly class Loader
+readonly class BookManager
 {
     public function __construct(
         private BookRepository $bookRepository,
         private BookFactory    $factory
-    )
-    {
-    }
+    ) {}
 
     public function load(ApiBook $apiBook): Book
     {
@@ -28,3 +26,4 @@ readonly class Loader
         return $this->bookRepository->findOneBy(['apiId' => $apiId]);
     }
 }
+

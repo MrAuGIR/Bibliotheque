@@ -1,83 +1,62 @@
-**Préalablement, et après installation de Docker, il faut allouer au moins 4 à 6 Go de RAM à Docker, dans les menus de settings.**
 
-Utilisé avec le terminal ubuntu20.0 sous WSL2
+🧠 Fonctionnalités à ajouter
+📚 Pour enrichir la biblio
+Système de tags / catégories : permet de classer les livres (science-fiction, roman, développement perso, etc.)
 
-# Description de l'architecture
+Système de notation (étoiles, likes) : les utilisateurs peuvent noter les livres
 
-Elle se décrit de la manière suivante :
-Placer à la racine d'un même dossier :
-Un dossier **container-docker** qui contient le docker-compose ainsi que le repertoire php pour la configuration de l'image web
-un dossier **symfony** qui contient le projet symfony
+Statistiques personnalisées : nombre de livres lus, en cours, à lire, temps de lecture, moyenne des notes, etc.
 
-# Les volumes 
-1. Un volume "web" appeler par defaut  *symfony_www* dans le fichier docker-compose
-2. Un volume "phpMyAdmin" appeler par defaut *symfony_phpmyadmin* dans le fichier docker-compose
-3. Un volume "msql" appeler par defaut *symfony_db* dans le fichier docker-compose
-4. Un volume 'maildev" appeler par defaut *symfony_maildev* dans le fichier docker-compose
+Lecture en cours / à lire : comme une wishlist ou un marque-page
 
+Partage de biblio : rendre une biblio publique pour que d'autres puissent s'en inspirer
 
-# Configuration
-### dans le fichier .env du dossier *container-docker* -> Indiquer le chemin du repertoire qui contiendra le projet symfony
-`` LOCAL_PROJECT_ROOT=/home/<username>/projects/model-symfony/symfony ``
-*ici model-symfony/ contient le dossier /container-docker et /symfony*
+Ajout de couvertures de livres (via API Google Books par exemple)
 
-le chemin /var/www/html present dans la configuration (docker-compose.yml et dans le DockerFile du dossier php) correspont au conteneur dans le quel symfony sera installé
+🗨️ Pour les interactions
+Commentaires sur les livres
 
-# Montage du conteneur
-**Terminal ubuntu20.0 avec wsl2**
-Avec le terminal se placer sur le dossier *container-docker*
-`` docker-compose up  ``
-Le premier lancement est long, Docker build l'image Web.
+Fil d’actualité / mur d’activité : “Jean a ajouté 1984 à sa biblio”, “Marie a commenté Dune”
+
+Fonction de recherche avancée dans la biblio (titre, auteur, genre…)
+
+Suggestions de livres basées sur les goûts ou les tags
+
+Favoris : mettre certains livres en favori
+
+Suivre d'autres utilisateurs ou leurs bibliothèques
 
 
-## Lister les conteneurs
+🏠 Page d’accueil : que montrer à l’utilisateur ?
+Si l’utilisateur est connecté, tu peux afficher un dashboard personnalisé :
 
-   `` docker ps``
+🧾 Section "Mon activité"
+Les derniers livres ajoutés
 
-## Entrer dans un conteneur
+Les derniers commentaires postés
 
-Pour acceder au bash à l'interieur du  conteneur
-``docker exec -ti <nom-du-conteneur-www> /bin/bash``
+Les livres en cours de lecture
 
-exemple avec le conteneur symfony_www:
-``docker exec -ti symfony_www /bin/bash ``
+Un récap : nombre de livres dans la biblio, nombre de lus, à lire…
 
-ensuite un fois dans la ligne de commande symfony
-`` composer create-project symfony/website-skeleton . ``
+📈 Section "Statistiques"
+Graphique circulaire : lus / à lire / en cours
 
-pour sortir du bash conteneur 
-`` exit ``
+Nombre de pages lues ce mois-ci
 
-## Utiliser VS CODE avec wsl ubuntu
-1. pre-requis :
-   1. extension Remot - wsl installé  (Microsoft)
+Auteur le plus présent dans sa biblio
 
-dans le terminal linux ubuntu se placer dans le repertoire de note projet symfony et saisir la commande suivante :
-`` code . ``
+📖 Section "Reprendre la lecture"
+Une liste des livres en cours de lecture avec un bouton “Reprendre”
 
-cela va lancer vs code avec le projet courant et Remot WSL ubuntu actif (en bas à gauche de la fenêtre vscode)
-ce qui nous permet d'acceder au bash linux dans le terminal de VS code
+🧠 Suggestions personnalisées
+Livres similaires à ceux déjà ajoutés
 
-**normalement il faut dans vscode aller dans l'onglet extensions et reinstaller les extensions "installer dans wsl"**
+Livres populaires parmi les autres utilisateurs (si communauté)
 
-## droit sur les fichier
-Dans le terminal linux se placer dans notre repertoire projet (ici par defaut **/symfony**)
-``sudo chmod -R 0777 . ``
-et saisir le mot de passe root (normalement initialisé à l'installation de l'image ubuntu dans wsl2)
+🧑‍🤝‍🧑 Activité communautaire (si tu gères plusieurs utilisateurs)
+Les dernières biblio publiques créées
 
-## Configuration base de donnée dans le .env symfony
-dans le fichier
-``DATABASE_URL="mysql://root:@db:3306/symfony-docker"``
+Les derniers commentaires postés globalement
 
-dans le bash du conteneur
-`` php bin/console doctrine:database:create ``
-
-## lancer le serveur symfony
-dans le bash du conteneur symfony_www
-`` symfony serv ``
-
-## acceder aux interfaces
-1. projet symfony : **127.0.0.1:8741**
-2. phpmyadmin : **127.0.0.1:8080**
-
-
+Un classement (top lecteurs du mois, etc.)

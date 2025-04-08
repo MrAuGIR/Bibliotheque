@@ -1,41 +1,43 @@
 <div class="row my-4">
-  {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-  <div class="col-12 py-2">Commentez <i class="far fa-comment"></i></div>
-  <div class="col-12">{{ form(commentForm) }}</div>
-  {% else %}
-  <div class="col-12">
-    <span class="info-user">Connectez-vous ou ajouter ce livre à votre biblio pour le commenter</span>
-  </div>
-  {% endif %}
-  <div class="col-12">
-    {% set noComment = ((comments | length) == 0)? true : false %} {% if
-    noComment %}
-    <h3>Soyer le premier à donner votre avis</h3>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    <div class="col-12 py-2">Commentez <i class="far fa-comment"></i></div>
+    <div class="col-12">{{ form(commentForm) }}</div>
     {% else %}
-    <h3>{{(comments | length)}} Commentaires</h3>
-    {% endif %}
-  </div>
-  <div class="col-12">
-    {% if comments is defined and comments is not empty %} {% for comment in
-    comments %}
-    <div class="card my-2">
-      <div id="comment{{comment.id}}" class="card-body">
-        <h5 class="card-title">{{comment.author.email}}</h5>
-        <p class="card-text">{{comment.content | raw }}</p>
-        <em>{{comment.createdAt | date('Y-m-d H:i' )}}</em>
-      </div>
-      {% if app.user.id == comment.author.id %}
-      <div id="comment{{comment.id}}-action" class="card-footer">
-        <a class="btn button-primary" data-id="{{comment.id}}" action-delete title="supprimer">supprimer</a>
-        <a class="btn button-primary" data-id="{{comment.id}}" action-edit title="editer">Editer</a>
-      </div>
-      <div id="form-edit-{{comment.id}}" class="form-comment">
-        <textarea class="edit-comment">{{comment.content | raw}}</textarea>
-        <a class="btn btn-secondary" data-id="{{comment.id}}" action-cancel>Annuler</a>
-        <a class="btn btn-primary" data-id="{{comment.id}}" action-update title="sauvegarder">Sauvegarder</a>
-      </div>
-      {% endif %}
+    <div class="col-12">
+        <span class="info-user">Connectez-vous ou ajouter ce livre à votre biblio pour le
+            commenter</span>
     </div>
-    {% endfor %} {% endif %}
-  </div>
+    {% endif %}
+    <div class="col-12">
+        {% set noComment = ((comments | length) == 0)? true : false %} {% if
+        noComment %}
+        <h3>Soyer le premier à donner votre avis</h3>
+        {% else %}
+        <h3>{{(comments | length)}} Commentaires</h3>
+        {% endif %}
+    </div>
+    <div class="col-12">
+        {% if comments is defined and comments is not empty %} {% for comment in
+        comments %}
+        <div class="card my-2">
+            <div id="comment{{comment.id}}" class="card-body">
+                <h5 class="card-title">{{comment.author.email}}</h5>
+                <p class="card-text">{{comment.content | raw }}</p>
+                <em>{{comment.createdAt | date('Y-m-d H:i' )}}</em>
+            </div>
+            {% if app.user.id == comment.author.id %}
+            <div id="comment{{comment.id}}-action" class="card-footer">
+                <a class="btn button-primary" data-id="{{comment.id}}" action-delete title="supprimer">supprimer</a>
+                <a class="btn button-primary" data-id="{{comment.id}}" action-edit title="editer">Editer</a>
+            </div>
+            <div id="form-edit-{{comment.id}}" class="form-comment">
+                <textarea class="edit-comment">
+                    {{comment.content | raw}}</textarea>
+                <a class="btn btn-secondary" data-id="{{comment.id}}" action-cancel>Annuler</a>
+                <a class="btn btn-primary" data-id="{{comment.id}}" action-update title="sauvegarder">Sauvegarder</a>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %} {% endif %}
+    </div>
 </div>
