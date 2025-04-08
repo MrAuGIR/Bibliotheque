@@ -7,7 +7,7 @@ use App\Exception\CommentNotFoundException;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-class Loader
+class CommentManager
 {
     public function __construct(
         private EntityManagerInterface $em,
