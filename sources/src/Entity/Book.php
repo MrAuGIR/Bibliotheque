@@ -52,12 +52,16 @@ class Book
     #[ORM\Column(type: Types::ARRAY, nullable: true)]
     private ?array $thumbnails = null;
 
+    #[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'books', cascade: ['persist'])]
+    private Collection $tags;
+
     public function __construct()
     {
         $this->writers = new ArrayCollection();
         $this->biblios = new ArrayCollection();
         $this->notices = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -271,6 +275,33 @@ class Book
     public function setThumbnails(?array $thumbnails): static
     {
         $this->thumbnails = $thumbnails;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tag>
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tag $tag): static
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags->add($tag);
+            $tag->addBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): static
+    {
+        if ($this->tags->removeElement($tag)) {
+            $tag->removeBook($this);
+        }
 
         return $this;
     }
