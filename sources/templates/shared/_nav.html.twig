@@ -37,7 +37,7 @@
             {% endif %}
         </ul>
         <div class="navbar-block-form js-nav">
-            <form method="POST" action="{{path('book_search')}}" class="form-inline my-2 my-lg-0">
+            <form method="GET" action="{{path('book_search')}}" class="form-inline my-2 my-lg-0">
                 <input name="keywords" class="form-control mr-sm-2 js-search" type="search"
                     placeholder="Rechercher un livre" aria-label="Search">
                 <input name="l" type="number" value="20" style="display: none;">

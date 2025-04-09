@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
@@ -55,7 +56,7 @@ class BookController extends AbstractController
     }
 
     #[Route('/search', name: "search", methods: [Request::METHOD_GET, Request::METHOD_POST])]
-    public function search(#[MapRequestPayload()] SearchInputDto $searchInputDto): Response
+    public function search(#[MapQueryString()] SearchInputDto $searchInputDto): Response
     {
         $collection = $this->googleBook->list($searchInputDto);
         return $this->render('book/search.html.twig', [
