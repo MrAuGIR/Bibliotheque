@@ -55,10 +55,12 @@ class BookController extends AbstractController
     }
 
     #[Route('/search', name: "search", methods: [Request::METHOD_GET, Request::METHOD_POST])]
-    public function search(): Response
+    public function search(#[MapRequestPayload()] SearchInputDto $searchInputDto): Response
     {
-
-        return $this->render('book/search.html.twig', []);
+        $collection = $this->googleBook->list($searchInputDto);
+        return $this->render('book/search.html.twig', [
+            'books' => $collection->getItems()
+        ]);
     }
 
     #[Route("/add", name: "add_to_biblio", methods: [Request::METHOD_POST])]

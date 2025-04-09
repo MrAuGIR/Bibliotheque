@@ -1,19 +1,19 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-    <div class="container">
-        <div class="row my-5">
-            <div class="col-12">
-                {% include "book/_form.html.twig" %}
-            </div>
+<div class="container">
+    <div class="row my-5">
+        <div class="col-12">
+            {% include "book/_form.html.twig" %}
         </div>
     </div>
-    <div id="content">
-        {% include "book/_content.html.twig" %}
-    </div>
+</div>
+<div id="content">
+    {% include "book/_content.html.twig" with {'books': books } %}
+</div>
 {% endblock %}
 {% block js %}
-    {{parent()}}
-    {{encore_entry_script_tags('addBook')}}
-    {{encore_entry_script_tags('searchBook')}}
+{{parent()}}
+{{encore_entry_script_tags('addBook')}}
+{{encore_entry_script_tags('searchBook')}}
 {% endblock %}
