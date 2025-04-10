@@ -14,9 +14,9 @@ class VolumeInfo
 
     protected string $publishedDate;
 
-    protected string $description;
+    protected string $description = '';
 
-    protected array $industryIdentifiers;
+    protected array $industryIdentifiers = [];
 
     protected int $pageCount = 0;
 
@@ -148,3 +148,4 @@ class VolumeInfo
         $this->language = $language;
     }
 }
+

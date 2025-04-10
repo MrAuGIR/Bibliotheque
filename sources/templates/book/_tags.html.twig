@@ -1,0 +1,21 @@
+<form id="tagSearchForm" action="{{ path('book_search') }}" method="GET" style="display: none;">
+    <input type="hidden" name="tag" id="selectedTag">
+    {% if csrf_protection is defined %}
+    <input type="hidden" name="_token" value="{{ csrf_token('tag_search') }}">
+    {% endif %}
+</form>
+<div class="tags-line">
+    {% for tag in tags %}
+    {% set color = tag.color is defined ? tag.color : '#c51919'%}
+    {% set code = tag.code is defined ? tag.code : tag %}
+    <span class="tag" style="background-color: {{color}};" onclick="submitTagSearch('{{ code }}')" data-code="{{code}}"
+        js-tag-search>{{code}}</span>
+    {% endfor %}
+</div>
+
+<script>
+    function submitTagSearch(tagCode) {
+        document.getElementById('selectedTag').value = tagCode;
+        document.getElementById('tagSearchForm').submit();
+    }
+</script>
