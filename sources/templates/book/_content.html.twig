@@ -1,0 +1,8 @@
+<div class="row">
+
+    {% for book in books %}
+    <div class="col-12 col-lg-4">
+        {% include 'book/card/api.html.twig' with {'book': book } %}
+    </div>
+    {% endfor %}
+</div>

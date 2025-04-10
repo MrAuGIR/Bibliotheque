@@ -63,4 +63,14 @@ class ApiBook
     {
         $this->accessInfo = $accesInfo;
     }
+
+    /**
+     *@return string[]
+     */
+    public function getBookCategories(): array
+    {
+        $categoriesStr = $this->getVolumeInfo()->getCategories()[0] ?? [];
+        return explode('/', $categoriesStr);
+    }
 }
+
