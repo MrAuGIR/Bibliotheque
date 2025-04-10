@@ -55,6 +55,9 @@ class Book
     #[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'books', cascade: ['persist'])]
     private Collection $tags;
 
+    #[ORM\OneToMany(targetEntity: Star::class, mappedBy: 'book', orphanRemoval: true)]
+    private Collection $stars;
+
     public function __construct()
     {
         $this->writers = new ArrayCollection();
@@ -62,6 +65,7 @@ class Book
         $this->notices = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->tags = new ArrayCollection();
+        $this->stars = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -304,5 +308,51 @@ class Book
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Star>
+     */
+    public function getStars(): Collection
+    {
+        return $this->stars;
+    }
+
+    public function addStar(Star $star): static
+    {
+        if (!$this->stars->contains($star)) {
+            $this->stars->add($star);
+            $star->setBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStar(Star $star): static
+    {
+        if ($this->stars->removeElement($star)) {
+            // set the owning side to null (unless already changed)
+            if ($star->getBook() === $this) {
+                $star->setBook(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getScore(): float
+    {
+        $nb = count($this->getStars());
+
+        $summ = 0.0;
+        foreach ($this->getStars() as $star) {
+            $summ += $star->getValue() ?? 0.0;
+        }
+
+        try {
+            return ($nb > 0) ? ($summ / $nb) : 0.0;
+        } catch (\Exception $e) {
+        }
+        return 0.0;
     }
 }

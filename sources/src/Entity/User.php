@@ -43,9 +43,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
   #[ORM\Column]
   private ?\DateTimeImmutable $registerAt = null;
 
+  #[ORM\OneToMany(targetEntity: Star::class, mappedBy: 'owner', orphanRemoval: true)]
+  private Collection $stars;
+
   public function __construct()
   {
     $this->comments = new ArrayCollection();
+    $this->stars = new ArrayCollection();
   }
 
   public function getId(): ?int
@@ -180,5 +184,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     $this->registerAt = new \DateTimeImmutable();
 
     return $this;
+  }
+
+  /**
+   * @return Collection<int, Star>
+   */
+  public function getStars(): Collection
+  {
+      return $this->stars;
+  }
+
+  public function addStar(Star $star): static
+  {
+      if (!$this->stars->contains($star)) {
+          $this->stars->add($star);
+          $star->setOwner($this);
+      }
+
+      return $this;
+  }
+
+  public function removeStar(Star $star): static
+  {
+      if ($this->stars->removeElement($star)) {
+          // set the owning side to null (unless already changed)
+          if ($star->getOwner() === $this) {
+              $star->setOwner(null);
+          }
+      }
+
+      return $this;
   }
 }
