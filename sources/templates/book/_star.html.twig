@@ -1,0 +1,9 @@
+<div class="rating-stars" data-book-id="{{ book.id }}" data-current-rating="{{ currentRating|default(0) }}">
+  {% for i in 1..5 %}
+
+  <span class="star {% if i <= currentRating %} active {% endif %}" data-value="{{ i }}">
+    <i class="fas fa-star"></i>
+  </span>
+  {% endfor %}
+  <span class="rating-message"></span>
+</div>
