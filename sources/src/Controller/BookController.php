@@ -60,7 +60,8 @@ class BookController extends AbstractController
       'book' => $apiBook,
       'booksRelated' => $relatedBooks,
       'entityId' => $book?->getId() ?? null,
-      'userRating' => $userRating
+      'userRating' => $userRating,
+        'totalRating' => $book->getScore()
     ]);
   }
 
