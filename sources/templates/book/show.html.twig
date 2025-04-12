@@ -16,7 +16,10 @@
       {% endfor %}
     </div>
     <div class="col-12 col-md-6 py-2 book-rating">
+      {% if app.user is not empty and app.user.biblio|isInUserBiblio(book.id) %}
+
       {% include 'book/_star.html.twig' with {'book' : book, 'currentRating': userRating ? userRating.value : 0} %}
+      {% endif %}
     </div>
   </div>
   <div class="row">
