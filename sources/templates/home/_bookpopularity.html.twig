@@ -16,57 +16,36 @@
     <div class="carousel-inner">
         <div class="carousel-item active">
             <div class="row">
-                {% for book in booksPopularity | slice(0,3) %}
+                {% for data in booksPopularity | slice(0,3) %}
+                    {% set book = data[0] %}
+                    {% set popularity = data['popularity'] %}
                     <div class="col-12 col-lg-4 my-2">
-                        <div class="card-actu">
-                            <div class="picture-actu">
-                                <img class="img-actu" src="{{article.urlToImage}}" class="card-img-top" alt="{{article.title}}">
-                            </div>
-                            <div class="card-body-actu">
-                                {% set var = (article.title|length > 50)? 50 : 100 %}
-                                <h5 class="card-title">{{article.title}}</h5>
-                                <p class="card-text-actu">{{article.description | slice(0,var) | raw}}</p>
-                                <a href="{{article.url}}" class="btn button-primary">Lire la suite</a>
-                            </div>
-                        </div>
+                        {% set isInBiblio = app.user is not empty and app.user.biblio|isInUserBiblio(book.id) %}
+                        {% include 'book/card/entity.html.twig' with {'book': book, isInBiblio: isInBiblio } %}
                     </div>
                 {% endfor %}
             </div>
         </div>
         <div class="carousel-item">
             <div class="row">
-                {% for article in articles | slice(3,3) %}
+                {% for data in booksPopularity | slice(3,3) %}
+                    {% set book = data[0] %}
+                    {% set popularity = data['popularity'] %}
                     <div class="col-12 col-lg-4 my-2">
-                        <div class="card-actu">
-                            <div class="picture-actu">
-                                <img class="img-actu" src="{{article.urlToImage}}" class="card-img-top" alt="{{article.title}}">
-                            </div>
-                            <div class="card-body-actu">
-                                {% set var = (article.title|length > 50)? 50 : 100 %}
-                                <h5 class="card-title">{{article.title}}</h5>
-                                <p class="card-text-actu">{{article.description | slice(0,var) | raw}}</p>
-                                <a href="{{article.url}}" class="btn button-primary">Lire la suite</a>
-                            </div>
-                        </div>
+                        {% set isInBiblio = app.user is not empty and app.user.biblio|isInUserBiblio(book.id) %}
+                        {% include 'book/card/entity.html.twig' with {'book': book, isInBiblio: isInBiblio } %}
                     </div>
                 {% endfor %}
             </div>
         </div>
         <div class="carousel-item">
             <div class="row">
-                {% for article in articles | slice(6,3) %}
+                {% for data in booksPopularity | slice(6,3) %}
+                    {% set book = data[0] %}
+                    {% set popularity = data['popularity'] %}
                     <div class="col-12 col-lg-4 my-2">
-                        <div class="card-actu">
-                            <div class="picture-actu">
-                                <img class="img-actu" src="{{article.urlToImage}}" class="card-img-top" alt="{{article.title}}">
-                            </div>
-                            <div class="card-body-actu">
-                                {% set var = (article.title|length > 50)? 50 : 100 %}
-                                <h5 class="card-title">{{article.title }}</h5>
-                                <p class="card-text-actu">{{article.description | slice(0,var) | raw}}</p>
-                                <a href="{{article.url}}" class="btn button-primary">Lire la suite</a>
-                            </div>
-                        </div>
+                        {% set isInBiblio = app.user is not empty and app.user.biblio|isInUserBiblio(book.id) %}
+                        {% include 'book/card/entity.html.twig' with {'book': book, isInBiblio: isInBiblio } %}
                     </div>
                 {% endfor %}
             </div>
