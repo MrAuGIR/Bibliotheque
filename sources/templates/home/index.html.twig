@@ -1,37 +1,42 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container">
-        <div class="row my-2 py-2">
-            <div class="col-12">
-                <h1>Bienvenue sur <em>Bibliothèque</em></h1>
-            </div>
-            <div class="col-12">
-
-            </div>
-        </div>
-        <div class="row my-2 py-2">
-            <div class="col-12">
-                <h2>Les derniers ajouts populaires</h2>
-            </div>
-            <div class="col-12">
-                <div class="row">
-
-                </div>
-            </div>
-        </div>
-        <div class="row my-2 py-2">
-            <div class="col-12">
-                <h2>Les dernières actualités littéraire</h2>
-            </div>
-            <div class="col-12">
-                <div id="content"></div>
-            </div>
-        </div>
+<div class="container">
+  <div class="row my-2 py-2">
+    <div class="col-12">
+      <h1>Bienvenue sur <em>Bibliothèque</em></h1>
     </div>
+    <div class="col-12">
+
+    </div>
+  </div>
+  <div class="row my-2 py-2">
+    <div class="col-12">
+      <h2>Les derniers ajouts populaires</h2>
+    </div>
+    <div class="col-12">
+      <div class="row">
+        {% include 'home/_bookpopularity.html.twig' with {'booksPopularity': booksPopularity} %}
+      </div>
+    </div>
+  </div>
+  <div class="row my-2 py-2">
+    <div class="col-12">
+      <h2>Biblio user populaire</h2>
+    </div>
+  </div>
+  <div class="row my-2 py-2">
+    <div class="col-12">
+      <h2>Les dernières actualités littéraire</h2>
+    </div>
+    <div class="col-12">
+      <div id="content"></div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block js %}
-    {{parent()}}
-    {{ encore_entry_script_tags('actu') }}
+{{parent()}}
+{{ encore_entry_script_tags('actu') }}
 {% endblock %}

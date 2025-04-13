@@ -10,7 +10,7 @@ class VolumeInfo
 
     protected array $authors;
 
-    protected string $publisher;
+    protected string $publisher = '';
 
     protected string $publishedDate;
 
@@ -22,11 +22,11 @@ class VolumeInfo
 
     protected int $printedPageCount = 0;
 
-    protected array $categories;
+    protected array $categories = [];
 
     protected array $imageLinks = [];
 
-    protected string $language;
+    protected string $language = '';
 
     public function getTitle(): string
     {
@@ -148,4 +148,3 @@ class VolumeInfo
         $this->language = $language;
     }
 }
-

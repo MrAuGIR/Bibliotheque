@@ -1,0 +1,63 @@
+<div id="book-popularity">
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <div class="row">
+            <div class="col-12 py-3">
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <div class="row">
+                {% for data in booksPopularity | slice(0,3) %}
+                    {% set book = data[0] %}
+                    {% set popularity = data['popularity'] %}
+                    <div class="col-12 col-lg-4 my-2">
+                        {% set isInBiblio = app.user is not empty and app.user.biblio|isInUserBiblio(book.id) %}
+                        {% include 'book/card/entity.html.twig' with {'book': book, isInBiblio: isInBiblio } %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="row">
+                {% for data in booksPopularity | slice(3,3) %}
+                    {% set book = data[0] %}
+                    {% set popularity = data['popularity'] %}
+                    <div class="col-12 col-lg-4 my-2">
+                        {% set isInBiblio = app.user is not empty and app.user.biblio|isInUserBiblio(book.id) %}
+                        {% include 'book/card/entity.html.twig' with {'book': book, isInBiblio: isInBiblio } %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="row">
+                {% for data in booksPopularity | slice(6,3) %}
+                    {% set book = data[0] %}
+                    {% set popularity = data['popularity'] %}
+                    <div class="col-12 col-lg-4 my-2">
+                        {% set isInBiblio = app.user is not empty and app.user.biblio|isInUserBiblio(book.id) %}
+                        {% include 'book/card/entity.html.twig' with {'book': book, isInBiblio: isInBiblio } %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            </ol>
+        </div>
+    </div>
+</div>
