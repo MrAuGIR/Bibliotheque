@@ -34,22 +34,39 @@ readonly class BookFactory
             ])
             ->setPublishedAt($this->createDate($apiBook->getVolumeInfo()->getPublishedDate()));
 
-        $this->associatedTagToBook($apiBook->getBookCategories(), $book);
+        //$this->associatedTagToBook($apiBook->getBookCategories(), $book);
         return $book;
     }
 
     private function createDate(string $date): \DateTimeImmutable
     {
-        $dateTime = DateTimeImmutable::createFromFormat(\DateTimeInterface::ATOM, $date);
-        if ($dateTime === false) {
-            $dateTime = DateTimeImmutable::createFromFormat('Y-m-d', $date);
+        if ($date === '') {
+            return new DateTimeImmutable('now');
         }
-        return $dateTime;
+
+        $formats = [
+            \DateTimeInterface::ATOM,
+            'Y-m-d',
+            'Y-m-d H:i:s'
+        ];
+
+        foreach ($formats as $format) {
+            $dateTime = DateTimeImmutable::createFromFormat($format, $date);
+            if (is_bool($dateTime)) {
+                continue;
+            }
+            return $dateTime;
+        }
+
+        return new DateTimeImmutable('now');
     }
 
     public function associatedTagToBook(array $apiCategories, Book $book): void
     {
         if (!empty($categories = $apiCategories[0] ?? null)) {
+            if (is_array($categories)) {
+                return;
+            }
             $list = explode('/', $categories);
             foreach ($this->getOrCreateTags($list) as $tag) {
                 $book->addTag($tag);

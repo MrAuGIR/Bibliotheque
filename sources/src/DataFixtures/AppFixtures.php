@@ -21,14 +21,14 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $user = new User();
-        $user->setEmail('random@gmail.fr');
+        $user->setEmail('random@gmail.com');
         $user->setRoles(['ROLE_USER']);
-        $user->setPassword($this->hasher->hashPassword($user, 'password'));
+        $user->setPassword($this->hasher->hashPassword($user, 'random'));
         $manager->persist($user);
         $this->addReference('user-admin', $user);
 
 
-        for ($i = 0; $i < 11; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $user = new User();
             $user->setEmail($this->factory->email());
             $user->setPassword($this->hasher->hashPassword($user, 'password'));

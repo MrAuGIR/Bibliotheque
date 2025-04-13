@@ -14,7 +14,7 @@ use Faker\Factory;
 
 class BookFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const array KEYWORDS = [
+    public const KEYWORDS = [
         'dumas',
         'zola',
         'victor hugo',
@@ -55,7 +55,7 @@ class BookFixtures extends Fixture implements DependentFixtureInterface
         $biblios = $manager->getRepository(Biblio::class)->findAll();
 
         foreach ($biblios as $biblio) {
-            $numberBookToAdd = $this->factory->numberBetween(2, 10);
+            $numberBookToAdd = $this->factory->numberBetween(2, 6);
 
             for ($i = 0; $i < $numberBookToAdd; $i++) {
 
@@ -70,7 +70,6 @@ class BookFixtures extends Fixture implements DependentFixtureInterface
                 $apiBook = $this->apiBooks[$randomKeyword][$randomIndex];
 
                 if ($apiBook->getId() && in_array($apiBook->getId(), $this->loadedApiId)) {
-                    $i--;
                     continue;
                 }
 
@@ -107,7 +106,7 @@ class BookFixtures extends Fixture implements DependentFixtureInterface
     {
         foreach ($this->userSearchs as $search) {
             $collection = $this->googleBook->list($search);
-            $this->apiBooks[$search->kerword] = $collection->items;
+            $this->apiBooks[$search->keywords] = $collection->items;
         }
     }
 
