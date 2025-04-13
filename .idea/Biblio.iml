@@ -6,8 +6,10 @@
       <sourceFolder url="file://$MODULE_DIR$/old/tests" isTestSource="true" packagePrefix="App\Tests\" />
       <sourceFolder url="file://$MODULE_DIR$/sources/src" isTestSource="false" packagePrefix="App\" />
       <sourceFolder url="file://$MODULE_DIR$/sources/tests" isTestSource="true" packagePrefix="App\Tests\" />
+      <sourceFolder url="file://$MODULE_DIR$/sources/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/sources/spec" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/sources/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/sources/vendor/doctrine/cache" />
       <excludeFolder url="file://$MODULE_DIR$/sources/vendor/doctrine/collections" />
@@ -84,6 +86,9 @@
       <excludeFolder url="file://$MODULE_DIR$/sources/vendor/symfony/serializer" />
       <excludeFolder url="file://$MODULE_DIR$/sources/vendor/symfony/validator" />
       <excludeFolder url="file://$MODULE_DIR$/sources/vendor/webmozart/assert" />
+      <excludeFolder url="file://$MODULE_DIR$/sources/vendor/doctrine/data-fixtures" />
+      <excludeFolder url="file://$MODULE_DIR$/sources/vendor/doctrine/doctrine-fixtures-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/sources/vendor/fakerphp/faker" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

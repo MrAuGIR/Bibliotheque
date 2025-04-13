@@ -90,6 +90,9 @@
       <path value="$PROJECT_DIR$/sources/vendor/symfony/polyfill-intl-icu" />
       <path value="$PROJECT_DIR$/sources/vendor/symfony/options-resolver" />
       <path value="$PROJECT_DIR$/sources/vendor/symfony/form" />
+      <path value="$PROJECT_DIR$/sources/vendor/fakerphp/faker" />
+      <path value="$PROJECT_DIR$/sources/vendor/doctrine/data-fixtures" />
+      <path value="$PROJECT_DIR$/sources/vendor/doctrine/doctrine-fixtures-bundle" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />

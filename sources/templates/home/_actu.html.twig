@@ -19,17 +19,7 @@
                 <div class="row">
                     {% for article in articles | slice(0,3) %}
                         <div class="col-12 col-lg-4 my-2">
-                            <div class="card-actu">
-                                <div class="picture-actu">
-                                    <img class="img-actu" src="{{article.urlToImage}}" class="card-img-top" alt="{{article.title}}">
-                                </div>
-                                <div class="card-body-actu">
-                                    {% set var = (article.title|length > 50)? 50 : 100 %}
-                                    <h5 class="card-title">{{article.title}}</h5>
-                                    <p class="card-text-actu">{{article.description | slice(0,var) | raw}}</p>
-                                    <a href="{{article.url}}" class="btn button-primary">Lire la suite</a>
-                                </div>
-                            </div>
+                            {% include 'shared/_card-actu.html.twig' with {'article': article} %}
                         </div>
                     {% endfor %}
                 </div>
@@ -38,17 +28,7 @@
                 <div class="row">
                     {% for article in articles | slice(3,3) %}
                         <div class="col-12 col-lg-4 my-2">
-                            <div class="card-actu">
-                                <div class="picture-actu">
-                                    <img class="img-actu" src="{{article.urlToImage}}" class="card-img-top" alt="{{article.title}}">
-                                </div>
-                                <div class="card-body-actu">
-                                    {% set var = (article.title|length > 50)? 50 : 100 %}
-                                    <h5 class="card-title">{{article.title}}</h5>
-                                    <p class="card-text-actu">{{article.description | slice(0,var) | raw}}</p>
-                                    <a href="{{article.url}}" class="btn button-primary">Lire la suite</a>
-                                </div>
-                            </div>
+                            {% include 'shared/_card-actu.html.twig' with {'article': article} %}
                         </div>
                     {% endfor %}
                 </div>
@@ -57,17 +37,7 @@
                 <div class="row">
                     {% for article in articles | slice(6,3) %}
                         <div class="col-12 col-lg-4 my-2">
-                            <div class="card-actu">
-                                <div class="picture-actu">
-                                    <img class="img-actu" src="{{article.urlToImage}}" class="card-img-top" alt="{{article.title}}">
-                                </div>
-                                <div class="card-body-actu">
-                                    {% set var = (article.title|length > 50)? 50 : 100 %}
-                                    <h5 class="card-title">{{article.title }}</h5>
-                                    <p class="card-text-actu">{{article.description | slice(0,var) | raw}}</p>
-                                    <a href="{{article.url}}" class="btn button-primary">Lire la suite</a>
-                                </div>
-                            </div>
+                            {% include 'shared/_card-actu.html.twig' with {'article': article} %}
                         </div>
                     {% endfor %}
                 </div>
