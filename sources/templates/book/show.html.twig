@@ -6,7 +6,13 @@
   </div>
   <div class="row mt-3">
     <div class="col-12 col-md-6 py-2 book-title">
-      <h1>{{book.volumeInfo.title}}</h1>
+      <h1>
+          {{book.volumeInfo.title}}
+          {% if entityId is defined and entityId is not null %}
+            {% set score = totalRating %}
+              ,<span class="total-score">{{ score }} <i class="fas fa-star"></i></span>
+          {% endif %}
+      </h1>
       {% include "book/_tags.html.twig" with {"tags": book.bookCategories} %}
 
     </div>
@@ -14,6 +20,12 @@
       {% for author in book.volumeInfo.authors %}
       <h2 class="js-author">{{author}}</h2>
       {% endfor %}
+    </div>
+    <div class="col-12 col-md-6 py-2 book-rating">
+      {% if app.user is not empty and app.user.biblio|isInUserBiblio(book.id) %}
+
+        {% include 'book/_star.html.twig' with {'book' : book, 'currentRating': userRating ? userRating.value : 0} %}
+      {% endif %}
     </div>
   </div>
   <div class="row">
@@ -32,13 +44,15 @@
           {% endif %}
         </div>
         <div class="col-12 mt-1 mb-3">
-          {% if app.user %} {% set isUserBook = (book.volumeInfo is
-          defined)? false : true %} {% if
-          app.user.biblio|isInUserBiblio(book.id) %} {% include
-          "book/action/_remove_book.html.twig" with {id: book.id} %}
-          {% else %} {% include "book/action/_add_book.html.twig" with
-          {id: book.id} %} {% endif %} {% else %}
-          <span class="small-text">Connecter vous<br />pour ajouter un livre</span>
+          {% if app.user %}
+              {% set isUserBook = (book.volumeInfo is defined)? false : true %}
+              {% if app.user.biblio|isInUserBiblio(book.id) %}
+                  {% include "book/action/_remove_book.html.twig" with {id: book.id} %}
+              {% else %}
+                  {% include "book/action/_add_book.html.twig" with {id: book.id} %}
+              {% endif %}
+          {% else %}
+            <span class="small-text">Connecter vous<br />pour ajouter un livre</span>
           {% endif %}
         </div>
       </div>
@@ -123,4 +137,5 @@
 </div>
 {% endblock %} {% block js %} {{parent()}}
 {{encore_entry_script_tags('addBook')}} {{encore_entry_script_tags('comment')}}
+{{encore_entry_script_tags('rating')}}
 {% endblock %}

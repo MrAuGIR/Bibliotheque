@@ -191,28 +191,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
    */
   public function getStars(): Collection
   {
-      return $this->stars;
+    return $this->stars;
   }
 
   public function addStar(Star $star): static
   {
-      if (!$this->stars->contains($star)) {
-          $this->stars->add($star);
-          $star->setOwner($this);
-      }
+    if (!$this->stars->contains($star)) {
+      $this->stars->add($star);
+      $star->setOwner($this);
+    }
 
-      return $this;
+    return $this;
   }
 
   public function removeStar(Star $star): static
   {
-      if ($this->stars->removeElement($star)) {
-          // set the owning side to null (unless already changed)
-          if ($star->getOwner() === $this) {
-              $star->setOwner(null);
-          }
+    if ($this->stars->removeElement($star)) {
+      // set the owning side to null (unless already changed)
+      if ($star->getOwner() === $this) {
+        $star->setOwner(null);
       }
+    }
 
-      return $this;
+    return $this;
+  }
+
+  public function hasBookInBiblio(Book $book): bool
+  {
+    if (!$this->biblio) {
+      return false;
+    }
+    return $this->biblio->containsBook($book);
   }
 }

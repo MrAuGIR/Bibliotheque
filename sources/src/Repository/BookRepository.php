@@ -21,6 +21,18 @@ class BookRepository extends ServiceEntityRepository
         parent::__construct($registry, Book::class);
     }
 
+    public function findMostPopularityBook(int $limit = 10): array
+    {
+        return $this->createQueryBuilder('b')
+            ->select('b, COUNT(biblio.id) as popularity')
+            ->leftJoin('b.biblios', 'biblio')
+            ->groupBy('b.id')
+            ->orderBy('popularity', 'ASC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Book[] Returns an array of Book objects
     //     */

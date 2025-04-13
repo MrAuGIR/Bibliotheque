@@ -75,3 +75,25 @@
 
   }
 }
+
+.rating-stars {
+  display: flex;
+  align-items: center;
+}
+
+.star {
+  font-size: 24px;
+  cursor: pointer;
+  color: #ccc;
+  margin-right: 5px;
+}
+
+.star.active {
+  color: #FFD700;
+}
+
+.rating-message {
+  margin-left: 10px;
+  font-size: 14px;
+  color: green;
+}
