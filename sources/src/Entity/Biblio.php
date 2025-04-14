@@ -150,9 +150,9 @@ class Biblio
       return $this;
   }
 
-  public function updateCountViews(UserInterface $user): bool
+  public function updateCountViews(?UserInterface $user): bool
   {
-      if ($user === $this->getUser()) {
+      if ($user === $this->getUser() || empty($user)) {
           return false;
       }
       $this->views += 1;

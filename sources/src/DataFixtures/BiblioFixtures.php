@@ -27,6 +27,7 @@ class BiblioFixtures extends Fixture implements DependentFixtureInterface
             $biblio = new Biblio();
             $biblio->setTitle($this->factory->words(3, true) . ' Library');
             $biblio->setCreatedAt(new DateTimeImmutable($this->factory->dateTimeBetween('-1 year', 'now')->format('Y-m-d H:i:s')));
+            $biblio->setViews($this->factory->numberBetween(1, 1000));
             $biblio->setUser($user);
 
             $manager->persist($biblio);

@@ -65,6 +65,7 @@ readonly class BookFactory
     {
         if (!empty($categories = $apiCategories[0] ?? null)) {
             if (is_array($categories)) {
+                dd($categories);
                 return;
             }
             $list = explode('/', $categories);
