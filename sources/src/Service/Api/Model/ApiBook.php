@@ -69,7 +69,7 @@ class ApiBook
      */
     public function getBookCategories(): array
     {
-        if (empty($this->bookCategories)) {
+        if (empty($this->getVolumeInfo()->getCategories())) {
             return ['unknown'];
         }
         $categoriesStr = $this->getVolumeInfo()->getCategories()[0] ?? 'unknown';

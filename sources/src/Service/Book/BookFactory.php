@@ -34,7 +34,7 @@ readonly class BookFactory
             ])
             ->setPublishedAt($this->createDate($apiBook->getVolumeInfo()->getPublishedDate()));
 
-        //$this->associatedTagToBook($apiBook->getBookCategories(), $book);
+        $this->associatedTagToBook($apiBook->getBookCategories(), $book);
         return $book;
     }
 
@@ -63,9 +63,12 @@ readonly class BookFactory
 
     public function associatedTagToBook(array $apiCategories, Book $book): void
     {
+        if (empty($apiCategories)) {
+            $book->addTag($this->tagManager->load('unknown'));
+        }
         if (!empty($categories = $apiCategories[0] ?? null)) {
             if (is_array($categories)) {
-                dd($categories);
+                $book->addTag($this->tagManager->load('unknown'));
                 return;
             }
             $list = explode('/', $categories);
