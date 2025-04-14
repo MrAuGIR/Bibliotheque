@@ -1,0 +1,11 @@
+<div class="card-biblio">
+    <div class="picture-biblio">
+        {% set thumbnail = biblio.getListThumbnail().0 is defined ? biblio.getListThumbnail().0 : ''  %}
+        <img class="img-biblio card-img-top" src="{{ thumbnail }}"  alt="{{biblio.title}}">
+    </div>
+    <div class="card-body-biblio">
+        <h5 class="card-title">{{biblio.title}}</h5>
+        <p class="card-text-biblio">Livres : {{ biblio.getCountBooks() }}</p>
+        <a class="btn button-primary" href="{{path('index_biblio', {id: biblio.id })}}"> -> </a>
+    </div>
+</div>

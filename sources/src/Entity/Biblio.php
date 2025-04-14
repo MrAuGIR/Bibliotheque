@@ -158,4 +158,8 @@ class Biblio
       $this->views += 1;
       return true;
   }
+
+  public function getCountBooks(): int {
+      return $this->books->count();
+  }
 }

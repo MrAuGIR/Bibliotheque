@@ -14,6 +14,16 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class BiblioController extends AbstractController
 {
+    #[Route("/biblio/popularity", name: 'popularity_biblio', methods: [Request::METHOD_GET, Request::METHOD_POST])]
+    public function popularity( BiblioRepository $repository): Response
+    {
+        $popularityBiblio = $repository->getMostPopularBiblio();
+
+        return $this->render('home/_bibliopopularity.html.twig', [
+            'popularityBiblio' => $popularityBiblio,
+        ]);
+    }
+
     #[Route('/biblio/{id}', name: 'index_biblio', methods: [Request::METHOD_GET])]
     public function index(Biblio $biblio, EntityManagerInterface $entityManager): Response
     {
@@ -39,16 +49,6 @@ class BiblioController extends AbstractController
         }
         return $this->render("biblio/add.html.twig", [
             'form' => $form->createView(),
-        ]);
-    }
-
-    #[Route("/biblio/popularity", name: 'popularity', methods: [Request::METHOD_GET, Request::METHOD_POST])]
-    public function popularity(Request $request, BiblioRepository $repository): Response
-    {
-        $popularityBiblio = $repository->getMostPopularBiblio();
-
-        return $this->render('biblio/popularity.html.twig', [
-            'popularityBiblio' => $popularityBiblio,
         ]);
     }
 }

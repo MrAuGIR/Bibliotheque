@@ -33,8 +33,8 @@ class BiblioRepository extends ServiceEntityRepository
 
     public function getMostPopularBiblio(): array {
         return $this->createQueryBuilder('b')
-            ->andWhere('b.popularity > 0')
-            ->orderBy('b.popularity', 'DESC')
+            ->andWhere('b.views > 0')
+            ->orderBy('b.views', 'DESC')
             ->setMaxResults(3)
             ->getQuery()
             ->getResult();
