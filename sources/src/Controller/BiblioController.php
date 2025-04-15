@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class BiblioController extends AbstractController
 {
     #[Route("/biblio/popularity", name: 'popularity_biblio', methods: [Request::METHOD_GET, Request::METHOD_POST])]
-    public function popularity( BiblioRepository $repository): Response
+    public function popularity(BiblioRepository $repository): Response
     {
         $popularityBiblio = $repository->getMostPopularBiblio();
 
@@ -50,5 +50,12 @@ class BiblioController extends AbstractController
         return $this->render("biblio/add.html.twig", [
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route("/biblio/search", name: 'biblio_search', methods: [Request::METHOD_GET, Request::METHOD_POST])]
+    public function search(Request $request): Response
+    {
+
+        return new Response();
     }
 }

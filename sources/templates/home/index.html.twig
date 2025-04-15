@@ -1,46 +1,47 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container">
-        <div class="row my-2 py-2">
-            <div class="col-12">
-                <h1>Bienvenue sur <em>Bibliothèque</em></h1>
-            </div>
-            <div class="col-12">
+<div class="container">
+    <div class="row my-2 py-2">
+        <div class="col-12">
+            <h1>Bienvenue sur <em>Bibliothèque</em></h1>
+        </div>
+        <div class="col-12">
 
-            </div>
         </div>
-        <div class="row my-2 py-2">
-            <div class="col-12">
-                <h2>Les derniers ajouts populaires</h2>
-            </div>
-            <div class="col-12">
-                <div class="row">
-                    {% include 'home/_bookpopularity.html.twig' with {'booksPopularity': booksPopularity} %}
-                </div>
-            </div>
+    </div>
+    <div class="row my-2 py-2">
+        <div class="col-12">
+            <h2>Les derniers ajouts populaires</h2>
         </div>
-        <div class="row my-2 py-2">
-            <div class="col-12">
-                <h2>Biblio Utilisateur populaire</h2>
-            </div>
-            <div class="col-12">
-                <div id="biblioContent"></div>
-            </div>
-        </div>
-        <div class="row my-2 py-2">
-            <div class="col-12">
-                <h2>Les dernières actualités littéraire</h2>
-            </div>
-            <div class="col-12">
-                <div id="content"></div>
+        <div class="col-12">
+            <div class="row">
+                {% include 'home/_bookpopularity.html.twig' with {'booksPopularity': booksPopularity} %}
             </div>
         </div>
     </div>
+    <div class="row my-2 py-2">
+        <div class="col-12">
+            <h2>Biblio Utilisateur populaire</h2>
+        </div>
+        <div class="col-12">
+            <div id="biblioContent"></div>
+        </div>
+    </div>
+    <div class="row my-2 py-2">
+        <div class="col-12">
+            <h2>Les dernières actualités littéraire</h2>
+        </div>
+        <div class="col-12">
+            <div id="content"></div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block js %}
-    {{parent()}}
-    {{ encore_entry_script_tags('actu') }}
-    {{ encore_entry_script_tags('most_popularity_biblio') }}
+{{parent()}}
+{{ encore_entry_script_tags('actu') }}
+{{ encore_entry_script_tags('tags') }}
+{{ encore_entry_script_tags('most_popularity_biblio') }}
 {% endblock %}
