@@ -29,17 +29,29 @@ class BiblioFixtures extends Fixture implements DependentFixtureInterface
             $biblio->setCreatedAt(new DateTimeImmutable($this->factory->dateTimeBetween('-1 year', 'now')->format('Y-m-d H:i:s')));
             $biblio->setViews($this->factory->numberBetween(1, 1000));
             $biblio->setUser($user);
-
+            $this->addRandomTags($biblio, $this->factory->numberBetween(0, 4));
             $manager->persist($biblio);
         }
 
         $manager->flush();
     }
 
+    public function addRandomTags(Biblio $biblio, int $numberTag): void
+    {
+        for ($i = 0; $i < $numberTag; $i++) {
+            $randomIndex = $this->factory->numberBetween(0, 12);
+            if (empty($tag = $this->getReference('tag-' . $randomIndex))) {
+                continue;
+            }
+            $biblio->addTag($tag);
+        }
+    }
+
     public function getDependencies()
     {
         return [
-            AppFixtures::class
+            AppFixtures::class,
+            TagFixtures::class
         ];
     }
 }
