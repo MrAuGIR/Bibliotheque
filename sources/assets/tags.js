@@ -22,14 +22,3 @@ document.addEventListener('DOMContentLoaded', function() {
 
 })
 
-// document.addEventListener('DOMContentLoaded', function() {
-//
-// document.querySelectorAll(['js-tag-search']).forEach(element => {
-
-// element.addEventListener('click', function() {
-// document.getElementById('selectedTag').value = tagCode;
-// document.getElementById('tagSearchForm').submit();
-// })
-// })
-
-// })

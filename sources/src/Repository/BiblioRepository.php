@@ -21,7 +21,8 @@ class BiblioRepository extends ServiceEntityRepository
         parent::__construct($registry, Biblio::class);
     }
 
-    public function getLastBiblioUpdated(): array {
+    public function getLastBiblioUpdated(): array
+    {
         return $this->createQueryBuilder('b')
             ->andWhere('b.updatedAt <= :now')
             ->setParameter('now', new \DateTime('now'))
@@ -31,11 +32,22 @@ class BiblioRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function getMostPopularBiblio(): array {
+    public function getMostPopularBiblio(): array
+    {
         return $this->createQueryBuilder('b')
             ->andWhere('b.views > 0')
             ->orderBy('b.views', 'DESC')
             ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getBiblioByTag(string $code): array
+    {
+        return $this->createQueryBuilder('b')
+            ->join('b.tags', 't')
+            ->andWhere('t.code = :code')
+            ->setParameter('code', $code)
             ->getQuery()
             ->getResult();
     }
