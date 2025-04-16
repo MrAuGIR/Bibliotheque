@@ -21,6 +21,37 @@ class BiblioRepository extends ServiceEntityRepository
         parent::__construct($registry, Biblio::class);
     }
 
+    public function getLastBiblioUpdated(): array
+    {
+        return $this->createQueryBuilder('b')
+            ->andWhere('b.updatedAt <= :now')
+            ->setParameter('now', new \DateTime('now'))
+            ->orderBy('b.updatedAt', 'DESC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getMostPopularBiblio(): array
+    {
+        return $this->createQueryBuilder('b')
+            ->andWhere('b.views > 0')
+            ->orderBy('b.views', 'DESC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getBiblioByTag(string $code): array
+    {
+        return $this->createQueryBuilder('b')
+            ->join('b.tags', 't')
+            ->andWhere('t.code = :code')
+            ->setParameter('code', $code)
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Biblio[] Returns an array of Biblio objects
     //     */

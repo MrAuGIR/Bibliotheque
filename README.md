@@ -26,6 +26,14 @@ Favoris : mettre certains livres en favori
 
 Suivre d'autres utilisateurs ou leurs bibliothèques
 
+**Ajout fonction liste de Biblio favorite pour les users**
+
+**Biblio populaire par nombre de favorie**
+
+**Biblio tag (science fiction, histoire ...)**
+
+
+
 
 🏠 Page d’accueil : que montrer à l’utilisateur ?
 Si l’utilisateur est connecté, tu peux afficher un dashboard personnalisé :

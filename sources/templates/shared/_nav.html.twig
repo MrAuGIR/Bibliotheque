@@ -21,7 +21,7 @@
                     {{app.user.email}}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{path('index_biblio')}}">Ma biblio</a>
+                    <a class="dropdown-item" href="{{path('index_biblio', {id: app.user.biblio.id })}}">Ma biblio</a>
                     <a class="dropdown-item" href="#">Mon Compte</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{path('app_logout')}}">Déconnexion</a>

@@ -1,0 +1,9 @@
+<div id="biblioContent">
+    <div class="row">
+        {% for biblio in popularityBiblio | slice(0,3) %}
+            <div class="col-12 col-lg-4 my-2">
+                {% include 'shared/_card-biblio.html.twig' with {'biblio': biblio} %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
