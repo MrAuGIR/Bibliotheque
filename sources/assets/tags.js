@@ -1,19 +1,24 @@
 
+const submitTagSearch = (tagCode, id) => {
+    document.getElementById('selectedTag' + id).value = tagCode;
+    document.getElementById('tagSearchForm' + id).submit();
+}
 
-const searchByTag = (tag) => {
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOMContentLoaded querySelectorAll js-biblio-tag-search");
 
-    document.querySelectorAll(['js-tag-searcg']).forEach(element => {
+    setTimeout(() => {
+        document.querySelectorAll(['js-biblio-tag-search']).forEach(element => {
+            console.log(element);
+            element.addEventListener('click', function() {
 
-        const code = element.getAttribute('data-code');
-
-        element.addEventListener('click', function() => {
+                const id = element.getAttribute('data-biblio');
+                const tagCode = element.getAttribute('data-code')
+                document.getElementById('selectedTag' + id).value = tagCode;
+                document.getElementById('tagSearchForm' + id).submit();
+            })
+        })
+    }, 100);
 
 })
-    });
-}
 
-
-const searchRequest = (code) => {
-
-
-}

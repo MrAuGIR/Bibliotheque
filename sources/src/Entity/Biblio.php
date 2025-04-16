@@ -5,7 +5,9 @@ namespace App\Entity;
 use App\Repository\BiblioRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: BiblioRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -29,9 +31,19 @@ class Biblio
   #[ORM\ManyToMany(targetEntity: Book::class, inversedBy: 'biblios', cascade: ['persist'])]
   private Collection $books;
 
+  #[ORM\Column(nullable: true)]
+  private ?\DateTimeImmutable $updatedAt = null;
+
+  #[ORM\Column(type: Types::BIGINT, nullable: true)]
+  private ?string $views = null;
+
+  #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'biblios')]
+  private Collection $tags;
+
   public function __construct()
   {
     $this->books = new ArrayCollection();
+    $this->tags = new ArrayCollection();
   }
 
   public function getId(): ?int
@@ -102,5 +114,80 @@ class Biblio
   public function containsBook(Book $book): bool
   {
     return $this->books->contains($book);
+  }
+
+  public function getListThumbnail(): array
+  {
+      $return = [];
+      /** @var Book $book */
+      foreach($this->books as $book) {
+          $thumbnails = $book->getThumbnails();
+          if (!isset($thumbnails['small'])) {
+              continue;
+          }
+          $return[] = $thumbnails['small'];
+      }
+      return $return;
+  }
+
+  public function getUpdatedAt(): ?\DateTimeImmutable
+  {
+      return $this->updatedAt;
+  }
+
+  public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
+  {
+      $this->updatedAt = $updatedAt;
+
+      return $this;
+  }
+
+  public function getViews(): ?string
+  {
+      return $this->views;
+  }
+
+  public function setViews(?string $views): static
+  {
+      $this->views = $views;
+
+      return $this;
+  }
+
+  public function updateCountViews(?UserInterface $user): bool
+  {
+      if ($user === $this->getUser() || empty($user)) {
+          return false;
+      }
+      $this->views += 1;
+      return true;
+  }
+
+  public function getCountBooks(): int {
+      return $this->books->count();
+  }
+
+  /**
+   * @return Collection<int, Tag>
+   */
+  public function getTags(): Collection
+  {
+      return $this->tags;
+  }
+
+  public function addTag(Tag $tag): static
+  {
+      if (!$this->tags->contains($tag)) {
+          $this->tags->add($tag);
+      }
+
+      return $this;
+  }
+
+  public function removeTag(Tag $tag): static
+  {
+      $this->tags->removeElement($tag);
+
+      return $this;
   }
 }

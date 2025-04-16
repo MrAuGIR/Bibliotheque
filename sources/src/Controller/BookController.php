@@ -61,7 +61,7 @@ class BookController extends AbstractController
       'booksRelated' => $relatedBooks,
       'entityId' => $book?->getId() ?? null,
       'userRating' => $userRating,
-        'totalRating' => $book->getScore()
+        'totalRating' => $book?->getScore() ?? 0
     ]);
   }
 
