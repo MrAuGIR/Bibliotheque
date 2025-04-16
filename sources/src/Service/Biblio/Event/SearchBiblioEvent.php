@@ -15,10 +15,8 @@ class SearchBiblioEvent extends Event
 
     public function __construct(
         private InputSearch $search,
-        private ?OutputSearch $outputSearch
-    ) {
-        $this->outputSearch = new OutputSearch();
-    }
+        private OutputSearch $outputSearch
+    ) {}
 
     public function getInputSearch(): InputSearch
     {
