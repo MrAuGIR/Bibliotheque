@@ -7,7 +7,6 @@ use App\Entity\Book;
 use App\Form\BookType;
 use App\Repository\BiblioRepository;
 use App\Service\Biblio\BiblioSearchService;
-use App\Service\Biblio\Event\SearchBiblioEvent;
 use App\Service\Biblio\Input\InputSearch;
 use App\Service\Biblio\Output\TwigOutputSearch;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,9 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
-use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Twig\Environment;
 
 class BiblioController extends AbstractController

@@ -46,10 +46,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
   #[ORM\OneToMany(targetEntity: Star::class, mappedBy: 'owner', orphanRemoval: true)]
   private Collection $stars;
 
+  #[ORM\ManyToMany(targetEntity: Biblio::class, inversedBy: 'users')]
+  private Collection $biblioFavorites;
+
   public function __construct()
   {
     $this->comments = new ArrayCollection();
     $this->stars = new ArrayCollection();
+    $this->biblioFavorites = new ArrayCollection();
   }
 
   public function getId(): ?int
@@ -222,5 +226,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
       return false;
     }
     return $this->biblio->containsBook($book);
+  }
+
+  /**
+   * @return Collection<int, Biblio>
+   */
+  public function getBiblioFavorites(): Collection
+  {
+      return $this->biblioFavorites;
+  }
+
+  public function addBiblioFavorite(Biblio $biblioFavorite): static
+  {
+      if (!$this->biblioFavorites->contains($biblioFavorite)) {
+          $this->biblioFavorites->add($biblioFavorite);
+      }
+
+      return $this;
+  }
+
+  public function removeBiblioFavorite(Biblio $biblioFavorite): static
+  {
+      $this->biblioFavorites->removeElement($biblioFavorite);
+
+      return $this;
   }
 }
